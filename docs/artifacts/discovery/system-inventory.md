@@ -712,6 +712,8 @@ The totals these rows produce: iteration 1 was assigned 13 areas holding 618 fil
 | AN-018 | — | DependsOn | EP-006 |
 | AN-019 | — | — | — |
 | AN-020 | — | — | — |
+| AN-021 | — | — | — |
+| AN-022 | — | — | — |
 
-An entry point has no upstream: it is the first element the reading produces, and every use case recovered from it will cite it. An anomaly has no upstream either — its source is the evidence cited in its own row — except where it sits on an entry point, and the two that do carry `DependsOn` the entry point whose reading exposed them: AN-012 on EP-002, the gRPC surface whose allowlist the map duplicates; AN-018 on EP-006, the scheduler contract whose capability flags negotiate the two authorities.
+An entry point has no upstream: it is the first element the reading produces, and every use case recovered from it will cite it. An anomaly has no upstream either — its source is the evidence cited in its own row — except where it sits on an entry point, and the two that do carry `DependsOn` the entry point whose reading exposed them: AN-012 on EP-002, the gRPC surface whose allowlist the map duplicates; AN-018 on EP-006, the scheduler contract whose capability flags negotiate the two authorities. AN-021 and AN-022 are anomalies of documents rather than of an entry point, so neither carries a link.
 
