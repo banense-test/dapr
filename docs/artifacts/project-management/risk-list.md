@@ -282,6 +282,18 @@ R029 is the register's consuming end of `System Inventory#F4`, scored once the p
 | R028 | The middleware set each HTTP listener receives is recorded from `pkg/api/http/server.go` as what the code applies — eight middlewares on the primary router; three on the public one, `useContextSetup`, `useTracing` and `useMetrics`, plus the route table — and every artifact that describes the public port states the subset beside it. No artifact asserts that the public port inherits the main port's body limit, CORS policy, API-token check or component middleware. | Whether the subset is corrected in code, or the public port is withdrawn or documented as a restricted surface, is the Software Architect's decision, recorded in the Software Architecture Document with the deployment consequence. If a deployment is found to set a public port, the exposure is reported as a security finding to the stakeholder in that phase's round rather than accepted here. | An artifact describes the public API port as carrying the primary listener's middleware, or as authenticated when it is not. |
 | R029 | `pkg/components/category.go` is recorded as fifteen category constants, and every statement of the plane names all three numbers together: fifteen declared, thirteen with a registry at `pkg/components/<category>/registry.go`, two — `workflow` and `workflowbackend` — whose registration was not found in any area this phase has read. Survey i3 reads `pkg/runtime/wfengine/` and `pkg/actors/` and states where each of the two registers, or records it as unlocated. No artifact of the phase states the plane as fifteen registries. | If the two cannot be located in Survey i3, the Software Architecture Document's component view states the two categories as unlocated and names the subtree left to read; the view is then incomplete by two kinds and says so, rather than being completed by inference from the constant names. | An artifact states one registry per category, or a component count of fifteen kinds, without the thirteen-and-two split beside it — or the Software Architecture Document describes a workflow or actor-backend component with no anchor in the code that registers it. |
 
+### Human gates in this phase
+
+One gate is in this list and no other: the SBC milestone review, carried as R002 under the ceiling the Development Case assigns. It is a bound, not a forecast. The gate's queue time is measured when it opens and reported apart from agent time, never added to it; at 14 days the process suspends rather than filling the gap.
+
+| Gate | Where it sits | Bound | Whose answer |
+|---|---|---|---|
+| SBC milestone review — Reviewer, Management Reviewer, Review Coordinator, in that order | End of Survey, once the cut holds no unread area and every Major finding of the phase has its rework in the baseline | 14 days of queue time; the process suspends at the ceiling | The stakeholders the Review Coordinator asks |
+
+Two gates have opened and both are measured: iteration 1's at 0:00:00 of queue time and iteration 2's at 0:00:00, each excluding the end-of-iteration approval gate, which is not measured. Two measurements are not a trend and none is stated.
+
+No forecast of any kind appears in this Risk List. A phase's measured tokens and elapsed time enter this register only when that phase closes; until then an iteration's measured spend is reported as that iteration's fact in its Iteration Assessment, with both clocks apart and no rate derived from either.
+
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
