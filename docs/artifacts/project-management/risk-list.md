@@ -32,9 +32,9 @@ Every risk is scored on the IARI risk scale carried by the IARI Development Proc
 
 ```plantuml
 @startuml
-title Risk List structure - how a risk's magnitude and strategy are derived
+title Risk List structure - how a risk's magnitude, strategy and accountability are derived
 hide empty members
-skinparam wrapWidth 200
+skinparam wrapWidth 230
 
 class "Risk" as RISK <<register entry>> {
   id : RNNN
@@ -42,7 +42,8 @@ class "Risk" as RISK <<register entry>> {
   probability : 1..5
   impact : 1..5
   exposure : probability x impact
-  owner : agent role
+  custodian : agent role holding the register
+  accountableRole : agent role whose act retires it
   strategy : avoid | transfer | accept
   mitigation
   contingency
@@ -90,6 +91,15 @@ note bottom of GRANT
   No role records it on their behalf.
   This register holds no Significant or
   High risk on accept, so it holds no grant.
+end note
+
+note bottom of RISK
+  Custody and accountability are two roles.
+  The Project Manager holds the register;
+  the accountable role is the one whose act
+  retires the entry, and it is the name the
+  AR gate asks for when a High risk is said
+  to have moved.
 end note
 
 note bottom of ANOM
@@ -144,6 +154,8 @@ title Risk List after Survey iteration 1 - 25 risks, by magnitude and strategy
 ```
 
 The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three, and for the thirteen Significant risks beside them: each is avoided by the shape of the reading the next phase is given, not by a promise made to the stakeholder.
+
+No risk in this register is Accepted at Significant or High magnitude, so no stakeholder grant is outstanding and none is requested. The three accepted entries — R002, R003, R025 — are Moderate, where acceptance with a written mitigation and contingency is this role's decision and no one else's to approve.
 
 ## Risk Register
 Twenty-five risks. Twenty refine an anomaly the Software Archaeologist recorded; five are risks of the phase's own shape with no anomaly behind them. The `Source` cell cites the anomaly id and the anchor it was read from; the trace edge is in `## Traceability`.
