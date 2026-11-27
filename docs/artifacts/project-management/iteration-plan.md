@@ -174,7 +174,7 @@ The chain above is the whole of Survey iteration 4's work: eight agent stretches
 
 ### Risk-driven sequencing — what each iteration is ordered to confront
 
-The cut places work by where the risk sits, not by where the code sits. Each risk of the Risk List belongs to exactly one row below: **25 are placed on an iteration, 5 are carried by the reading as a whole, and 2 are carried past the phase** — the split Document Control states, and the only place this figure is written. A placement names an area the iteration it sits on opens — an area this document declares unread is never cited as the reading that settles a risk. Risk ids and magnitudes are the Risk List's.
+The cut places work by where the risk sits, not by where the code sits. Each risk of the Risk List belongs to exactly one row below: **25 are placed on an iteration, 5 are carried by the reading as a whole, and 2 are carried past the phase.** A placement names an area the iteration it sits on opens — an area this document declares unread is never cited as the reading that settles a risk. Risk ids and magnitudes are the Risk List's.
 
 ```plantuml
 @startuml
@@ -254,7 +254,7 @@ end note
 | the whole reading, no area | R005, R006, R004, R003, R002 | R005 (repository files obeyed rather than recorded), R006 (an empty size filled with a unit nothing measures), R004 (decision records renumbered into project families) and R003 (the tree's toolchain stated as project policy) are avoided by the shape of every role's work order, not by any area's position in the cut. R002 is the gate itself, bounded at 14 days and measured when it opens |
 | **carried past the phase** | **R013, R021** | R013's anomaly `AN-007` is the version-skew patch corpus at `.github/scripts/version-skew-test-patches/`, read in iteration 1's `.github` areas, which is where the risk is retired; no area of iterations 4 or 5 holds it and neither `tests/` nor `charts/` was ever its reading. R021's anomaly `AN-016` is the licence scan at `.github/workflows/fossa.yml` — also iteration 1's — and its retirement is not a reading at all: its own mitigation is a Change Request against `.github/workflows/` owned by the Integrator, a role Survey does not run. It is carried to Construction, where the Integrator works. Neither is placed on an iteration whose row would be arithmetic without evidence |
 
-This table is checked against the Risk List whenever either changes; a risk with no iteration against it is a risk the cut has not confronted. The rework this iteration carries is a separate matter and is scheduled in "What this iteration carries as rework": the Review Record's findings are corrections to artifacts, not risks of the register, and none of them displaces a risk from its row above.
+This table is checked against the Risk List whenever either changes; a risk with no iteration against it is a risk the cut has not confronted. **All 32 risks are accounted for — 25 placed on an iteration, 5 carried by the reading as a whole, 2 carried past the phase to where their retirement actually happens.** Every placement names an area the iteration it sits on opens. The rework this iteration carries is a separate matter and is scheduled in "What this iteration carries as rework": the Review Record's findings are corrections to artifacts, not risks of the register, and none of them displaces a risk from its row above.
 
 ### What this iteration carries as rework, and where each item is worked
 
