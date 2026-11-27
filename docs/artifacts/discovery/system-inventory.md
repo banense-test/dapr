@@ -662,19 +662,69 @@ end note
 ## Priorities
 Ordered by two things only: what the code concentrates its weight in, and what the reading itself needs before the next area can be stated. A rank is a reading order, not a value judgement — an area ranked twelfth is unread for that reason alone.
 
+```plantuml
+@startuml
+title Reading order - thirteen ranks, and what each one is for
+skinparam componentStyle rectangle
+skinparam wrapWidth 240
+
+package "The contracts everything else is read against" {
+  [1  dapr/proto/\n9 services read, message shape remains] as P1
+}
+
+package "The request path and the code it runs through" {
+  [2  cmd/daprd/\nthe registry and the runtime config] as P2
+  [3  pkg/runtime/\n308 files, the largest library] as P3
+  [4  pkg/api/ and pkg/diagnostics/\nthe operations and what instruments them] as P4
+}
+
+package "The stateful and control-plane machinery" {
+  [5  pkg/actors/] as P5
+  [6  pkg/scheduler/\nthe newest control plane] as P6
+  [7  pkg/placement/\nthe one it supersedes] as P7
+  [8  pkg/sentry/ and pkg/security/\nthe trust domain] as P8
+  [9  pkg/operator/, pkg/injector/, apis/, client/] as P9
+}
+
+package "The delivery surface" {
+  [10 .github/workflows/\nthe gates the delivery is held to] as P10
+  [11 charts/ and docker/\nwhat ships] as P11
+  [12 tests/\n3 335 files, the overrun risk] as P12
+}
+
+package "Legible only through their callers" {
+  [13 the helper layer\ninternal/, utils/, the small pkg/ packages] as P13
+}
+
+note bottom of P4
+  pkg/diagnostics holds the tracing and monitoring
+  modules behind every dapr_* metric. Nothing in it is
+  read yet; it is ranked with the request path it
+  instruments, because a monitoring module is legible
+  only against the operation it measures.
+end note
+note right of P11
+  charts/dapr/README.md is read and its option tables
+  match values.yaml, but its chart-details list omits
+  dapr_config (AN-022). The templates and the eight
+  Dockerfiles are unread.
+end note
+@enduml
+```
+
 | Order | Area | Why it comes first | Anchor |
 |---|---|---|---|
 | 1 | `dapr/proto/` | The contracts declare every operation the system offers, and every other area is read against them. Iteration 1 read all nine service definitions and closed the Perimeter on them; what remains is message shape — the `common/v1` types every request reuses, which the Use-Case Model needs to state a flow — and the two packages whose README is missing (AN-013). The package is also where the delivery is least coherent: two failure-policy families for one field (AN-014) and two `protoc` versions in the committed output (AN-015). | `dapr/proto/` (45 files); the nine service definitions read, listed in Coverage; `dapr/proto/common/v1/common.proto` and `dapr/proto/scheduler/v1/scheduler.proto` read in full |
 | 2 | `cmd/daprd/` | The primary executable: `app.go` fixes the registry the 156 shims register into and the `runtime.Config` every knob arrives through. The shims answer which components exist at all, 155 of them are unread, and the directory carries one test file for the whole registration surface (AN-019). | `cmd/daprd/app/app.go`; `cmd/daprd/components/` (156 files, 1 `_test.go`) |
 | 3 | `pkg/runtime/` | The largest library subtree (308 files) and the one the others bind together: hot reload, compstore, the component processor, the scheduler client and `wfengine/`. Every control plane's effect arrives here, two of its suites are disabled by renaming (AN-008), and its README is the one document in the tree that describes a `pkg/` area and has gone stale (AN-021). Three of its 308 files have been opened: two to settle a Persistent Data claim and the workflow engine README, and `mcpservers.go` to anchor where MCP server resources are loaded. | `pkg/runtime/` (308 files; 3 read); `pkg/runtime/runtime.go`; `pkg/runtime/wfengine/` (62 files) |
-| 4 | `pkg/api/` | The request path itself. Both iterations read the two servers, the route construction, the allowlist map and the errors package — enough to name the entry points and to see that the public listener receives a subset of the middleware pipeline (AN-023), but not to state what an operation does. `universal/` (29 files) is where each operation is actually implemented, and the allowlist map read there is the anomaly that reaches EP-002 (AN-012). Its 20 most recent commits are dominated by access-control corrections rather than new surface. | `pkg/api/` (124 files; 6 read); `pkg/api/universal/` (29 files, unread) |
+| 4 | `pkg/api/` and `pkg/diagnostics/` | The request path itself, with the instrumentation that measures it. Both iterations read the two servers, the route construction, the allowlist map and the errors package — enough to name the entry points and to see that the public listener receives a subset of the middleware pipeline (AN-023), but not to state what an operation does. `pkg/api/universal/` (29 files) is where each operation is actually implemented, and the allowlist map read here is the anomaly that reaches EP-002 (AN-012). `pkg/diagnostics/` (35 files) holds the OpenTelemetry and Zipkin exporters and one monitoring module per building block; none of it is read, because every module is legible only against the operation it instruments, and `docs/development/dapr-metrics.md` already names the source file of each metric group. Its 20 most recent commits are dominated by access-control corrections rather than new surface. | `pkg/api/` (124 files; 6 read); `pkg/api/universal/` (29 files, unread); `pkg/diagnostics/` (35 files, unread); `docs/development/dapr-metrics.md` |
 | 5 | `pkg/actors/` | The stateful abstraction with its own table, placement client, reminders and workflow targets (243 files); the placement and scheduler cutover is argued over the semantics of this package. | `pkg/actors/` (243 files) |
 | 6 | `pkg/scheduler/` | A separate process with its own etcd, leadership, placement authority and concurrency gates (76 files), and the newest control plane: it took the reminder and job authority from the sidecar and then placement from the placement service. It is the one process whose behaviour depends on what its peers report rather than on its configuration alone (AN-018), so it is read before the placement service it supersedes. | `pkg/scheduler/` (76 files); `cmd/scheduler/app/app.go`, `cmd/scheduler/options/options.go`; `dapr/proto/scheduler/v1/scheduler.proto` |
 | 7 | `pkg/placement/` | The older control plane it replaced, still carrying Raft leadership and dissemination (26 files); the cutover cannot be read without it. | `pkg/placement/` (26 files) |
 | 8 | `pkg/sentry/` and `pkg/security/` | The trust domain every other component depends on to talk at all: SVID issuance, trust bundles, JWT and OIDC validation, and the mTLS options the gRPC servers attach. | `pkg/sentry/` (36 files), `pkg/security/` (13 files) |
 | 9 | `pkg/operator/`, `pkg/injector/`, `apis/`, `client/` | How a Dapr resource becomes a running sidecar: the reconcile loop, the admission patch and the CRD type surface. | `pkg/operator/` (38 files), `pkg/injector/` (29 files), `apis/` (46 files), `client/` (41 files) |
 | 10 | `.github/workflows/` | The gates the delivery is held to — 25 workflows naming the build, test, version-skew, e2e and release steps, and the 70 version-skew patches the current test tree depends on (AN-007). Unread, and it is where the tree's own quality claims are either kept or not: the one workflow read shows a compliance gate that reports and cannot fail (AN-016). | `.github/workflows/` (25 files), `.github/scripts/` (82 files) |
-| 11 | `charts/` and `docker/` | The delivery surface: seven subcharts and eight Dockerfiles are what actually ships, and the Deployment Model's trigger has fired on them. Its README is read and current; the templates are not. | `charts/dapr/` (67 files; 1 read), `docker/` (22 files) |
+| 11 | `charts/` and `docker/` | The delivery surface: seven subcharts and eight Dockerfiles are what actually ships, and the Deployment Model's trigger has fired on them. The chart's README is read and its option tables match `values.yaml`, but its chart-details list names six of the seven subcharts (AN-022); the templates and the Dockerfiles are unread. | `charts/dapr/` (67 files; 1 read), `docker/` (22 files) |
 | 12 | `tests/` | The only empirical statement of behaviour in the tree, and its largest area (3 335 files). Read last because it is read against the systems under test. Its layout README is read; the suites are not. | `tests/` (3 335 files), `tests/integration/suite/` (2 073 files) |
 | 13 | The helper layer — `internal/`, `utils/`, the eleven small `pkg/` packages | These expose no entry point of their own; they are legible only once their callers are known. Iteration 2 read `pkg/{config,modes,ports,cors,apphealth,healthz,metrics}` in full or in substance, and the contract of `pkg/{components,resiliency,middleware,messaging,channel}` — which is why this rank stays last: each is a contract the callers explain. | `internal/` (32 files), `utils/` (9 files); `pkg/modes` (1 file), `pkg/cors` (1), `pkg/ports` (2), `pkg/middleware` (7), `pkg/apphealth` (3), `pkg/healthz` (8), `pkg/metrics` (6), `pkg/resiliency` (13), `pkg/components` (53), `pkg/messaging` (16), `pkg/channel` (14), `pkg/config` (30) |
 
