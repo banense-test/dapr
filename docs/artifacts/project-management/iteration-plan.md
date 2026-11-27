@@ -110,25 +110,31 @@ The iteration count of the sprint zero is set by the cut of the existing system,
 
 | # | Work item | Owner | Input | Output | Exit condition |
 |---|---|---|---|---|---|
+| W0 | Tailor the process for the phase: Development Case, and the Contribution Guide the owner carries in-tree | Process Engineer | The IARI baseline; the project's declared facts; the owner's `CONTRIBUTING.md` | Development Case | The Environment stage of the inherited process is satisfied before the reading opens; every §5.2 optional is recorded fired or not fired with its reason |
 | W1 | Declare the cut of the phase | Project Manager | This plan; the repository tree | Cut recorded with the process service | The cut is recorded and no other role of the iteration works before it |
 | W2 | Read what the system says it is | Software Archaeologist | `README.md`, `docs/decision_records/`, `docs/release_notes/`, `docs/development/`, `docs/CONTRIBUTING.md`, `go.mod`, `RELEASE.md`, `SECURITY.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `CODEOWNERS` | System Inventory — Documentation | Every claim carries `Source: <path>`; the 23 decision records are reported as evidence and are not renumbered into the project's identifier families |
 | W3 | Fix the perimeter and enumerate the entry points | Software Archaeologist | `cmd/`, `dapr/proto/`, `.github/` | System Inventory — Perimeter | Every executable, every API surface and every protocol contract is enumerated and labelled `EP-NNN`, each with its `Source:` anchor |
 | W4 | Record the anomalies and order what remains | Software Archaeologist | W2, W3 outputs | System Inventory — Anomalies and Priorities | Each anomaly is labelled `AN-NNN` with its anchor; the areas still to read are ordered |
-| W5 | Score the risks the reading exposed and evolve this plan | Project Manager | System Inventory, this plan | Risk List; the cut corrected against Coverage and the sequencing recorded | Every risk carries probability, impact, magnitude, strategy and owner; every anomaly carries at least one; the cut matches the recorded cut area for area and in order |
+| W5 | Score the risks the reading exposed and evolve this plan | Project Manager | System Inventory, this plan | Risk List; the cut corrected against Coverage and the sequencing recorded | Every risk carries probability, impact, magnitude, strategy and accountable role; every anomaly carries at least one; the cut matches the recorded cut area for area and in order |
 | W6 | Review the iteration against the SBC criteria | Reviewer, Management Reviewer, Review Coordinator | Iteration increments | Review Record; milestone verdict | The verdict is issued; a Critical finding escalates to the stakeholder and the milestone does not close |
 | W7 | Record the Iteration Assessment given the verdict | Project Manager | Review Record; the iteration's objectives and evaluation criteria | Iteration Assessment | Every objective is stated met or missed, with the scope or plan adjustment the next iteration takes |
 
 No work item is given a size. Nothing in this project has been measured — no phase has closed — so there is no actual to size against, and no unit of person-duration exists in this system to express one in. What iteration 1 read is counted above in files and areas: that is what this phase measures, it is not a rate to project, and no iteration forecast is derived from it.
 
-W1 to W5 are complete. W6 is the gate, and it is queue time: bounded at 14 days in the Risk List, measured when it opens, never forecast here. W7 follows the verdict and is not gated by it — the Assessment records what the verdict says about the iteration's objectives.
+All eight work items ran. W6 issued the verdict — **SBC: iteration REQUIRED** — and W7 recorded the Iteration Assessment against it. W6 is a human gate and queue time: bounded at 14 days in the Risk List under R002, measured when it opens, never forecast here. W0 ran before the iteration opened and is carried as a work item from iteration 2 on, so that an artifact of the increment is never absent from the plan that reports on it.
+
+For Survey iteration 2 the plan is the cut's next slice, these same seven stages over it, and the rework the Review Record leaves open on this role's artifacts — with W0 first, as the Environment stage is in every iteration of the inherited process.
 
 ```plantuml
 @startuml
-title Survey iteration 1 - the critical chain from cut to gate
+title Survey iteration 1 - the critical chain from tailoring to gate
 skinparam wrapWidth 240
 
-|Project Manager|
+|Process Engineer|
 start
+:Tailor the process\nDevelopment Case, Contribution Guide;
+
+|Project Manager|
 :Cut the phase into iterations and declare it\nrecord_iteration_cut;
 note right
   No other role of the iteration
@@ -154,7 +160,7 @@ end note
 :Assess the investment the phase implies;
 
 |Review Coordinator|
-:Decide the SBC milestone verdict;
+:Issue the milestone verdict\nSBC - iteration REQUIRED;
 note right
   A gate is queue time, not work: bounded
   at 14 days in the Risk List, measured
@@ -169,7 +175,7 @@ stop
 @enduml
 ```
 
-The chain above is the whole of Survey iteration 1's work: five agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — they are bounded in the Risk List and measured when they open, never forecast here.
+The chain above is the whole of Survey iteration 1's work: six agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — they are bounded in the Risk List and measured when they open, never forecast here.
 
 ### Risk-driven sequencing — what each iteration is ordered to confront
 
