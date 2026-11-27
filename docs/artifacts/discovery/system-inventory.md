@@ -73,8 +73,8 @@ package "DAPR Core - inside the boundary" {
   }
 
   package "Declared and generated surface" {
-    [resource types\napis/] as APIS
-    [typed clients\nclient/] as CL
+    [resource types\npkg/apis] as APIS
+    [typed clients\npkg/client] as CL
     [proto bindings\npkg/proto] as PB
   }
 }
@@ -188,7 +188,7 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | gRPC API server | Layer | Builds two gRPC servers from one file with different trust, and serves the `dapr.proto.runtime.v1.Dapr` service | `pkg/api/grpc/server.go`; `pkg/api/grpc/grpc.go`; `pkg/api/grpc/endpoints.go` |
 | Internal service-invocation server | Component | The `ServiceInvocation` server sidecars call each other on, separate from the app-facing gRPC API | `pkg/api/grpc/daprinternal.go`; `dapr/proto/internals/v1/service_invocation.proto` |
 | universal handler layer | Layer | One implementation per API operation, shared by the HTTP and gRPC surfaces rather than written twice | `pkg/api/universal/` (29 files); `pkg/api/universal/universal.go` |
-| Public API listener | Component | A second HTTP listener, opened only when a public port is configured, serving the GET-only public endpoint set | `pkg/api/http/server.go` (§ the `PublicPort` block) |
+| Public API listener | Component | A second HTTP listener, opened only when a public port is configured, serving the GET-only public endpoint set over a subset of the primary pipeline (AN-023) | `pkg/api/http/server.go` (§ the `PublicPort` block) |
 | gRPC proxy | Component | Relays a gRPC call from the sidecar to the application, with its own director, codec and handler | `pkg/api/grpc/proxy/handler.go`; `pkg/api/grpc/proxy/director.go` |
 | compstore | Component | The in-process store of loaded components, subscriptions, configurations and resource metadata | `pkg/runtime/compstore/compstore.go`; `pkg/runtime/compstore/components.go` |
 | component processor | Subsystem | Loads, initialises and runs each component category and owns the per-category loops | `pkg/runtime/processor/processor.go`; `pkg/runtime/processor/loops/loops.go` |
@@ -215,8 +215,8 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | sentry CA and validator | Subsystem | The certificate authority and trust bundle, and the JWT and OIDC validators | `pkg/sentry/server/ca/ca.go`; `pkg/sentry/server/validator/validator.go` |
 | operator API server | Subsystem | Serves each Dapr resource kind to the sidecars and runs the informer loops that keep it current | `pkg/operator/api/api.go`; `pkg/operator/api/components.go`; `pkg/operator/api/informer/informer.go` |
 | injector patcher | Component | Builds the pod patch: the sidecar container, volumes, component annotations and health probes | `pkg/injector/patcher/patcher.go`; `pkg/injector/patcher/sidecar_patcher.go` |
-| resource types | Layer | The seven custom resource kinds, with their deep-copy code and the one conversion | `apis/{components,configuration,resiliency,subscriptions,httpEndpoint,mcpserver,workflowaccesspolicy}/v1alpha1/types.go`; `apis/subscriptions/v2alpha1/conversion.go` |
-| typed clients and informers | Layer | The generated clientset, informers and listers for the resource kinds the operator serves | `client/clientset/versioned/clientset.go`; `client/informers/externalversions/factory.go` |
+| resource types | Layer | The seven custom resource kinds, with their deep-copy code and the one conversion | `pkg/apis/{components,configuration,resiliency,subscriptions,httpEndpoint,mcpserver,workflowaccesspolicy}/v1alpha1/types.go`; `pkg/apis/subscriptions/v2alpha1/conversion.go` |
+| typed clients and informers | Layer | The generated clientset, informers and listers for the resource kinds the operator serves | `pkg/client/clientset/versioned/clientset.go`; `pkg/client/informers/externalversions/factory.go` |
 | proto bindings | Layer | The committed generated Go bindings for all nine proto packages, with the hand-written additions committed beside them (AN-017) | `pkg/proto/` (66 files); `dapr/proto/` (37 `.proto`) |
 | small contract packages | Component | Four packages that are constants or one derivation: the runtime modes, the CORS defaults, the standalone port chooser and the resource scopes | `pkg/modes/modes.go`; `pkg/cors/cors.go`; `pkg/ports/ports.go`; `pkg/scopes/scopes.go` |
 
@@ -225,7 +225,7 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | External actor or system | Reached through | Anchor |
 |---|---|---|
 | Caller — an SDK or a plain HTTP or gRPC client | Remote call | `dapr/proto/runtime/v1/dapr.proto`; `pkg/api/grpc/endpoints.go` |
-| Application workload — the process the sidecar serves | Remote call | `pkg/channel/channel.go` (§ the five app-channel operations); `pkg/channel/http/http_channel.go`; `pkg/channel/grpc/grpc_channel.go` |
+| Application workload — the process the sidecar serves | Remote call | `pkg/channel/channel.go` (§ the app-channel operations); `pkg/channel/http/http_channel.go`; `pkg/channel/grpc/grpc_channel.go` |
 | Peer sidecar — another application's daprd | Remote call | `pkg/api/grpc/daprinternal.go`; `pkg/messaging/direct_messaging.go`; `dapr/proto/internals/v1/service_invocation.proto` |
 | Peer control plane — placement, scheduler and sentry as each other's clients | Remote call | `dapr/proto/placement/v1/placement.proto`; `dapr/proto/scheduler/v1/scheduler.proto`; `pkg/security/security.go` |
 | Kubernetes API server | Data manager | `pkg/operator/api/api.go`; `pkg/internal/loader/kubernetes/kubernetes.go`; `pkg/injector/service/handler.go` |
@@ -262,8 +262,8 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | EP-012 | `/metrics` Prometheus endpoint | Service operation | A Prometheus scraper | `pkg/metrics/exporter.go`; `pkg/scheduler/monitoring/scaling/scaling.go` |
 | EP-013 | pprof profiling endpoint — opened only when profiling is enabled | Service operation | An operator with `--enable-profiling` set | `pkg/api/http/server.go` (§ the `EnableProfiling` block); `cmd/daprd/options/options.go` |
 | EP-014 | `dapr-build-tools` CLI | Service operation | A maintainer or a CI workflow | `.build-tools/main.go`; `.build-tools/cmd/root.go`; `.build-tools/cmd/e2e.go` |
-| EP-015 | Kubernetes custom resources — the seven Dapr kinds, watched by the operator and, in Kubernetes mode, the sidecar | Platform event | A resource create or update submitted to the cluster | `apis/` (7 kinds); `pkg/operator/api/informer/informer.go`; `pkg/runtime/hotreload/loader/operator/operator.go` |
-| EP-016 | Declarative resources on disk — watched for change and re-read on `SIGHUP` in standalone mode | Platform event | A file being written or replaced | `pkg/runtime/hotreload/loader/disk/disk.go`; `pkg/runtime/hotreload/reconciler/sighup.go`; `internal/loader/disk/dirdata/dirdata.go` |
+| EP-015 | Kubernetes custom resources — the seven Dapr kinds, watched by the operator and, in Kubernetes mode, the sidecar | Platform event | A resource create or update submitted to the cluster | `pkg/apis/` (7 kinds); `pkg/operator/api/informer/informer.go`; `pkg/runtime/hotreload/loader/operator/operator.go` |
+| EP-016 | Declarative resources on disk — watched for change and re-read on `SIGHUP` in standalone mode | Platform event | A file being written or replaced | `pkg/runtime/hotreload/loader/disk/disk.go`; `pkg/runtime/hotreload/reconciler/sighup.go`; `pkg/internal/loader/disk/dirdata/dirdata.go` |
 
 ## Technology and Size
 | Area | Language | Platform and frameworks, with version | Files | Anchor |
