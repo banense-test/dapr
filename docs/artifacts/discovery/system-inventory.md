@@ -354,20 +354,19 @@ A1 --> EXT
 A3 --> EXT
 
 note bottom of A1
-  The runtime does not choose the actor state store: it
-  reports whichever store each actor type is bound to.
-  pkg/runtime/actorstatestores.go declares one function,
-  actorStateStoreBindings(spec, namespace, appID)
-  map[string]string, which returns the bindings of
-  spec.actors.stateStores and adds the app's workflow
-  actor types when spec.workflow.stateStore is set. It
-  returns no error and enforces nothing. What is enforced
-  is the binding rule: pkg/config/configuration.go
-  ActorsSpec.Validate refuses a binding that names no
-  store, binds no actor type, repeats a type, binds a
-  reserved dapr.internal type, or binds one type to two
-  stores. A sidecar with no actor state store still starts;
-  actor operations fail at the store, not at start-up.
+  The runtime does not choose the actor state store and
+  does not require one at start-up. pkg/runtime/actorstatestores.go
+  declares one function, actorStateStoreBindings(spec, namespace,
+  appID) map[string]string: it returns the store each actor type
+  is bound to by spec.actors.stateStores, and adds the app's
+  workflow actor types when spec.workflow.stateStore is set. It
+  returns no error and cannot fail the runtime.
+  What is enforced is the binding rule, at configuration load:
+  Configuration.validate() calls ActorsSpec.Validate(), which
+  rejects a binding that names no store, lists no actor type,
+  repeats a type, binds a reserved dapr.internal type, or binds
+  one type to two stores. Validate is nil-safe, so a
+  Configuration with no spec.actors raises none of these.
 end note
 note bottom of C4
   Subscription exists in two versions, v1alpha1 and v2alpha1,
@@ -381,7 +380,7 @@ end note
 |---|---|---|---|
 | Scheduler etcd — the durable job and actor-reminder store | Structured document | Embedded etcd server started by the scheduler, `go.etcd.io/etcd/server/v3 v3.5.33`; or an external etcd cluster when `--etcd-embed=false` | `cmd/scheduler/options/options.go` (`--etcd-embed`, `--etcd-data-dir`, `--etcd-initial-cluster`, `--etcd-client-endpoints`); `pkg/scheduler/server/internal/etcd/etcd.go`; `go.mod` |
 | The seven Dapr custom resources — `Component`, `Configuration`, `Resiliency`, `Subscription`, `HTTPEndpoint`, `MCPServer`, `WorkflowAccessPolicy` | Structured document | Kubernetes API server, through `k8s.io/client-go v0.32.3` informers; `Subscription` is served as both `v1alpha1` and `v2alpha1` with a conversion | `apis/{components,configuration,resiliency,subscriptions,httpEndpoint,mcpserver,workflowaccesspolicy}/v1alpha1/types.go`; `apis/subscriptions/v2alpha1/conversion.go`; `charts/dapr/crds/` (7 files) |
-| Actor and workflow state | Relational schema where the configured actor state store component is a SQL store; the store itself is outside the boundary | A state-store component, one per actor type where the app binds them: `actorStateStoreBindings` returns the store each actor type is bound to and enforces nothing; the binding rules — a named store, at least one actor type, no type bound twice, no reserved `dapr.internal` type — are refused at configuration load by `ActorsSpec.Validate`. An app that binds no store uses the default actor state store, which the tree does not name | `pkg/runtime/actorstatestores.go` (`actorStateStoreBindings`); `pkg/config/configuration.go` (`ActorsSpec.Validate`, `StateStoreByActorType`, `WorkflowSpec.GetStateStore`); `pkg/actors/state/resolver.go`; `pkg/runtime/wfengine/state/` (9 files); `pkg/config/testdata/{actor_state_stores_config.yaml,invalid_actor_state_stores_config.yaml,workflow_state_store_config.yaml}` |
+| Actor and workflow state | Relational schema where the configured actor state store component is a SQL store; the store itself is outside the boundary | A state-store component, bound per actor type. `actorStateStoreBindings` reports those bindings and enforces nothing; the binding rules are refused at configuration load by `ActorsSpec.Validate`. Which component serves an unbound actor type is decided by the actor state resolver, which this inventory has not opened | `pkg/runtime/actorstatestores.go` (`actorStateStoreBindings`); `pkg/config/configuration.go` (`ActorsSpec.Validate`, `StateStoreByActorType`, `WorkflowSpec.GetStateStore`); `pkg/actors/state/resolver.go` (unread); `pkg/runtime/wfengine/state/` (9 files); `pkg/config/testdata/{actor_state_stores_config.yaml,invalid_actor_state_stores_config.yaml,workflow_state_store_config.yaml}` |
 | SQLite state store | Relational schema | `modernc.org/sqlite v1.42.2` through the state-store shim, in-process | `cmd/daprd/components/state_sqlite.go`; `go.mod` |
 | Local file secret store | Record file | Files read from a configured directory | `cmd/daprd/components/secretstores_local_file.go` |
 | Local file crypto store | Record file | Keys read from a configured directory | `cmd/daprd/components/crypto_localstorage.go` |
