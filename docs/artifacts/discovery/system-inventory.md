@@ -318,13 +318,12 @@ Each row is a risk the Project Manager carries into the Risk List under the same
 | 13 | The helper layer — `internal/`, `utils/`, `pkg/{backoff,buildinfo,encryption,expr,messages,outbox,responsewriter,retry,scopes,sse,validation}` | These expose no entry point of their own; they are legible only once their callers are known. | `internal/` (32 files), `utils/` (9 files), the eleven small `pkg/` packages |
 
 ## Coverage
-
 Files opened against files in the tree, per area of this iteration's slice. An area at zero is declared unread, not
 skimmed.
 
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
-| `.github` | 120 | 2 — `copilot-instructions.md`, `pull_request_template.md` | 118 unread: the 25 workflows and 82 scripts are code that states behaviour, not documents about it; they are priority 10 and belong to a later iteration. The 9 issue templates were read only as a directory listing. |
+| `.github` | 120 | 2 — `copilot-instructions.md`, `pull_request_template.md` | 118 unread: the 25 workflow definitions and 82 helper scripts state behaviour in code rather than about it; they are priority 10 and belong to a later iteration. The 9 issue templates were read only as a directory listing. |
 | `CODEOWNERS` | 1 | 1 — whole file | — |
 | `CONTRIBUTING.md` | 1 | 1 — whole file | — |
 | `GOVERNANCE.md` | 1 | 1 — whole file | — |
@@ -332,22 +331,27 @@ skimmed.
 | `README.md` | 1 | 1 — whole file | — |
 | `RELEASE.md` | 1 | 1 — whole file | — |
 | `SECURITY.md` | 1 | 1 — whole file | — |
-| `cmd` | 183 | 6 — the five component READMEs and the absence of a sixth checked against the tree | 177 unread: no `main.go`, `app.go` or `options.go` body was opened, and none of the 156 component shims. The entry points above are recorded at the surface the tree and the READMEs name; naming their operations is the next iteration's work. |
+| `cmd` | 183 | 5 — the READMEs of `daprd`, `injector`, `operator`, `placement` and `sentry` | 178 unread: no `main.go`, `app.go` or `options.go` body was opened, and none of the 156 component shims. `cmd/scheduler/` holds no README — checked, not read. The entry points above are recorded at the surface the tree and the READMEs name; naming their operations is the next iteration's work. |
 | `dapr` | 45 | 2 — `dapr/README.md`, `dapr/proto/runtime/v1/README.md` | 43 unread: the 37 `.proto` files and the other six package READMEs. The API surface is recorded from the package layout and the READMEs, not from the service definitions themselves. Priority 1. |
-| `docs` | 195 | 9 — `README.md`, `decision_records/decision_records.md`, `CONTRIBUTING.md`, `development/README.md`, `development/developing-dapr.md`, `development/dapr-metrics.md`, `development/preview-features.md`, `release_notes/template.md`, `release_notes/v1.19.3.md` | 186 unread: the 23 decision-record bodies, 152 further release notes, the four remaining development guides, and `artifacts/` (this process's own files, not part of the system). The decision-record bodies are architecture evidence for Excavation. |
+| `docs` | 195 | 9 — `README.md`, `CONTRIBUTING.md`, `decision_records/decision_records.md`, `development/README.md`, `development/developing-dapr.md`, `development/dapr-metrics.md`, `development/preview-features.md`, `release_notes/template.md`, `release_notes/v1.19.3.md` | 186 unread: the 23 decision-record bodies, 152 further release notes, the four remaining development guides, and `artifacts/` (three files this process wrote, not part of the system). The decision-record bodies are architecture evidence for Excavation. |
 | `go.mod` | 1 | 1 — whole file | — |
 | `go.sum` | 1 | 0 | Unread: the resolved checksum list restates the versions `go.mod` pins; it is read when a dependency question is actually open. |
-| `img` | 3 | 0 | Unread: binary assets (`dapr_logo.svg`, `overview.png`, `dapr_conceptual_model.jpg`). The overview image is referenced by `README.md`; its content states nothing the text does not. |
-| `pkg/proto` | 66 | 0 | Unread: committed generated code. Its contract is `dapr/proto/`, read at priority 1; the generated bodies are read only where a handler's behaviour is in question. |
+| `img` | 3 | 0 | Unread: binary assets (`dapr_logo.svg`, `overview.png`, `dapr_conceptual_model.jpg`). `README.md` embeds `overview.png`; the image states nothing the surrounding text does not. |
+| `pkg/proto` | 66 | 0 | Unread: committed generated code. Its contract is `dapr/proto/`, read at priority 1; a generated body is read only where a handler's behaviour is in question. |
+
+One file outside the slice was opened because the Documentation stage could not be closed without it:
+`tools/proto/generate.sh`, cited by `dapr/README.md` and by `docs/CONTRIBUTING.md` as the proto-generation path.
 
 Areas outside this iteration's slice — `pkg/` (1 330 files), `tests/` (3 335), `charts/` (67), `docker/` (22),
 `internal/` (32), `utils/` (9), `apis/` (46), `client/` (41), `swagger/` (1), `grafana/` (6), `platforms/` (13),
 `tools/` (4), `.build-tools/` (14), `.devcontainer/` (1), `Makefile`, `.golangci.yml`, `.prettierrc.json`,
 `.codecov.yaml`, `.gitattributes`, `.gitignore`, `.prettierignore` — are not read this iteration. Where this
-inventory names one of them it is as the implementer of a component or the anchor of a finding, never as a read area.
+inventory names one of them it is as the implementer of a component or the anchor of a finding, never as a read
+area.
 
-**Count of this iteration:** 28 files opened of the 619 files the fifteen slice areas hold; the tree holds 6 627
-entries. The slice's documents are read in full; its code areas are read at surface breadth only.
+**Count of this iteration:** 26 files opened of the 621 the fifteen slice areas hold, plus one outside the slice.
+The tree call reported 6 627 entries. The slice's documents are read in full; its code areas are read at surface
+breadth only.
 
 ## Traceability
 
