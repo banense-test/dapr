@@ -1105,3 +1105,231 @@ end note
 **What the next iteration inherits.** The cut's own assignment: the request path and the component plane, `pkg/api/` read whole, plus `go.sum` and `img`. It inherits no finding of this lens that changes that slice; the two Major findings are corrections to how the plan states what iteration 1 did, not a reason to re-read an area. It does inherit all sixteen Significant and High risks, unchanged and unretired, which is what a first measurement looks like.
 
 **For the Review Coordinator.** The SBC gate is not sanctioned while `Iteration Plan#F1` and `Iteration Plan#F2` stand open, and `System Inventory#F1` and `#F2` stand open under the Reviewer's lens. `Risk List#F1`, `System Inventory#F3` and nothing else of this review's is Minor and does not hold the gate. No Critical finding is open, so no stakeholder decision blocks the gate; if the Coordinator finds one, it escalates as `stakeholder-decision` in its own round, not from this review.
+
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+**Iteration Acceptance — the phase iterates. The SBC milestone is not judged and no phase is closed.**
+
+No Critical finding is open: both executing lenses recorded zero, so nothing escalates to the stakeholder and `REQUIRES_USER_INPUT` is not raised. The verdict below asks them nothing and seeks no sanction.
+
+Four Major findings stand open — `System Inventory#F1`, `System Inventory#F2`, `Iteration Plan#F1`, `Iteration Plan#F2` — and two Minor. The Major set is why the milestone is not judged in this record: the SBC review's entry criterion requires every Major of the phase to have its rework in the baseline, and none of the four does yet.
+
+#### Review effectiveness — current metrics only
+
+This is the project's first review event. No prior iteration and no prior cycle exists to compare against, so no trend is computed and none is inferred; the trend column of the effectiveness report stays empty until a second review has actually occurred.
+
+```plantuml
+@startuml
+title Review effectiveness - Survey iteration 1, current metrics only. No trend is drawn.
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 320
+skinparam nodesep 24
+skinparam ranksep 38
+
+package "Coverage of the increment" {
+  class "Development Case" as DC <<Environment>> {
+    in increment : yes
+    formally reviewed : yes, both lenses
+    findings : 0
+    coverage : 100 percent
+  }
+  class "System Inventory" as SI <<Discovery>> {
+    in increment : yes
+    formally reviewed : yes, both lenses
+    findings : 3 - 2 Major, 1 Minor
+    coverage : 100 percent
+  }
+  class "Iteration Plan" as IP <<Project Management>> {
+    in increment : yes
+    formally reviewed : yes, both lenses
+    findings : 2 - 2 Major
+    coverage : 100 percent
+  }
+  class "Risk List" as RL <<Project Management>> {
+    in increment : yes
+    formally reviewed : yes, both lenses
+    findings : 1 - 1 Minor
+    coverage : 100 percent
+  }
+}
+
+class "Assigned slice" as SLICE <<scope>> {
+  areas assigned : 13
+  areas reached : 13
+  areas not reached : 0
+  files opened : 48 of 622 in the slice, plus 10 outside it
+  depth left in a read area : Excavation's, by the Priorities order
+}
+
+class "Findings by severity" as SEV <<this review>> {
+  Critical : 0
+  Major : 4
+  Minor : 2
+  Info : 0
+  total : 6
+}
+
+class "Per-artifact finding count" as DENS <<current, not a rate>> {
+  System Inventory : 3
+  Iteration Plan : 2
+  Risk List : 1
+  Development Case : 0
+  basis : count per artifact, never per KLOC
+}
+
+class "Not measurable this review" as NM <<no figure invented>> {
+  defect density per KLOC : no size measure exists in Survey
+  defect removal efficiency : no Test discipline runs in Survey
+  rework effort : no token or elapsed-time reading taken at this gate
+  trend : one review has occurred, so there is no second reading
+}
+
+class "Anchor audit - technical lens" as AUDIT <<sampled>> {
+  anchors re-opened independently : 12
+  anchors that held : 11
+  anchors that failed : 1 - System Inventory#F1
+  basis : the Reviewer opened each file rather than trusting the artifact
+}
+
+SLICE --> SEV
+DC --> SEV
+SI --> SEV
+IP --> SEV
+RL --> SEV
+SEV --> DENS
+SEV --> NM
+AUDIT --> SEV
+
+note bottom of NM
+  Each of these is a measurement this phase cannot produce,
+  not a zero. A defect-density figure per KLOC would need a
+  size measure Survey does not hold; a removal efficiency
+  would need a test stage Survey does not run; a rework effort
+  would need a token or elapsed-time reading no role has taken
+  at the gate. The trend column is empty because this is the
+  project's first review - no prior iteration or cycle exists
+  to compare against, and none is invented.
+end note
+note bottom of DENS
+  The Iteration Plan carries two Major findings; the System
+  Inventory carries two Major and one Minor. Density across
+  artifacts of different type and size is not comparable, so
+  no cross-artifact rate is stated.
+end note
+@enduml
+```
+
+| Effectiveness indicator | Value at this review | What it means here |
+|---|---|---|
+| Review coverage of planned artifacts | 4 of 4 — 100 percent | Every artifact the Development Case sanctions for Survey iteration 1 was reviewed by both executing lenses |
+| Review coverage of the assigned slice | 13 of 13 areas reached, 100 percent | No area of the assignment went unjudged; depth inside a reached area is Excavation's by the Priorities order |
+| Findings recorded | 6 | 4 Major, 2 Minor, 0 Critical, 0 Info |
+| Findings per artifact | System Inventory 3, Iteration Plan 2, Risk List 1, Development Case 0 | A bare count, not a density: the artifacts differ in type and size, and no size measure exists to normalise by |
+| Defect density per size | Not measurable | Survey holds no size measure. A per-KLOC figure would be `[ASSUMPTION — requires validation]` and is not stated |
+| Defect removal efficiency | Not measurable | No Test discipline runs in Survey, so there is no test-found defect population to compare review-found defects against |
+| Rework effort | Not measurable | No token or elapsed-time reading was taken at this gate. Both clocks are the Development Case's measurement policy and neither has a value for this review |
+| Anchor audit hit rate | 11 of 12 independently re-opened anchors held | The technical lens verified anchors rather than accepting them; one failed, which is the origin of `System Inventory#F1` |
+| Overdue findings | 0 | This is the first review; no deadline has yet passed and nothing is escalated |
+| Trend across iterations or cycles | None drawn | One review has occurred. Comparison begins when a second has |
+
+The four "not measurable" entries are the correct reading, not missing data. Each names the measurement the phase cannot produce and why; filling one with a figure would be the failure `Iteration Plan#F1` records.
+
+#### Verdict
+
+**Iteration Accepted — the phase iterates.** The iteration's four objectives were met on the increment's own evidence, thirteen of thirteen assigned areas were reached, and both executing lenses accepted the work with changes. The four Major findings are corrections to how the work is accounted for, not reasons to re-read an area, so the cut's own next slice — the request path and the component plane, `pkg/api/` read whole, with `go.sum` and `img` carried — stands unchanged.
+
+The SBC milestone is not judged here and is not sanctioned. Its review opens once Survey's cut holds no unread area and every Major finding of the phase has its rework in the baseline. Neither condition is met: four Major findings are open and four of the cut's five iterations are unread.
+
+```plantuml
+@startuml
+title Survey iteration 1 - the verdict and what carries into iteration 2
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 330
+skinparam nodesep 30
+skinparam ranksep 44
+
+package "Iteration 1 - what it returned" {
+  class "Objectives" as OBJ <<4 of 4 met>> {
+    O1 perimeter fixed : 16 entry points, 26 components, 15 external systems
+    O2 self-declaration recorded : 23 records, 147 release notes, go.mod
+    O3 anomalies and priorities : 20 anomalies, 13 ranked
+    O4 phase cut into iterations : 70 areas, each in one iteration
+  }
+  class "Slice" as SL <<reached>> {
+    assigned : 13 areas
+    reached : 13 areas
+    carried to i2 : go.sum, img - i2's own areas, not i1 misses
+  }
+}
+
+package "Findings open at the close of this review" {
+  class "Major - 4" as MAJ <<holds the SBC gate>> {
+    System Inventory F1 : anchor names an undeclared symbol
+    System Inventory F2 : read-counts not reproducible
+    Iteration Plan F1 : phase length forecast from one iteration
+    Iteration Plan F2 : slice booked 13 of 15 against 13 assigned
+  }
+  class "Minor - 2" as MIN <<owner's next turn>> {
+    System Inventory F3 : stated counts disagree with own tables
+    Risk List F1 : one role named owner of every risk
+  }
+  class "Critical - 0" as CRIT <<nothing escalates>> {
+    stakeholder : asked nothing at an Iteration Acceptance
+    REQUIRES_USER_INPUT : not raised
+  }
+}
+
+package "What iteration 2 inherits" {
+  class "The cut's own slice" as NEXT <<unchanged>> {
+    areas : go.sum, img, pkg/api/ whole, pkg/messaging, pkg/channel,
+            pkg/components, pkg/resiliency, pkg/middleware, pkg/config,
+            pkg/diagnostics, pkg/metrics, pkg/healthz, pkg/ports,
+            pkg/modes, pkg/apphealth, pkg/cors
+    note : no finding of this review changes it
+  }
+  class "Risks" as RISK <<unchanged>> {
+    High : R011, R016, R023 - none retired, none due yet
+    Significant : 13 - carried whole
+    grant needed : none, all on avoid
+  }
+}
+
+OBJ --> MAJ
+SL --> NEXT
+MAJ --> NEXT : corrections owed before the slice is sized
+MAJ --> CRIT
+MIN --> NEXT
+NEXT --> RISK
+
+note bottom of CRIT
+  An Iteration Acceptance asks the stakeholder nothing.
+  Only an unresolved Critical finding goes to them, and
+  both executing lenses recorded none.
+end note
+note bottom of NEXT
+  Iteration 2's slice is what the cut already assigns. The
+  two Major findings on the plan are corrections to how
+  iteration 1 is accounted for, not a reason to re-read an
+  area, so no area is added and none is removed.
+end note
+@enduml
+```
+
+#### Lenses that did not execute
+
+The Business Reviewer is recorded as **INACTIVE — did not evaluate this review**. No verdict is attributed to that lens in this record or anywhere in it, and the decision above rests only on the technical and management lenses, which both executed. Business Modeling is INACTIVE in every phase by the Development Case, so this is the tailoring working as configured, not a review event that failed to convene.
+
+#### What the next iteration must show this office
+
+| Check at the close of Survey i2 | Standard |
+|---|---|
+| Actions 1 to 5 of the prioritized list | Each closed by its recording lens, verified against the corrected content, not against a note saying it was done |
+| The two Minor findings | Fixed in their owner's next turn, or re-recorded under their existing keys with a reason |
+| Any finding that persists into i2 | Re-recorded under its existing key — never as a new finding, so review debt stays countable |
+| Review debt | No finding past its deadline without a written escalation to the Project Manager |
+| New findings against i2's artifacts | Recorded with owner, severity and deadline before the iteration closes |
