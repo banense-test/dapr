@@ -668,7 +668,7 @@ The totals these rows produce: iteration 1 was assigned 13 areas holding 618 fil
 | `charts` — outside a slice, i2 | 67 | 1 — `dapr/README.md` | The reason: it is the document for the area priority 11 carries, and the only in-tree statement of what the chart deploys. 66 unread: the 7 subcharts, the 7 CRDs and the templates. |
 
 ## Counts
- 
+
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
