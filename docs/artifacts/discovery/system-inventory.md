@@ -5,10 +5,12 @@ Status: Draft — iteration 1; Documentation read in full, Perimeter at surface 
 Milestone Target: end-of-Survey milestone (SBC) — not achieved
 
 ## Perimeter
-The boundary is drawn by what the code reaches for. Six Go executables run from `cmd/`; the sidecar exposes
-five distinct listeners across three ports and two gRPC servers, and the three control planes reach the
-Kubernetes API server and each other over signed gRPC. Everything a component does beyond that boundary goes
-through a shim in `cmd/daprd/components/` to a backend the operator configured.
+The boundary is drawn by what the code reaches for. Six Go executables run from `cmd/` and share one library;
+each exposes its own listeners, and the sidecar alone opens seven: the HTTP API port, a separate public port,
+a pprof port when profiling is on, the gRPC API port, the internal gRPC port, the `/healthz` port and the
+metrics port. `pkg/api/grpc/server.go` builds **two** gRPC servers from one file with different trust. The
+three control planes reach the Kubernetes API server and each other over signed gRPC; everything a component
+does beyond the boundary goes through a shim in `cmd/daprd/components/` to a backend the operator configured.
 
 ```plantuml
 @startuml
@@ -52,7 +54,7 @@ package "DAPR Core - inside the boundary" {
   }
 
   package "Contracts and delivery surface" {
-    [dapr/proto\n37 .proto, 8 packages] as PROTO
+    [dapr/proto\n37 .proto, 9 packages] as PROTO
     [pkg/proto\n66 generated Go files] as GEN
     [apis/ and client/\n7 CRD types, generated clients] as CRD
     [charts/dapr\n7 subcharts, 7 CRDs] as CHARTS
@@ -150,78 +152,6 @@ note bottom of SCHED
 end note
 @enduml
 ```
-
-### Components
-
-| Component | Kind | Responsibility | Implemented by |
-|---|---|---|---|
-| daprd (sidecar runtime) | Component | The process the application talks to: starts the security provider, reserves the internal gRPC port, builds the component registry and runs the runtime; re-runs the runtime on SIGHUP for hot reload | `cmd/daprd/main.go`; `cmd/daprd/app/app.go` (`Run`, `runWithContext`, `runtime.FromConfig`); `pkg/runtime/runtime.go` |
-| HTTP API surface | Component | Registers and serves the `/v1.0`, `/v1.0-alpha1`, `/v1.0-alpha2` and `/v1.0-beta1` routes for state, pub/sub, bindings, secrets, actors, configuration, crypto, subtle crypto, distributed lock, workflows, jobs, conversation, search, vector, binary store, metadata, health and shutdown; applies the API allowlist, token auth, tracing, metrics and API logging as middleware | `pkg/api/http/http.go` (`NewAPI`, `construct*Endpoints`); `pkg/api/http/server.go` (`StartNonBlocking`, `setupRoutes`, `useAPIAuthentication`) |
-| Public HTTP port | Component | A second listener on its own port serving only the `GET` metadata and health endpoints, deliberately without API token auth | `pkg/api/http/http.go` (`publicEndpoints`, `PublicEndpoints`); `pkg/api/http/server.go` (the `PublicPort` block) |
-| pprof debug surface | Component | Exposes `net/http/pprof` on the default mux, on its own port, only when `EnableProfiling` is set | `pkg/api/http/server.go` (the `_ "net/http/pprof"` import and the `EnableProfiling` block serving `http.DefaultServeMux`) |
-| gRPC API surface | Component | Serves `service Dapr`: state, bulk state, query, transactions, publish, bulk publish, topic-event stream, bindings, secrets, actor reminders/timers/state/invocation, actor-event stream, configuration, lock, crypto, subtle crypto, metadata, workflows (Alpha1 and Beta1), jobs (Alpha1 and stable), conversation (Alpha1, Alpha2), search, vector and binary store RPCs; also hosts the workflow engine's own gRPC services | `pkg/api/grpc/server.go` (`NewAPIServer`, `RegisterDaprServer`, `workflowEngine.RegisterGrpcServer`); `dapr/proto/runtime/v1/dapr.proto` |
-| Internal gRPC surface | Component | Serves `service ServiceInvocation` for sidecar-to-sidecar traffic: `CallActor`, `CallLocal`, `CallActorReminder`, `CallLocalStream`, `CallActorStream`; also the target of the unregistered-method proxy | `pkg/api/grpc/server.go` (`NewInternalServer`, `RegisterServiceInvocationServer`, `proxy.InternalHandler`); `dapr/proto/internals/v1/service_invocation.proto` |
-| Universal API layer | Layer | One handler per operation, called by both the HTTP and gRPC surfaces so the two cannot drift | `pkg/api/universal/` (29 files); `pkg/api/http/universal.go` |
-| App channel | Component | The outbound half of the app conversation: builds the request to the application over HTTP or gRPC, reads `/dapr/config`, delivers jobs to `/job/<name>`, relays SSE, strips hop-by-hop headers, appends the app API token and trace context | `pkg/channel/http/http_channel.go` (`InvokeMethod`, `GetAppConfig`, `TriggerJob`, `HealthProbe`, `constructRequest`); `pkg/channel/grpc/grpc_channel.go` |
-| Actor runtime | Component | Virtual actor table, placement client, reminders and timers, reentrancy locks, actor state resolution, and the actor targets that host workflow and activity actors | `pkg/actors/` (243 files, 141 of them under `targets/`) |
-| Workflow engine | Component | Durable orchestration over the actor runtime: history, retention, purge, rerun, access policy, signing and verification of propagated history; registers gRPC services on the API server | `pkg/runtime/wfengine/` (62 files); `pkg/api/grpc/server.go` (`workflowEngine.RegisterGrpcServer`) |
-| Component processor, hot reload and component store | Component | Turns declared resources into running components; reconciles component, configuration, resiliency, subscription, HTTPEndpoint, MCPServer and workflow-access-policy changes from the operator stream or from disk | `pkg/runtime/processor/` (61 files); `pkg/runtime/hotreload/` (44 files); `pkg/runtime/compstore/` (25 files) |
-| In-tree component shims | Component | Register every component implementation by category with the registry `runWithContext` builds. The package panics unless built with `allcomponents` or `stablecomponents` | `cmd/daprd/components/` (156 files); `cmd/daprd/components/zz_notag.go` |
-| Operator | Component | Reconciles the seven Dapr custom resources and serves `service Operator` to sidecars: list and watch components, configurations, resiliency, subscriptions, HTTP endpoints, MCP servers and workflow access policies; also the watchdog and service reconciler | `cmd/operator/app/app.go`; `pkg/operator/` (38 files); `dapr/proto/operator/v1/operator.proto` |
-| Placement | Component | Consistent-hash actor placement table, dissemination rounds and Raft-backed leadership for the standalone placement service | `cmd/placement/`; `pkg/placement/` (26 files); `dapr/proto/placement/v1/placement.proto` |
-| Scheduler | Component | Durable job and actor-reminder scheduling on etcd (embedded by default, external on `--etcd-client-endpoints`); and, with `--placement-enabled`, the newer actor placement authority with its own dissemination protocol | `cmd/scheduler/app/app.go`; `cmd/scheduler/options/options.go`; `pkg/scheduler/` (76 files); `dapr/proto/scheduler/v1/{scheduler,placement}.proto` |
-| Sentry | Component | Certificate authority: signs workload certificates from a CSR, mints JWT SVIDs, maintains trust bundles and validates the caller by insecure, Kubernetes or JWKS validator | `cmd/sentry/`; `pkg/sentry/` (36 files); `dapr/proto/sentry/v1/sentry.proto` |
-| Injector | Component | The mutating admission webhook: decodes the `AdmissionReview`, declines non-Pod kinds, non-Dapr pods and unauthorised service accounts, and otherwise returns the JSON patch that adds the daprd container; also re-patches the webhook `caBundle` when trust anchors rotate | `cmd/injector/app/app.go`; `pkg/injector/service/handler.go` (`handleRequest`, `isAuthorizedUser`, `podHasDaprEnabled`) |
-| Security layer | Layer | SPIFFE workload identity, the mTLS server and client configuration, API and app tokens, and the Sentry client every process builds at start-up | `pkg/security/` (13 files); `pkg/security/spiffe/` |
-| Diagnostics and metrics layer | Layer | OpenTelemetry and Zipkin tracing, the Prometheus exporter, per-building-block monitoring and the metric catalogue | `pkg/diagnostics/` (35 files); `pkg/metrics/` (6 files) |
-| Resiliency layer | Layer | Retry, timeout and circuit-breaker policies resolved per component and per API, wrapping the component calls the API surfaces make | `pkg/resiliency/` (13 files) |
-| Proto contracts | Layer | The declared perimeter of the system in proto3: 37 definitions in 8 packages, declaring 8 gRPC services in the runtime, internals, operator, placement, scheduler and sentry packages plus the component contract | `dapr/proto/` (45 files) |
-| Generated Go bindings | Layer | Committed protoc output — messages, gRPC stubs, Connect handlers — never built at release time | `pkg/proto/` (66 files, including 9 `*connect/*.connect.go`) |
-| CRD types and generated clients | Layer | The seven custom-resource Go types, their deepcopy, the generated clientset, informers and listers the operator and sidecar use | `apis/` (46 files); `client/` (41 files); `charts/dapr/crds/` (7 files) |
-| Helm charts | Component | Deployment of all six executables with RBAC and default configuration: 7 subcharts and 7 CRDs | `charts/dapr/` (67 files) |
-| Container images | Component | Eight Dockerfiles covering Linux, Windows, debug, dev and CBL-Mariner | `docker/` (22 files) |
-| Build and test tooling | Component | A separate Go module (`dapr-build-tools`) beside the production executables, plus the lint-version, e2e and perf drivers in `cmd/` | `.build-tools/` (14 files, own `go.mod`); `cmd/check-lint-version.go`, `cmd/e2e.go`, `cmd/perf.go`, `cmd/root.go` |
-
-### External actors and systems
-
-| External actor or system | Reached through | Anchor |
-|---|---|---|
-| Application workload and its language SDK | Service — the sidecar is called by the app over HTTP and gRPC, and calls back into it through the `AppCallback` services; the app channel is the only path to the app's own code | `dapr/proto/runtime/v1/appcallback.proto` (`AppCallback`, `AppCallbackHealthCheck`, `AppCallbackAlpha`); `pkg/channel/http/http_channel.go` (`InvokeMethod`, `GetAppConfig`, `TriggerJob`) |
-| Kubernetes API server | Remote call — pod and service-account reads, the webhook `caBundle` patch, CRD informers, leadership election | `cmd/injector/app/app.go` (`MutatingWebhookConfigurations().Patch`); `pkg/operator/api/informer/informer.go`; `cmd/scheduler/app/app.go` (`server.NewController`); `pkg/injector/service/handler.go` |
-| etcd — embedded in each scheduler by default, or an external cluster when `--etcd-embed=false` | Data manager — the scheduler's durable job store; embedded mode starts the etcd server in-process with its own data directory, quota, compaction and WAL settings | `cmd/scheduler/options/options.go` (`--etcd-embed`, `--etcd-initial-cluster`, `--etcd-data-dir`, `--etcd-client-endpoints`); `go.mod` (`go.etcd.io/etcd/server/v3 v3.5.33`); `pkg/scheduler/server/internal/etcd/etcd.go` |
-| In-tree component backends — state stores, brokers, bindings, secret stores, configuration stores, lock stores, search, vector and binary-store backends | Service — a component operation dispatched by the runtime through a registered shim; the implementation is compiled in from `dapr/components-contrib` or the Dapr repository itself | `cmd/daprd/components/` (156 files); `pkg/components/*/registry.go`; `go.mod` (`github.com/dapr/components-contrib v1.19.1-0.20261126140908-2c9078d426b0`) |
-| Pluggable component processes — a component that runs outside this delivery | Service — DAPR Core is the client of the component contract declared in-tree, with discovery over a socket and health checks | `dapr/proto/components/v1/{state,pubsub,bindings,secretstore,common}.proto`; `pkg/components/pluggable/` (6 files) |
-| Cloud provider APIs — Azure, AWS, GCP, Alibaba Cloud, Huawei Cloud, Tencent Cloud, Oracle Cloud | Remote call — through the cloud SDKs the individual shims import | `go.mod` (the `github.com/Azure/azure-sdk-for-go`, `github.com/aws/aws-sdk-go-v2`, `cloud.google.com/go`, `github.com/alibabacloud-go`, `github.com/huaweicloud/huaweicloud-sdk-go-v3`, `github.com/tencentcloud/tencentcloud-sdk-go` blocks); `cmd/daprd/components/state_azure_cosmosdb.go`, `bindings_aws_sqs.go`, `secretstores_gcp_secretmanager.go` |
-| LLM and conversation providers — OpenAI, Anthropic, AWS Bedrock, Google AI, Mistral, HuggingFace, DeepSeek, Ollama | Remote call — the Conversation API and its component shims, with a prompt-scrubbing stage in the API path | `cmd/daprd/components/conversation_*.go` (9 files); `dapr/proto/runtime/v1/ai.proto`; `pkg/api/http/conversation.go` |
-| MCP servers — a tool server DAPR Core speaks to over stdio, SSE or streamable HTTP | Remote call — MCP server resources declared as a CRD, called from the workflow engine's in-process MCP registry | `dapr/proto/workflows/v1/mcp.proto`; `pkg/runtime/mcp/auth/`; `pkg/runtime/wfengine/inprocess/mcp/` (11 files); `pkg/runtime/mcpservers.go` |
-| External HTTP endpoints declared as an `HTTPEndpoint` custom resource | Remote call — service invocation to an app ID resolves the resource and uses its `BaseURL` and headers instead of the local app | `pkg/channel/http/http_channel.go` (`constructRequest`, the `compStore.GetHTTPEndpoint` branch); `apis/httpEndpoint/v1alpha1/types.go` |
-| OpenTelemetry and Zipkin collectors | Remote call — OTLP gRPC, OTLP HTTP and Zipkin exporters, wired per `TracingSpec` | `go.mod` (`go.opentelemetry.io/otel/exporters/otlp/...`, `.../zipkin`, `github.com/openzipkin/zipkin-go`); `pkg/diagnostics/tracing.go` |
-| Prometheus, and whatever reads the scheduler scaling metric | Service — the metrics exporter's `/metrics`, and `/metrics/scaling` registered as an extra handler on the scheduler's exporter | `pkg/metrics/exporter.go`; `cmd/scheduler/app/app.go` (`scaling.Path` handler passed to `metrics.Options.Handlers`); `pkg/scheduler/monitoring/scaling/` (2 files) |
-| SPIFFE trust domain and mTLS peers | Service — workload SVIDs, trust anchors, peer verification; every process obtains its identity from Sentry before it serves | `pkg/security/spiffe/`; `pkg/security/security.go`; `go.mod` (`github.com/spiffe/go-spiffe/v2 v2.7.0`) |
-| Helm chart repository and container registry | Remote call — the install and upgrade paths recorded in the release notes | `docs/release_notes/template.md`, § Upgrading; `charts/dapr/Chart.yaml` |
-| GitHub Actions, with the scripts under `.github/scripts/` | Messaging — the pipeline that builds, tests and releases the tree; 25 workflows and 82 helper scripts | `.github/workflows/` (25 files); `.github/scripts/` (82 files) |
-| Dapr CLI and the language SDKs — separate repositories that drive these APIs | Service — the CLI and the SDKs are the callers of the HTTP and gRPC surfaces | `README.md`, § Repositories (the CLI and SDK table); `cmd/scheduler/options/options.go` (`--override-broadcast-host-port`, "should only be set by the CLI when in standalone mode") |
-
-### Entry points
-
-| ID | Entry point | Kind | Initiated by | Anchor |
-|---|---|---|---|---|
-| EP-001 | daprd HTTP API — the `/v1.0`, `/v1.0-alpha1`, `/v1.0-alpha2` and `/v1.0-beta1` route families | Service operation | Application workload and language SDKs | `pkg/api/http/http.go` (`NewAPI`, `apiVersionV1`, `construct*Endpoints`); `pkg/api/http/server.go` (`setupRoutes`, `handle`) |
-| EP-002 | daprd public gRPC API — `service Dapr`, including the app-initiated `SubscribeTopicEventsAlpha1` and `SubscribeActorEventsAlpha1` streams and the workflow engine's registered services | Service operation | Application workload and language SDKs | `dapr/proto/runtime/v1/dapr.proto`; `pkg/api/grpc/server.go` (`NewAPIServer`, `RegisterDaprServer`, `workflowEngine.RegisterGrpcServer`) |
-| EP-003 | App callback services — `AppCallback`, `AppCallbackHealthCheck`, `AppCallbackAlpha` | Service operation | daprd, on a component event, an actor call, a job trigger or a configuration update | `dapr/proto/runtime/v1/appcallback.proto`; `pkg/channel/http/http_channel.go`; `pkg/channel/grpc/grpc_channel.go` |
-| EP-004 | Operator gRPC service — `service Operator`, 16 RPCs: list and stream updates for components, subscriptions, configurations, resiliency, HTTP endpoints, MCP servers and workflow access policies | Service operation | daprd, through the hot-reload loader | `dapr/proto/operator/v1/operator.proto` (`service Operator`); `pkg/operator/api/api.go`; `pkg/runtime/hotreload/loader/operator/` |
-| EP-005 | Placement gRPC service — `ReportDaprStatus` bidirectional stream | Service operation | daprd actor runtime, on stream connect and placement-table dissemination | `dapr/proto/placement/v1/placement.proto` (`service Placement`); `pkg/placement/internal/server/server.go` |
-| EP-006 | Scheduler gRPC service — `ScheduleJob`, `GetJob`, `DeleteJob`, `WatchJobs`, `ListJobs`, `WatchHosts`, `DeleteByMetadata`, `DeleteByNamePrefix`, `ReportActorTypes` | Service operation | daprd, for jobs and actor reminders; `ReportActorTypes` only when the scheduler serves placement | `dapr/proto/scheduler/v1/scheduler.proto` (`service Scheduler`); `pkg/scheduler/server/api.go` |
-| EP-007 | Sentry gRPC service — `service CA`: `SignCertificate`, `FetchJWTSVID` | Service operation | daprd, operator, placement, scheduler and injector, each at start-up and on certificate renewal | `dapr/proto/sentry/v1/sentry.proto`; `pkg/sentry/server/server.go` |
-| EP-008 | Sidecar-injector admission webhook — `POST` of an `AdmissionReview`, answered with an `AdmissionReview` patch | Service operation | Kubernetes API server, on pod creation | `pkg/injector/service/handler.go` (`handleRequest`); `charts/dapr/charts/dapr_sidecar_injector/templates/dapr_sidecar_injector_webhook_config.yaml` |
-| EP-009 | Pluggable component services — `StateStore`, `QueriableStateStore`, `TransactionalStateStore`, `TransactionalStoreMultiMaxSize` and the pub/sub, bindings and secret-store contracts: declared here, served by a process outside this delivery | Service operation | daprd, when a component is declared as a pluggable one | `dapr/proto/components/v1/state.proto`; `dapr/proto/components/v1/{pubsub,bindings,secretstore}.proto`; `pkg/components/pluggable/grpc.go` |
-| EP-010 | Internal service-invocation gRPC service — `CallActor`, `CallLocal`, `CallActorReminder`, `CallLocalStream`, `CallActorStream` | Service operation | A remote daprd, on a service-to-service or actor call | `dapr/proto/internals/v1/service_invocation.proto` (`service ServiceInvocation`); `pkg/api/grpc/server.go` (`NewInternalServer`) |
-| EP-011 | Health endpoint — `GET /healthz` on each process's own health port, plus the health handlers registered on the public HTTP port and the API port | Service operation | Kubernetes liveness and readiness probes, and operators | `pkg/healthz/server/server.go` (`New`, the `/healthz` handler); `cmd/scheduler/app/app.go`, `cmd/operator/app/app.go`, `cmd/injector/app/app.go` (each starts the healthz server) |
-| EP-012 | Metrics endpoints — `/metrics` on the exporter port of each process, and `/metrics/scaling` on the scheduler | Service operation | Prometheus scrapers and the KEDA-style scaling reader | `pkg/metrics/exporter.go`; `cmd/scheduler/app/app.go` (the `metrics.Options.Handlers` map) |
-| EP-013 | Custom-resource informer events — add, update and delete on the seven Dapr CRDs, delivered to the operator and to the sidecar's hot-reload loader | Platform event | Kubernetes API server | `pkg/operator/api/informer/informer.go`; `dapr/proto/operator/v1/operator.proto` (the `*UpdateEvent` streams); `pkg/runtime/hotreload/loader/operator/` |
-| EP-014 | Build and test tooling commands — lint-version check, e2e and perf drivers, and the `dapr-build-tools` module | Platform event | A maintainer or CI, through the `Makefile` and the workflow definitions | `cmd/check-lint-version.go`, `cmd/e2e.go`, `cmd/perf.go`, `cmd/root.go`; `.build-tools/cmd/root.go` |
-| EP-015 | Public HTTP port — the `GET` metadata and health endpoints served on a second listener | Service operation | Anything that can reach the port: the surface carries no API token authentication | `pkg/api/http/http.go` (`publicEndpoints`, "The public port has no API token auth, so it only serves read-only endpoints"); `pkg/api/http/server.go` (the `PublicPort` block) |
-| EP-016 | pprof debug port — `net/http/pprof` on the default mux, opened only when `EnableProfiling` is set | Service operation | A developer or operator debugging a sidecar; also anything else that can reach the port | `pkg/api/http/server.go` (`_ "net/http/pprof"`, the `EnableProfiling` block and `http.DefaultServeMux`) |
 
 ## Technology and Size
 
