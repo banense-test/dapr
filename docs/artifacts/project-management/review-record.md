@@ -18,13 +18,15 @@ Reviewer: Management Reviewer
 Disposition: Conditional Go on the iteration — see Disposition
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
 Phase: Survey
-Status: Draft — iteration 1 review consolidated. Iteration Acceptance recorded; the phase iterates. No milestone is judged and no phase is closed
+Status: Draft — iteration 2 review consolidated. Iteration Acceptance recorded; the phase iterates. No milestone is judged and no phase is closed
 Milestone Target: end-of-Survey milestone (SBC) — not achieved, not judged by this review
+Review type: Iteration Acceptance, not a milestone review. No sanction is sought and none is granted
+Lenses: Technical (Reviewer) EXECUTED, Management (Management Reviewer) EXECUTED, Business (Business Reviewer) INACTIVE — did not evaluate this review
 
 ## Review Scope and Criteria
 ### Reviewer lens
