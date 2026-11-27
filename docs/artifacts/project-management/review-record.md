@@ -867,107 +867,42 @@ end note
 ```
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+One finding of this lens is closed this turn and one persists under its key. `System Inventory#F1` is closed on evidence read from the corrected artifact; `Iteration Plan#F3` is re-recorded because two of its placements still name no area.
 
-Three findings of this lens from iteration 1 are closed this turn, each on evidence read from the corrected artifact rather than on the owner's word. Two findings of this iteration are open.
+#### Findings closed this review
 
-```plantuml
-@startuml
-title Findings and closures - Survey iteration 2, management lens
-hide empty members
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 330
-skinparam nodesep 26
-skinparam ranksep 40
-
-package "Closed this iteration - Management Reviewer lens" {
-  class "Iteration Plan#F1" as F1 <<Resolved, was Major>> {
-    was : a phase length divided out of one iteration's area count
-    now : the remainder stated as counts; no rate, no projection
-    verified : "not a rate ... it is not projected from any earlier iteration"
-  }
-  class "Iteration Plan#F2" as F2 <<Resolved, was Major>> {
-    was : i1 booked as 13 of 15 against an assignment of 13
-    now : 13 assigned, 13 reached; go.sum and img in i2's row only
-    verified : Document Control, cut tables and Evaluation Criteria agree
-  }
-  class "Risk List#F1" as F3 <<Resolved, was Minor>> {
-    was : one role named owner of all 25 rows
-    now : custodian and accountable role, 28 rows
-    verified : R001 PM, R021 Integrator, R011/R016/R023 the reading role
-  }
-}
-
-package "Recorded this iteration" {
-  class "Iteration Plan#F3" as N1 <<Major, consumed-defect>> {
-    where : Risk-driven sequencing, i2 row; Evaluation Criteria; measurement table
-    defect : R017 and R019 placed on areas the same plan declares unread
-    defect : R019's mitigation names pkg/scheduler/, carried by i3, which omits it
-    built on by : the SBC verdict; Excavation's plan
-    rework : yes
-  }
-  class "System Inventory#F1" as N2 <<Minor, contained-defect>> {
-    where : Coverage, the sentence closing its introduction
-    defect : "twenty-four never assigned" against twenty-three rows
-    built on by : nothing
-    rework : owner's next turn
-  }
-}
-
-class "Not this lens" as O <<other lenses>> {
-  System Inventory F4 : Major, Reviewer, the registry count
-  Development Case F5 : Minor, Reviewer, a path the tree lacks
-  status : open under their own keys; not re-recorded here
-}
-
-F1 ..> N1 : both are the plan's account of itself
-F2 ..> N1 : the same test - a figure against what the plan declares
-F3 ..> N1 : the register's placement is sound; the plan's row that claims it is not
-
-note bottom of N1
-  R028 is correctly placed: its anomaly AN-023 sits in
-  pkg/api/http/server.go, read here. The defect is the two
-  risks placed on areas this slice names as unread.
-end note
-note bottom of N2
-  No row, no objective and no quoted total changes. The count
-  of never-assigned areas is the only figure in Coverage that
-  does not reproduce from the table beneath it.
-end note
-@enduml
-```
-
-| Finding | Severity | Criterion | Artifact | State | Closes by |
-|---|---|---|---|---|---|
-| `Iteration Plan#F1` | Major | `plan-sizing` | Iteration Plan | Resolved this turn | — |
-| `Iteration Plan#F2` | Major | `consumed-defect` | Iteration Plan | Resolved this turn | — |
-| `Risk List#F1` | Minor | `contained-defect` | Risk List | Resolved this turn | — |
-| `Iteration Plan#F3` | Major | `consumed-defect` | Iteration Plan | Open | The risk-driven sequencing row and its count, restated |
-| `System Inventory#F1` | Minor | `contained-defect` | System Inventory | Open | The never-assigned count, stated at twenty-three |
-
-#### What each closure rests on
-
-`Iteration Plan#F1` — the quotient is gone and so is the conclusion drawn from it. "The remainder, counted" states 13 read, 16 assigned, 41 across the three iterations that follow, then in terms: "These are counts of areas, not of files read and not a rate: whether the cut still holds is asked and answered at the close of each iteration from what that iteration read, and it is not projected from any earlier iteration." The Evaluation Criteria carry the same sentence. `R001` stands as the overrun risk with one more iteration as the remedy, never less scope, and the plan states that no phase has closed so there is no measured actual to forecast from.
-
-`Iteration Plan#F2` — iteration 1's row reads 13 areas and 13 reached; the paragraph above the cut table states the fact once ("`go.sum` and `img` were not among them and are not counted here — they are iteration 2's, and they appear in iteration 2's row only"); the five areas opened short of their file count are restated as Excavation's Priorities order rather than as a Survey remainder, so no area sits in two iterations; and the "Unread areas declared" criterion now reads "Iteration 1 had no unreached area: 13 assigned, 13 reached". Document Control, the cut tables and the Evaluation Criteria now agree.
-
-`Risk List#F1` — the register's role column is "Accountable role", and the paragraph introducing the register states the distinction: the custodian is the Project Manager on all twenty-eight, while the accountable role is the one whose act retires the entry. The names the mitigation rows already gave are in the column — Software Archaeologist for the twenty-two reading risks, Project Manager for `R001` and `R002`, Integrator for `R021`. The structure diagram carries `custodian` and `accountableRole` as separate attributes, and the plan's Evaluation Criteria now asks for both, so the AR gate has a name to ask of each High risk.
-
-#### Open findings, and what closes each
-
-`Iteration Plan#F3` closes when the risk-driven sequencing places R017 and R019 on iterations that open the area each retirement needs, or states plainly that the risk is carried to Excavation, and the "28 risks, all placed" count is true on that reading. `System Inventory#F1` closes when the Coverage sentence states twenty-three, or derives the count from the rows at the foot of the table.
-
-Both sit above the phase's gate condition: the SBC milestone does not close while a Major of this lens is open. This is an Iteration Acceptance and the phase iterates regardless — the milestone is not judged here.
-
-#### Reconciliation with the other lenses
-
-| Lens | Recorded this iteration | Overlap with this lens | Resolution |
+| Finding | Severity | How the defect was fixed | Evidence I verified |
 |---|---|---|---|
-| Reviewer | `System Inventory#F4` (Major, the fifteen category constants against thirteen anchored registry paths), `Development Case#F5` (Minor, a path the tree lacks) | None on the same defect — F4 is the component plane's count, F3 is the plan's risk placement | Both stand under their own keys; neither absorbs the other |
-| Business Reviewer | Did not execute — Business Modeling is INACTIVE on its trigger condition | None | No verdict attributed to it |
-| This lens | `Iteration Plan#F3`, `System Inventory#F1` | `System Inventory#F1` sits against the same Coverage table as the Reviewer's closed `System Inventory#F2`, but on a figure that check did not reach | Recorded here; not a re-record of `#F2` |
+| `System Inventory#F1` | Minor | The sentence closing the Coverage introduction no longer asserts a number. It now reads "The areas at the foot of this table, none of them assigned to a slice, are declared unread there" — the second outcome the remediation admitted, in which the statement cannot drift from the rows when a later slice leaves one fewer. | I counted the never-assigned rows myself: twenty-three, `docker` through `utils`, against the twenty-four the earlier sentence claimed. The three counts beside the sentence still reproduce: iteration 3's per-area reads 2 + 2 + 9 + 2 + 1 + 1 + 2 + 4 + 1 + 0 + 2 + 1 = 27, its 30 distinct with the three outside the slice, and 60 + 28 + 30 = 118 for the phase. |
+
+#### Findings re-recorded under their key
+
+| Finding | Severity | Why it stays open | What closes it |
+|---|---|---|---|
+| `Iteration Plan#F3` | Major — `consumed-defect` | The three rows its remediation named are corrected: R017 now rests on the allowlist map with no claim about `pkg/api/universal/`, R019 sits on this iteration beside `pkg/scheduler/`, and R028 on `pkg/api/http/server.go`. The count those corrections were required to make true is not. R013 and R021 remain on iteration 4, supported by "read in `tests/` and `charts/`", and neither anomaly was read from either area — both anchor under `.github`, an area of iteration 1. R021's retirement is a Change Request owned by the Integrator, a role this phase does not run. | The count stated in Document Control, in the sequencing table's closing paragraph and in the Evaluation Criteria's "Risks sequenced and accountable" row moves to 25 placed, 5 whole-reading and 2 carried past the phase; or each of the two names the area of iteration 4 that reads its retirement. |
+
+#### Findings recorded this review
+
+| Finding | Severity | Criterion | Location | Rework |
+|---|---|---|---|---|
+| `Iteration Plan#F4` | Minor | `contained-defect` | Document Control — "The verdict on iteration 2 was SBC: iteration REQUIRED" against "The SBC milestone is not judged" | Owner's next turn; holds no gate |
+
+#### Actions this review sets
+
+| # | Action | Owner | Closes | Holds the SBC gate |
+|---|---|---|---|---|
+| 1 | State R013 and R021 at what the cut actually does with them, or name the area of iteration 4 that reads each; then move Document Control, the sequencing table's closing paragraph and the Evaluation Criteria's "Risks sequenced and accountable" row to the same figure, and take `.github` out of the i4 justification | Project Manager | `Iteration Plan#F3` | Yes — the SBC verdict reads the placed count as evidence that the cut confronts every risk of the register |
+| 2 | Restate Document Control's opening sentence to the decision the iteration close produced, leaving the milestone's status to the closing sentence | Project Manager | `Iteration Plan#F4` | No |
+
+Action 1 spans four places that quote one figure — Document Control, the sequencing table, its closing paragraph and the Evaluation Criteria row — and they are written together. A corrected count in one and the old figure in another reproduces the defect the finding records.
+
+Neither action is assigned to a role that does not work in this phase. Neither carries a size, an effort figure or a calendar date: none has been measured, and a date projected from an estimate would read downstream as an observation.
+
+#### What this lens does not close
+
+The Reviewer's `Iteration Plan#F1` — `pkg/diagnostics` re-cut into this iteration and thirty-four of its thirty-five files deferred to an order no iteration of the cut runs — is open under that lens and is not mine to close. It is a scope fact this assessment records rather than a second finding: an area counted as reached while its substance leaves the phase understates what the phase has left to read, and the SBC condition "the cut holds no unread area" would be answered by a count that is short thirty-four files. I read the Coverage row and the two cut tables it names and observe the deferral is real; the disposition below treats the area as carried, not accepted.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
