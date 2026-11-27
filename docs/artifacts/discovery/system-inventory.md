@@ -894,7 +894,7 @@ Across the Survey reading so far: **114 distinct files opened of the 6 631 entri
 | `utils` — never assigned | 9 | 0 | Unread in full: the cross-package helpers for host, HTTP middleware, Kubernetes and DNS. Legible only through their callers, priority 13. |
 
 ## Counts
-
+ 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
