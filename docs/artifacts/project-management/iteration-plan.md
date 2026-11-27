@@ -242,14 +242,14 @@ This table is checked against the Risk List whenever either changes; a risk with
 
 ### What this iteration carries as rework, and where each item is worked
 
-Only items still open enter this table. A finding its recording lens has closed is history and is not restated here.
+Only items the Review Record holds open enter this table. A finding its recording lens has closed is not restated here — closure is that lens' act, and the plan claims none.
 
-| Item | Finding, and the lens that holds it | Worked in | State |
+| Item | Finding, and the lens that holds it | Worked in | What this plan does about it |
 |---|---|---|---|
-| Name the file that registers each of the fifteen component categories, state `workflow` and `workflowbackend` as registered by the engine's own actor backend, and move the paths not opened out of the anchor column | `System Inventory#F4` — Reviewer | This iteration, at its owner's end: `pkg/runtime/registry/registry.go`, `pkg/runtime/wfengine/backends/actors/actors.go` and `pkg/runtime/processor/manager.go` are all in this slice and were opened. The consuming end is applied as `R029`, on `AN-024` | Open; the reading that closes it is in this slice. Holds the SBC gate |
-| Restate the risk-driven sequencing row to the risks this slice's reading actually confronts, and state the placed count truthfully | `Iteration Plan#F3` — Management Reviewer | This iteration, in this section | Reworked in place: R017 rests on the allowlist map with no claim about `universal/`, R019 sits here beside `pkg/scheduler/`, R028 rests on `pkg/api/http/server.go`, and 27 placed plus 5 whole-reading is stated in place of "all placed" |
-| State the never-assigned count as twenty-three, or derive it from the rows at the foot of the Coverage table | `System Inventory#F1` — Management Reviewer | Owner's own next turn | Owed; Minor, holds no gate |
-| Correct the Deployment Model evidence path to `pkg/modes/modes.go` and check the other rows of the same table | `Development Case#F1` — Reviewer | Owner's own next turn | Owed; Minor, holds no gate |
+| Name the file that registers each of the fifteen component categories, state `workflow` and `workflowbackend` as registered by the engine's own actor backend, and move the paths not opened out of the anchor column | `System Inventory#F4` — Reviewer | This iteration, at the System Inventory's owner: `pkg/runtime/registry/registry.go`, `pkg/runtime/wfengine/backends/actors/actors.go` and `pkg/runtime/processor/manager.go` are in this slice and were opened | Carried as this role's consuming end in `R029`, on `AN-024`. That entry states the fifteen/thirteen/two split; the count and the anchors in the System Inventory remain its owner's to state. Holds the SBC gate |
+| Restate the risk-driven sequencing row to the risks this slice's reading actually confronts, and state the placed count truthfully | `Iteration Plan#F3` — Management Reviewer | This iteration, in "Risk-driven sequencing" and in "Evaluation Criteria" | Applied here: R017 rests on the allowlist map with no claim about `universal/`, R019 sits here beside `pkg/scheduler/`, R028 rests on `pkg/api/http/server.go`, R027's documentation half is stated as already settled by a directory read, and 27 placed plus 5 whole-reading is stated in place of "all placed". Whether that closes the finding is the Management Reviewer's to judge |
+| State the never-assigned count as twenty-three, or derive it from the rows at the foot of the Coverage table | `System Inventory#F1` — Management Reviewer | The System Inventory's owner, next turn | No plan figure is derived from it; the cut is stated in areas, and this sentence changes no row of it. Holds no gate |
+| Correct the Deployment Model evidence path to `pkg/modes/modes.go` and check the other rows of the same table | `Development Case#F1` — Reviewer | The Development Case's owner, next turn | No plan figure rests on it; the Deployment Model verdict is cited nowhere in this plan as evidence for a cut decision. Holds no gate |
 
 ### Fine plan — Survey iteration 3
 
