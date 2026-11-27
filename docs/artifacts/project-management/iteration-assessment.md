@@ -316,18 +316,6 @@ end note
 
 Items 1 to 3 are this role's and their remedies are in the baseline as this assessment is recorded; the findings stay open until the lens that recorded each verifies and closes it, and this document claims no closure. Item 4 is a Minor inside the System Inventory: no role builds on either figure, no objective of this iteration turns on it, and it does not hold the gate.
 
-### What iteration 3 takes
-
-The cut's next slice, unchanged by this review: `pkg/actors/`, `pkg/runtime/`, `pkg/placement/`, `pkg/scheduler/`, `pkg/sentry/`, `pkg/security/`, `pkg/operator/`, `pkg/injector/`, `pkg/acl/`, `pkg/apis/`, `pkg/client/` — 11 areas, 866 entries of the tree. It inherits three additions from this iteration's close and one placement moved onto it:
-
-- `R029` and `System Inventory#F4`'s remedy, both answered by `pkg/runtime/wfengine/` and `pkg/actors/`: the two categories are either located or recorded as unlocated, and no artifact of the phase states the plane as fifteen registries in the meantime.
-- `R019`, moved from this iteration's row to i3's, where `pkg/scheduler/` — the area its mitigation names — is read.
-- `System Inventory#F1`, worked in `pkg/runtime/` where the code enforcing the actor-state requirement is read.
-
-It carries all eighteen Significant and High risks, unretired and not yet due, and it carries the Environment stage as its first work item. Its High risk is `R023`, which is why `pkg/scheduler/` is read before the placement service it supersedes. `pkg/diagnostics/` is not in the slice: it is carried to Excavation's Priorities order at priority 4, and re-opening it inside the Survey cut would put one area in two iterations.
-
-The phase iterates because the cut holds three unread iterations and because two Major findings stand open. It does not iterate because a calendar says so, and no further iteration is added to it on account of this review: nothing here displaces an area or cuts declared scope.
-
 ### What the SBC gate still waits on
 
 Three conditions, and none is met by this assessment:
