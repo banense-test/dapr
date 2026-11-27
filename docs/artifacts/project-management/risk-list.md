@@ -108,26 +108,24 @@ end note
 @startmindmap
 title Risk List after Survey iteration 1 - 25 risks, by magnitude and strategy
 * Risk List - 25 risks
-** High 15 to 25 - 3, every one avoided
-*** R011 architecture statement dormant since 2023 - 16 - avoid
-*** R016 no in-tree account of executable behaviour - 16 - avoid
-*** R023 one scheduler process, two authorities - 16 - avoid
-** Significant 9 to 12 - 13
-*** avoided - 12
-**** R001 unequal cut, tests holds 3335 entries - 12
-**** R005 repository files read as orders - 9
-**** R006 an empty size filled with a unit nothing measures - 9
-**** R009 four protoc versions, none the one that ran - 12
-**** R010 the documented generator reads absent inputs - 12
-**** R013 70 version-skew patches must keep applying - 12
-**** R014 two workflow suites disabled by renaming - 9
-**** R017 gRPC allowlist is a hand-maintained duplicate - 12
-**** R019 failure-policy family with no proto behind it - 12
-**** R020 committed bindings name two protoc versions - 12
-**** R021 licence scan reports and cannot fail - 12
-**** R022 hand-written Go inside the generated tree - 12
-*** transferred - 1
-**** R012 release and security procedure outside the delivery - 12
+** High 15 to 25 - 3, all avoided
+*** R011 architecture statement dormant since 2023 - 16
+*** R016 no in-tree account of executable behaviour - 16
+*** R023 one scheduler process, two authorities - 16
+** Significant 9 to 12 - 13, all avoided
+*** R001 unequal cut, tests holds 3335 entries - 12
+*** R005 repository files read as orders - 9
+*** R006 an empty size filled with a unit nothing measures - 9
+*** R009 four protoc versions, none the one that ran - 12
+*** R010 the documented generator reads absent inputs - 12
+*** R012 release and security procedure outside the delivery - 12
+*** R013 70 version-skew patches must keep applying - 12
+*** R014 two workflow suites disabled by renaming - 9
+*** R017 gRPC allowlist is a hand-maintained duplicate - 12
+*** R019 failure-policy family with no proto behind it - 12
+*** R020 committed bindings name two protoc versions - 12
+*** R021 licence scan reports and cannot fail - 12
+*** R022 hand-written Go inside the generated tree - 12
 ** Moderate 5 to 8 - 9
 *** accepted, mitigation and contingency written - 3
 **** R002 SBC gate at the 14-day queue ceiling - 8
@@ -145,7 +143,7 @@ title Risk List after Survey iteration 1 - 25 risks, by magnitude and strategy
 @endmindmap
 ```
 
-The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three.
+The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three, and for the thirteen Significant risks beside them: each is avoided by the shape of the reading the next phase is given, not by a promise made to the stakeholder.
 
 ## Risk Register
 Twenty-five risks. Twenty refine an anomaly the Software Archaeologist recorded; five are risks of the phase's own shape with no anomaly behind them. The `Source` cell cites the anomaly id and the anchor it was read from; the trace edge is in `## Traceability`.
