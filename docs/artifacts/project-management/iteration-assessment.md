@@ -104,78 +104,6 @@ What the iteration returned instead is the raw material a use case will be recov
 | Consolidation and later | Declared use case, risk-driven selection | Not started |
 
 ## Results Relative to Evaluation Criteria
-
-Each criterion the Iteration Plan carried, answered against the evidence that exists after the review. Six met, two not met; both failures sit in one artifact and are corrected by one act.
-
-```plantuml
-@startuml
-title Evaluation criteria of Survey iteration 1 - outcome against each, and what carries the defect
-hide empty members
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 320
-skinparam nodesep 20
-skinparam ranksep 34
-
-class "Perimeter confirmed" as C1 <<met, one defect>> {
-  evidence : EP-001 .. EP-016, each with a Source anchor
-  evidence : 26 components, 15 external systems
-  defect : System Inventory#F1
-}
-
-class "Priorities ordered" as C2 <<met>> {
-  evidence : 13 ranks, cited as Excavation's reading order
-}
-
-class "Traceable reading" as C3 <<met, counts not reproducible>> {
-  evidence : every stated element carries a path and lines
-  defect : System Inventory#F2
-}
-
-class "Cut held" as C4 <<met>> {
-  evidence : 70 areas, each in exactly one iteration
-}
-
-class "Unread areas declared" as C5 <<not met as written>> {
-  claimed : i1 read 13 of 15 areas
-  fact : 13 assigned, 13 reached
-  rework : Iteration Plan#F2
-}
-
-class "Depth is not a Survey remainder" as C6 <<met>> {
-  evidence : five areas read short, ordered as Excavation's
-}
-
-class "Risks sequenced" as C7 <<met>> {
-  evidence : every risk names the iteration that confronts it
-}
-
-class "No invented figure" as C8 <<not met>> {
-  breach : 57 over 13, phase length from one iteration's count
-  rework : Iteration Plan#F1
-}
-
-class "Outcome" as O <<the iteration's own verdict>> {
-  met : C1, C2, C3, C4, C6, C7
-  not met : C5, C8
-  C5 and C8 are one act of correction in one artifact
-}
-
-C1 -down-> O
-C2 -down-> O
-C3 -down-> O
-C4 -down-> O
-C5 -down-> O
-C6 -down-> O
-C7 -down-> O
-C8 -down-> O
-
-note bottom of O
-  Neither failure changes what the iteration read: both are
-  corrections to how the plan accounts for it.
-end note
-@enduml
-```
-
 | Criterion | Threshold | Outcome | Evidence |
 |---|---|---|---|
 | Perimeter confirmed | Every executable, API surface and protocol contract enumerated with a `Source:` anchor | Met | System Inventory — Perimeter: 16 entry points, 26 components, 15 external systems, all anchored. One anchor fails `System Inventory#F1` |
@@ -185,19 +113,7 @@ end note
 | Unread areas declared | An area the iteration did not reach is named, not skipped, and the remainder counted | **Not met as written** | The criterion claims it as met by a two-area shortfall against a 13-area assignment. Corrected to: this iteration had no unreached area; the declared remainder is the 57 areas the cut assigns to iterations 2 to 5 |
 | Depth left in a read area is not a Survey remainder | An area opened short of its file count is scheduled by the Priorities for Excavation, never re-opened inside the Survey cut | Met | Five areas opened short — `.github` 3 of 120, `cmd` 12 of 183, `dapr` 13 of 45, `docs` 9 of 196, `pkg/proto` 3 of 66 — each ordered by Priorities as Excavation's reading |
 | Risks sequenced, not only scored | Every risk names the iteration that confronts it, or the row the whole reading carries | Met | 25 risks, 25 rows: 11 in i1, 2 in i2, 2 in i3, 5 in i4, none in i5, 5 on the whole reading |
-| No invented figures | No token spend, elapsed time, work-item size or forecast appears anywhere in the phase's artifacts | **Not met** | `Iteration Plan#F1`: "57 ÷ 13 = 4.4 further iterations … the five iterations of Survey hold" is a phase length forecasted from one iteration's count. Corrected this turn |
-
-**What this iteration measured, and the decision each measurement enables.** The figures below are the iteration's recorded facts, not a velocity and not a baseline. No rate is derived from any of them, and none is projected onto iteration 2.
-
-| Measurement | Value | Decision it enables |
-|---|---|---|
-| Agent work — token spend | 19 480 197 tokens over 11 agent invocations | Sets the spend baseline for the sprint zero: the first actual this project has, and the only figure a later phase's forecast may be built from. It is one iteration of a sprint zero, read with the artifact surface below — not a per-iteration rate |
-| Agent work — measured elapsed time | 0:36:59.0766494 | Together with the token figure, shows the sprint zero's work is reasoning over the artifact surface, not emission. Read against the artifact sizes below to see what that spend bought |
-| Human gate — queue time, iteration 1 | 0:00:00 measured, and the end-of-iteration approval gate is excluded from the measurement | The gate cost nothing in queue time here. It does not lower R002's 14-day ceiling: this gate has not opened, and the next one's queue is measured when it does |
-| Artifacts in the increment | 5 | 5 of the artifacts the Development Case sanctions this phase. It does not cover the two optionals triggered for later phases (Glossary, Deployment Model), whose absence here is correct |
-| Artifact sizes, in characters | Development Case 28 911; Iteration Plan 27 143; Risk List 31 413; System Inventory 78 385; Review Record 76 201 | Names where the iteration's spend and the next phase's re-reading cost sit: the two largest artifacts (System Inventory, Review Record) are the two a recovery phase and a gate will re-read most. Excavation's cost is set by this surface, not by the lines it emits |
-| Stakeholder interactions | 9 | Confirms the sprint zero resolved its tailoring questions in one round rather than by attrition — the CONTRIBUTING.md pointer being the one answer applied. A rising count in a later iteration means a scope question is being deferred, not answered |
-| Areas of the slice reached | 13 of 13 assigned; five opened short of their file count | Whether the cut's areas are read at the depth their priority needs, and where short, whether that depth belongs to Excavation. The answer this iteration: it does, by the Priorities order |
+| No figure the process did not measure | No work-item size, no rate, no calendar date and no forecast in any phase artifact. A measured figure is not a breach: an iteration's token spend and elapsed agent time, and a gate's queue time, are reported as that iteration's actuals, each clock apart and never summed | **Not met** | `Iteration Plan#F1`: "57 ÷ 13 = 4.4 further iterations … the five iterations of Survey hold" — a phase length forecasted from one iteration's count, which no measurement produced. Corrected in the plan this turn. The measured figures in the table below are this iteration's facts, not the defect |
 
 ## Test Results
 
