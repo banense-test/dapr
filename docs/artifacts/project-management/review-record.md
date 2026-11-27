@@ -85,139 +85,36 @@ Every area of the slice appears in the System Inventory's Coverage table, either
 - **Elements outside the slice.** A call named in a flow step, a component named by its path at a connector, a rule recorded as not yet checked against the code — all work the cut gives a later iteration, and none is a finding here.
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1, management lens -->
+<!-- review: Survey I2 -->
 
-Iteration Acceptance review of Survey iteration 1 from the management lens. The question is whether the iteration is acceptable as an investment: were its own objectives met, is each area of the assigned slice either read or declared, and is the state it leaves the phase in sound enough to carry into the next iteration. It is not the SBC gate: the exit criteria of the milestone are the Review Coordinator's to judge, and no sanction is granted here.
+This is an Iteration Acceptance on the management question: did iteration 2 read the sixteen areas the cut gave it, and is what it returned fit for the roles that consume it? The milestone's exit criteria are not judged here — the cut still holds 41 areas for three further iterations, and the SBC gate opens when those are read and every Major finding of the phase has its rework in the baseline.
 
-#### The slice this review judges, and how it stands
+What was reviewed, and by what standard:
 
-The Project Manager assigned thirteen areas in order, `.github` through `pkg/proto`. All thirteen were reached. Five were opened short of their file count — `.github` 3 of 120, `cmd` 12 of 183, `dapr` 13 of 45, `docs` 9 of 196, `pkg/proto` 3 of 66 — and that depth is ordered by the System Inventory's Priorities as Excavation's reading, not as a Survey remainder. Judging it a Survey shortfall would put one area in two iterations of the cut.
-
-```plantuml
-@startuml
-title Iteration acceptance table - the thirteen assigned areas as Survey iteration 1 left them
-hide empty members
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 250
-skinparam nodesep 18
-skinparam ranksep 28
-
-package "Read whole - every file the area holds" {
-  class "CODEOWNERS" as A2 <<reached>> {
-    files : 1 of 1
-    evidence : the two maintainer teams GOVERNANCE names
-  }
-  class "CONTRIBUTING.md (root)" as A3 <<reached>> {
-    files : 1 of 1
-    evidence : owner's text; one approved pointer line on top
-  }
-  class "GOVERNANCE.md" as A4 <<reached>> {
-    files : 1 of 1
-    evidence : activity rule, super-majority vote, CODEOWNERS PR
-  }
-  class "LICENSE" as A5 <<reached>> {
-    files : 1 of 1
-    evidence : Apache-2.0 grant
-  }
-  class "README.md" as A6 <<reached>> {
-    files : 1 of 1
-    evidence : twelve APIs, each checked against the tree
-  }
-  class "RELEASE.md" as A7 <<reached>> {
-    files : 1 of 1
-    evidence : one-line pointer out of the tree - AN-006
-  }
-  class "SECURITY.md" as A8 <<reached>> {
-    files : 1 of 1
-    evidence : one-line pointer out of the tree - AN-006
-  }
-  class "go.mod" as A12 <<reached>> {
-    files : 1 of 1
-    evidence : Go 1.26.11; dapr modules pinned to pseudo-versions
-  }
-}
-
-package "Read short of its file count - depth left is ordered to Excavation" {
-  class ".github" as A1 <<reached>> {
-    files : 3 of 120
-    evidence : fossa.yml - AN-016; conventions; PR checklist
-  }
-  class "cmd" as A9 <<reached>> {
-    files : 12 of 183
-    evidence : six executables' wiring, scheduler options, registry guard
-  }
-  class "dapr" as A10 <<reached>> {
-    files : 13 of 45
-    evidence : every declared gRPC service, from its definition
-  }
-  class "docs" as A11 <<reached>> {
-    files : 9 of 196
-    evidence : record index, dev guides, note template, newest note
-  }
-  class "pkg/proto" as A13 <<reached>> {
-    files : 3 of 66
-    evidence : generation headers - AN-014, AN-015, AN-017
-  }
-}
-
-package "Not in this iteration's assignment" {
-  class "go.sum" as N1 <<outside>> {
-    status : not assigned
-    plan books it as an i1 area not reached - Iteration Plan#F2
-  }
-  class "img" as N2 <<outside>> {
-    status : not assigned
-    plan books it as an i1 area not reached - Iteration Plan#F2
-  }
-}
-
-class "Iteration acceptance" as ACC <<management lens>> {
-  O1 perimeter fixed : met
-  O2 self-declaration recorded : met
-  O3 anomalies recorded and ordered : met
-  O4 phase cut into iterations : met
-  scope reached : 13 of 13 assigned areas
-  depth inside a read area : Excavation's, by the Priorities order
-}
-
-A1 -up-> ACC
-A9 -up-> ACC
-A10 -up-> ACC
-A11 -up-> ACC
-A13 -up-> ACC
-ACC -down-> N1
-ACC -down-> N2
-
-note bottom of ACC
-  Four objectives, four met. The two areas the plan
-  books as read short of are one row of its cut table,
-  not part of the assignment this review judges.
-end note
-@enduml
-```
-
-#### What the management lens reads, and what it does not duplicate
-
-| Artifact | Owner | Read for | From this lens |
+| Artifact | Reviewed for | Owner | Result from this lens |
 |---|---|---|---|
-| Iteration Plan | Project Manager | Its four objectives and whether each was met; the cut's account of the slice; whether any figure in it is forecast rather than measured | `Iteration Plan#F1`, `Iteration Plan#F2` |
-| Risk List | Project Manager | Whether the register records a magnitude for every anomaly, whether any Significant or High risk is accepted without a grant, whether each risk names who retires it | `Risk List#F1` |
-| System Inventory | Software Archaeologist | Whether the reading returned the perimeter, the anomalies and the priorities its objectives demand — content, not anchor correctness | Approved from this lens; the Reviewer's findings stand and are not re-recorded |
-| Development Case | Process Engineer | The measurement policy the plan must obey; the optional-trigger record | Approved — no delta from this lens |
+| System Inventory | The sixteen areas of the slice described or declared not reached; every count reproducible from the enumeration beside it; every entry point and anomaly anchored | Software Archaeologist | One Minor finding (below). The reading's content is accepted |
+| Iteration Plan | The slice stated in the order taken; the remainder counted, not forecast; every risk placed on an iteration that reads its area | Project Manager | One Major finding (below) |
+| Risk List | Every anomaly carried by a scored risk; magnitude its exposure's band; accountability distinct from custody; no Significant or High risk accepted without the stakeholder | Project Manager | No finding. The register is accepted |
+| Development Case | The tailoring the phase runs under: measurement policy, optional triggers, discipline deltas | Process Engineer | No finding from this lens. The Reviewer's F5 sits under its own key |
+| Iteration Assessment | Read as the phase's running account; it still describes iteration 1 and states so in its own Document Control. Its absence of iteration 2 is not a defect: the Project Manager records it after the verdict | Project Manager | Not assessed as evidence of this iteration |
 
-The System Inventory's defects are the Reviewer's findings, under that lens' own keys. A second lens does not re-record another lens' defect; it judges a different question. Where the two lenses touch the same figures — the Reviewer's finding on the Coverage read-counts and this lens' finding on the plan that quotes them — the defect is recorded twice because the two artifacts each carry it, and closure of one does not close the other.
+The management checklist applied, against the eight evaluation criteria the Iteration Plan sets for itself and the four objectives of the slice:
 
-#### Entry criteria and evidence
+| Check | Standard | Outcome |
+|---|---|---|
+| Slice reached, or declared | Every one of the sixteen areas is described in the System Inventory or named unread with its reason | Pass — fifteen yielded a file; `pkg/diagnostics/` is declared unread in full with its reason, is not counted as reached, and is carried to priority 4 |
+| Objectives met on the artifact's own evidence | O1 to O5 of the plan each met by an anchor, a label or a reconciled figure | Pass — sixteen entry points labelled, three anomalies added, every Coverage row reproducing, the cut recorded |
+| Counts reproduce | Every figure an artifact prints can be re-derived from the enumeration or table printed beside it | Fail, narrowly — the Coverage sentence closing its introduction states twenty-four never-assigned areas against twenty-three rows (`System Inventory#F1`, Minor) |
+| No figure the process did not measure | No work-item size, no rate, no phase-length forecast, no calendar date; a measured actual reported with both clocks apart | Pass — the quotient is gone, the remainder is counts, the one iteration's spend is quoted as that iteration's fact |
+| Risks placed on the iteration that confronts them | Each of the 28 risks names an iteration, and that iteration opens the area its retirement needs | Fail — `Iteration Plan#F3`, Major |
+| Risk magnitude and accountability | Each magnitude is its exposure's band on the IARI scale; each row names the role whose act retires it | Pass — 3 High, 14 Significant, 11 Moderate; no Significant or High on accept; 28 rows carry an accountable role |
+| Stakeholder decision outstanding | No Critical finding is open that only the stakeholder can answer | Pass — nothing is asked this review; the register holds no grant to seek |
+| Artifacts of the increment present | Every artifact the Development Case sanctions for this phase iteration is in the increment | Pass — Development Case, System Inventory, Iteration Plan, Risk List, Review Record |
 
-| Check | Outcome |
-|---|---|
-| The four artifacts of the iteration are present and stable | Met — all four read in full |
-| The assignment is known and every area of it accounted for | Met — thirteen assigned, thirteen reached |
-| The upstream the plan rests on is readable | Met — System Inventory read before the plan's claims were judged |
-| A prior finding of this lens to reconcile | None — this is the phase's first review; nothing to close and nothing closed |
-| Pull requests to dispose of | None — no role of Survey produces code, and the SCM holds no PR in any state |
+Review type and lens chosen deliberately: this is a completion review of an iteration, not a feasibility review of a plan and not the phase gate. What the cut assigns beyond this iteration's sixteen areas, and leaves unread, is later work and is not a finding here.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
