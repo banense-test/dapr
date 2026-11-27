@@ -455,110 +455,160 @@ end note
 ```
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+Two findings against the Iteration Plan: one Major re-recorded under its existing key, one Minor recorded this iteration. Nothing is recorded against the Risk List, the System Inventory or the Development Case from this lens — silence is approval, and the checks on each are in the compliance matrix.
 
-Two findings: one Major against the Iteration Plan, one Minor against the System Inventory. Nothing is recorded against the Risk List or the Development Case from this lens — silence is approval.
+#### Iteration Plan
+
+**`Iteration Plan#F3` — Major — criterion `consumed-defect`.** The corrections this iteration applied to R017, R019 and R028 hold and are not at issue. What persists is the count those corrections were required to make true. Two of the twenty-seven placements name no area the iteration they sit on opens.
+
+R013 (the version-skew patch corpus, `AN-007`) and R021 (the licence scan that reports and cannot fail, `AN-016`) both sit on iteration 4, supported by the sentence that their readings are "in `tests/` and `charts/`". Neither anomaly was read from either area: their anchors are `.github/scripts/version-skew-test-patches/` and `.github/workflows/fossa.yml`, both under `.github`, which this document assigns to iteration 1 and not to iteration 4's seventeen. R021's retirement is furthermore not a reading at all — its own mitigation in the Risk List makes it a Change Request against `.github/workflows/` owned by the Integrator, and the plan's own Resources section places the Integrator outside Survey, so no iteration of this cut confronts it.
+
+The Evaluation Criteria record "27 are placed on an iteration and 5 are carried by the reading as a whole. A placement names an area the iteration it sits on opens", and Document Control repeats the figure. The count is again true as arithmetic and false as evidence, and the SBC verdict and Excavation's plan both read it as proof that the cut confronts every risk of the register. This is the defect recorded under this key in iteration 2, recurring in two rows that key's remediation did not name — and that remediation required the count itself to be truthful, not only the two rows it named.
+
+*Remediation.* Either carry both past Survey — R013 retired where it was counted, in iteration 1's `.github` read, and R021 carried to Construction as the Integrator's Change Request, since no area of this cut restores a workflow gate — and restate the count as 25 placed, 5 carried by the reading as a whole and 2 carried past the phase; or, for each, name the area of iteration 4 that holds its retirement and state what that iteration reads of it. Then correct Document Control, the sequencing table's closing paragraph and the Evaluation Criteria's "Risks sequenced and accountable" row to the same figure, and take `.github` out of the i4 justification so that no row cites `tests/` or `charts/` as the place a `.github` fact is read.
+
+**`Iteration Plan#F4` — Minor — criterion `contained-defect`.** Document Control states a milestone verdict for an iteration close and, in the same section, denies that the milestone is judged. It opens "The verdict on iteration 2 was SBC: iteration REQUIRED" and closes "The SBC milestone is not judged." The SBC gate is issued once, by the Review Coordinator, at the end of Survey when the cut holds no unread area; an iteration boundary is an Iteration Acceptance, and what it yields is a decision on the iteration, not a phase-gate verdict. Nothing else in the plan rests on the line, so the defect stays inside this document.
+
+*Remediation.* Restate the opening sentence to what the iteration close actually decided — iteration 2 was reviewed and the phase iterates, with `Iteration Plan#F3` reworked in this plan's sequencing — and let the closing sentence carry the only statement about the milestone.
+
+#### The placement, audited
 
 ```plantuml
 @startuml
-title Compliance matrix - Survey iteration 2, management lens
+title The 27 placements of the cut, audited against the areas each iteration opens
 hide empty members
 skinparam classAttributeIconSize 0
 skinparam wrapWidth 330
 skinparam nodesep 24
-skinparam ranksep 34
+skinparam ranksep 36
 
-class "Iteration Plan\n(Project Management, Medium)" as IP {
-  P  the sixteen areas of the slice named, in the order taken
-  P  every area the slice did not reach is declared: pkg/diagnostics, unread in full
-  P  iteration 1 restated as 13 assigned and 13 reached, go.sum and img in i2's row only
-  P  no quotient, no rate, no phase-length forecast, no calendar date
-  P  quoted totals reproduce from the Coverage rows they name, with the iteration that opened them
-  P  no work item carries a size, and the plan states why
-  P  no use case enters a Survey plan; scope unit is the repository area
-  F  R017 and R019 placed on i2 against pkg/api/universal/ - declared unread - and pkg/components, which holds no failure policy (F3)
+package "i1 - closed, 13 areas read" {
+  class "11 risks" as I1 {
+    High : R011, R016
+    Significant : R009 R010 R012 R020 R022
+    Moderate : R007 R008 R015 R018
+    basis : each names an area i1 read
+    verdict : holds
+  }
 }
 
-class "Risk List\n(Project Management, Medium)" as RL {
-  P  scale is the IARI baseline's, none invented; every magnitude is its exposure's band
-  P  every anomaly of the 23 carried by at least one scored risk; 28 risks, 23 refining an anomaly
-  P  no risk on accept at Significant or High without a stakeholder grant
-  P  accountable role named per row, distinct from the register custodian
-  P  the three High risks name the reading that confronts them
-  P  no phase-level spend before a phase closes; an iteration's actual reported with both clocks apart
+package "i2 - closed, 15 of 16 read" {
+  class "2 risks" as I2 {
+    Significant : R017, R028
+    basis : grpc/endpoints.go and http/server.go, both opened there
+    verdict : holds - both restated this iteration
+  }
 }
 
-class "System Inventory\n(Discovery, Critical)" as SI {
-  P  all sixteen areas of the i2 slice described, or declared not reached
-  P  every Coverage row's stated count reproduces from the files it enumerates
-  P  18 + 2 + 8 = 28 this iteration; 60 + 28 = 88 for the phase
-  P  the two outside-the-slice totals (12 at i1, 8 at i2) equal the rows listed
-  P  the three stated table counts (42 / 19 / 16) equal the rows the tables hold
-  P  every entry point the slice adds is labelled EP-NNN with its Source anchor
-  P  every anomaly of this slice labelled AN-NNN with its anchor
-  F  "twenty-four areas never assigned" against twenty-three never-assigned rows (F1)
+package "i3 - this iteration, 12 areas" {
+  class "9 risks" as I3 {
+    High : R023
+    Significant : R014 R019 R029 R030 R032
+    Moderate : R024 R026 R031
+    basis : pkg/scheduler, pkg/runtime, pkg/actors, pkg/apis, pkg/client, pkg/acl
+    verdict : holds - every row names an area this slice opens
+  }
 }
 
-class "Development Case\n(Environment, High)" as DC {
-  P  roster intact; Business Modeling INACTIVE on its trigger condition
-  P  no CORE artifact omitted, no primary ownership reassigned
-  P  no artifact outside the CORE + OPTIONAL universe and the System Inventory
-  P  every FIRED optional's condition holds against the project's facts
-  P  measurement policy: two quantities, both clocks apart, a gate bounded and never forecast
+package "i4 - 17 areas, none of them .github" {
+  class "R001 R025 R027 - hold" as I4A {
+    basis : tests/, charts/, pkg/testing - all three in i4's list
+  }
+  class "R013 R021 - do not hold" as I4B <<F3, Major>> {
+    R013 : AN-007, .github/scripts/version-skew-test-patches/
+    R021 : AN-016, .github/workflows/fossa.yml
+    named : "read in tests/ and charts/" - neither area holds either file
+    R021 also : a Change Request owned by the Integrator, a role Survey does not run
+    consequence : 27 placed is arithmetic, not evidence
+  }
 }
 
-class "Legend" as L {
-  P = pass
-  F = fail, with the finding key
-  scope = this iteration's sixteen areas, in the order taken
+package "no area of the cut - 5 risks" {
+  class "R002 R003 R004 R005 R006" as W {
+    basis : retired by the shape of every role's work order
+    verdict : holds
+  }
 }
 
-note bottom of IP
-  F3 is Major: the SBC verdict and Excavation's plan
-  both read the count of unplaced risks as evidence
-  that the cut confronts every risk of the register.
-end note
-note bottom of SI
-  F1 is Minor: it changes no reading and no objective,
-  and it is the one figure in the artifact that does not
-  reproduce from the table beside it.
+I1 --> I2
+I2 --> I3
+I3 --> I4A
+I3 --> I4B
+I4A --> W
+
+note bottom of I4B
+  The count the SBC verdict reads is 27 placed on an iteration.
+  Two of the twenty-seven are confronted on paper only - the
+  defect recorded under Iteration Plan#F3 in iteration 2, recurring
+  in two rows that key's remediation did not name.
 end note
 @enduml
 ```
 
-#### Iteration Plan
+#### The Risk List
 
-**`Iteration Plan#F3` — Major — criterion `consumed-defect`.** The risk-driven sequencing places two of the twenty-eight risks on this iteration with retirements the plan's own slice excludes, and one of the two is left with no iteration that reads the area its mitigation names.
+Nothing is recorded. I re-scored the register against the baseline scale and every magnitude is its exposure's band: R023 at 4 × 4 = 16 is High, R032 at 3 × 3 = 9 is Significant, R031 at 4 × 2 = 8 is Moderate. Each of the twenty-seven anomalies in the System Inventory carries exactly one refining risk, and the four this slice recorded are carried as R029 to R032 with `AN-024` to `AN-027` behind them. Custody is the Project Manager on all thirty-two and accountability is the role whose act retires the entry, so the separation last iteration's `Risk List#F1` demanded holds. No Significant or High risk is on `accept`, so no stakeholder grant is outstanding and none is asked.
 
-The i2 row says R017 is confronted here because the allowlist's operations are "implemented in `pkg/api/universal/` — named in iteration 1 and readable only here". The same plan's W4 exit condition states "`pkg/api/universal/` is not part of this read", and the slice table records `pkg/api/` as one new file of 124 with 118 unread, `universal/` entire among them. The row's second entry says R019 "begins to be settled from `pkg/components/`, where the registries are declared"; that read closed the fifteen component categories, and `pkg/components/` holds nothing about the scheduler's failure-policy families, while R019's own mitigation in the Risk List states the question is settled by reading `pkg/scheduler/`. The i3 row does read `pkg/scheduler/` beside R023, R014, R024 and R026 — and does not carry R019.
+R021's mitigation is the one entry whose accountable role does not work in this phase — the Integrator, for a Change Request against `.github/workflows/`. That is not a defect of the register: a risk retired in Construction is truthfully stated as retired there. The defect is the plan's, which places that risk on a Survey iteration that reads nothing of it, and it is recorded above under `Iteration Plan#F3`.
 
-The Evaluation Criteria then claim "Every risk of the Risk List names the iteration of the cut that confronts it" on "28 risks, all placed", and the measurement table records "Risks carrying no iteration against them | 0". Two of the twenty-eight are counted as placed against areas this iteration declares unread. The count is real as arithmetic and false as evidence: the SBC verdict and Excavation's plan both read it as proof that the cut confronts every risk of the register. A risk carried to a later phase is a truthful placement; an area the artifact says it did not open, named as the reading that settles a risk, is not.
+#### The System Inventory
 
-R028, this iteration's third placement, is correct and is not at issue: its anomaly `AN-023` sits in `pkg/api/http/server.go`, a file this slice re-opened.
+Nothing is recorded. All twelve areas of the slice are assigned and every one is accounted for: eleven at a stated read depth, and `pkg/diagnostics` at one file of thirty-five, declared rather than skimmed. The counts reproduce — 2 + 2 + 9 + 2 + 1 + 1 + 2 + 4 + 1 + 0 + 2 + 1 = 27 in-slice, 30 distinct with the three outside, 118 for the phase — and the three outside-slice files each state the perimeter fact that could not be closed without them.
 
-*Remediation.* Restate the i2 row to what this slice's reading actually confronts. R028 stays on `pkg/api/http/server.go`. R017 goes to the reading that records the allowlist map as the access-control surface, with no claim about `universal/` — the map was opened in iteration 1 and re-opened in `pkg/api/grpc/` here, and whether its operations are implemented in `universal/` is not a fact this iteration established. R019 moves to the i3 row beside the four risks already there, where `pkg/scheduler/` — the area its mitigation names — is read, and the row says so. Then state the count at 28 placed with each placement naming an area that iteration opens. If either risk genuinely cannot be confronted before Excavation, say that in the row rather than placing it on an unopened area.
+`pkg/diagnostics` is the area whose treatment I do not accept, but the finding is the Reviewer's and not mine. An area counted as reached while thirty-four of its thirty-five files leave the phase is a cut defect, and it is recorded under the Reviewer's `Iteration Plan#F1` against the plan that made the cut. Recording it a second time under this lens would put two rows on one defect.
 
-#### Risk List
+```plantuml
+@startuml
+title pkg/diagnostics - where the area stands after each iteration of the cut
+hide empty members
+skinparam wrapWidth 300
 
-Nothing is recorded. The three High risks are on `avoid` with the reading that confronts each named; the seventeen Significant and High risks are all avoided, so no stakeholder grant is outstanding and none is asked; the three accepted entries are Moderate, where acceptance with a written mitigation and contingency is this role's decision. Accountability is separate from custody on all twenty-eight rows, which is the substance of last iteration's `Risk List#F1`. No phase has closed, so there is no second reading and no trend to invent, and the register invents none.
+[*] --> AssignedI2
+state "Assigned to Survey i2" as AssignedI2 {
+  AssignedI2 : 35 files, declared unread in full
+  AssignedI2 : reason stated - a monitoring module is legible
+  AssignedI2 : only against the operation it instruments
+}
 
-#### System Inventory
+AssignedI2 --> ReCutI3 : the cut re-cuts it to i3, where that code is read
+state "Survey i3 - this iteration" as ReCutI3 {
+  ReCutI3 : 1 file opened - metrics.go, the seven default meters
+  ReCutI3 : 34 unread, deferred to "priority 4"
+  ReCutI3 : priority 4 is Excavation's reading order, not an iteration
+  ReCutI3 : O5 not met on its own terms
+}
 
-**`System Inventory#F1` — Minor — criterion `contained-defect`.** The sentence closing the Coverage introduction states a count one higher than the rows it counts: "Twenty-four of the areas Technology and Size lists were never assigned to a slice and are declared unread at the foot of this table." The table's never-assigned rows number twenty-three — `docker`, `grafana`, `pkg/acl`, `pkg/apis`, `pkg/backoff`, `pkg/buildinfo`, `pkg/client`, `pkg/encryption`, `pkg/expr`, `pkg/internal`, `pkg/messages`, `pkg/operator`, `pkg/outbox`, `pkg/placement`, `pkg/retry`, `pkg/scopes`, `pkg/security`, `pkg/sentry`, `pkg/sse`, `pkg/testing`, `pkg/validation`, `swagger`, `utils`.
+ReCutI3 --> NoSlot
+state "No iteration of the cut carries the remainder" as NoSlot {
+  NoSlot : i4's 17 areas and i5's 13 do not list it
+  NoSlot : the 70-area sum counts the area once, here
+  NoSlot : the SBC condition "the cut holds no unread area"
+  NoSlot : would be answered by 12 of 12 reached
+}
 
-It sits outside the checks the iteration's O4 enumerates, so no objective fails on it. The row sums reproduce, both outside-the-slice totals (12 at i1, 8 at i2) equal their rows, 18 + 2 + 8 = 28 this iteration and 60 + 28 = 88 for the phase. What it costs is the artifact's claim that every figure it prints reproduces from the enumeration beside it: a reader who counts the foot of the table gets twenty-three. It stays inside the artifact — no role builds on this sentence and no exit criterion depends on it — so it does not hold the milestone.
+NoSlot --> Declared : the plan states which of two outcomes it took
+state "Declared - one of two, in the cut" as Declared {
+  Declared : read the 13 modules against the operations W2-W4 read
+  Declared : or carry the area to Excavation and drop it
+  Declared : from this iteration's reached count
+}
 
-*Remediation.* State twenty-three, or derive the number instead of asserting it — "the areas at the foot of this table, none of them assigned to a slice" — so the sentence cannot drift when the next slice leaves one fewer. Nothing else in Coverage changes.
+Declared --> [*]
 
-#### Development Case
+note bottom of AssignedI2
+  Recorded under the Reviewers lens as Iteration Plan F1, Major. It is not
+  re-recorded under this lens: it is their key, and the closure is theirs.
+  It enters this assessment because an area counted as reached while its
+  substance leaves the phase is a scope fact, not only a reading fact.
+end note
+@enduml
+```
 
-Nothing is recorded from this lens. The measurement policy the plan and the register are judged against is this document's, and it is stated clearly enough to judge by: two quantities measured, both clocks read apart, a human gate bounded as a risk under `R002` and never forecast. The optional-trigger record — Glossary and Deployment Model fired, four not fired with reasons — and the discipline deltas hold against the baseline. The Reviewer's Minor finding on the Deployment Model row's cited path is under that lens' key and is not re-recorded here.
+#### The Development Case
 
-#### Iteration Assessment
-
-Not assessed as evidence of this iteration, and its state is not a finding. It records iteration 01 and says so in its own Document Control; the Project Manager authors it after this verdict, so at review time it cannot describe the iteration being reviewed. Its iteration-1 measurement table is the source of the one measured actual this phase holds — 19 480 197 tokens and 0:36:59.0766494 of agent time, with gate queue time measured separately — and that actual is quoted nowhere here as a rate.
+Nothing is recorded. The three checks this lens owes the tailoring document hold: Business Modeling is INACTIVE on its stated trigger and the Business Reviewer therefore does not convene; the optional-trigger record stands with Glossary and Deployment Model FIRED and four NOT FIRED, each on its own condition; and the measurement policy — two quantities measured, both clocks apart, a human gate bounded as a risk and never forecast — is the rule against which I judged the plan and the register, and both follow it.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
