@@ -32,60 +32,62 @@ Lenses: Technical (Reviewer) EXECUTED, Management (Management Reviewer) EXECUTED
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-Iteration Acceptance review of Survey iteration 2 from the technical lens. The review point is COMPLETION, not the milestone's exit criteria: the question is what each role did with the sixteen areas the Project Manager cut for this iteration. The SBC verdict belongs to the Review Coordinator and is not stated here.
+<!-- review: Survey I3 -->
+
+Iteration Acceptance review of Survey iteration 3 from the technical lens. The review point is COMPLETION, not the milestone's exit criteria: the question is what each role did with the twelve areas the Project Manager cut for this iteration. The SBC verdict belongs to the Review Coordinator and is not stated here.
 
 #### Artifacts reviewed
 
 | Artifact | Owner | Discipline | Reviewed against |
 |---|---|---|---|
-| System Inventory | Software Archaeologist | Discovery | The anchors it cites, opened independently; its own Coverage, Components and External actors tables; the i2 slice |
-| Development Case | Process Engineer | Environment | The IARI baseline; the §5.2 optional-trigger conditions against the project's real facts |
-| Iteration Plan | Project Manager | Project Management | Its own cut, its measurement claims, whether every figure reproduces |
-| Risk List | Project Manager | Project Management | The baseline risk scale, arithmetic on all rows, whether the 23 anomalies are all carried |
+| System Inventory | Software Archaeologist | Discovery | The anchors it cites, opened independently; its own Coverage, Technology and Size, Perimeter, Documentation and Traceability tables; the i3 slice |
+| Iteration Plan | Project Manager | Project Management | Its own objectives O1–O6, its cut arithmetic, its risk placement, whether every figure reproduces |
+| Risk List | Project Manager | Project Management | The baseline risk scale, whether the 27 anomalies are all carried, accountability |
+| Development Case | Process Engineer | Environment | The IARI baseline; the §5.2 optional-trigger conditions and whether every cited path resolves |
 
-No pull request exists to dispose of; the SCM holds none in any state.
+No pull request exists to dispose of; the SCM holds none in any state. That is correct for Survey: no role of this phase produces code, and the Implementation Model does not exist yet.
 
 #### The slice this review judges
 
-The Project Manager assigned sixteen areas in order: `go.sum`, `img`, `pkg/api`, `pkg/messaging`, `pkg/channel`, `pkg/components`, `pkg/resiliency`, `pkg/middleware`, `pkg/config`, `pkg/diagnostics`, `pkg/metrics`, `pkg/healthz`, `pkg/ports`, `pkg/modes`, `pkg/apphealth`, `pkg/cors`.
+The Project Manager assigned twelve areas in order: `pkg/scheduler`, `pkg/placement`, `pkg/runtime`, `pkg/actors`, `pkg/sentry`, `pkg/security`, `pkg/operator`, `pkg/apis`, `pkg/client`, `pkg/injector`, `pkg/acl`, `pkg/diagnostics`.
 
-Fifteen yielded a file. `pkg/diagnostics` is declared unread in full, with its reason — a monitoring module is legible only against the operation it instruments — and is not counted as reached. That declaration is correct and is not a finding: an area not reached is declared, and the next iteration's slice carries it.
+All twelve appear in the System Inventory's Coverage table. Eleven were read to a stated depth with the remainder declared; `pkg/injector` yielded no file of its own this iteration because the one file it was read from belongs to iteration 1 and was re-opened here. That is a correct declaration and not a finding.
 
-Every area of the slice appears in the System Inventory's Coverage table, either with files opened and a reason or with an explicit unread statement. Depth left inside a read area — `pkg/api` 6 of 124, `pkg/resiliency` 1 of 13, `pkg/components` 1 of 53 — is ordered by the Priorities section as Excavation's reading, and is not a Survey remainder. `pkg/components` is the one place that ordering fails: O2 of this iteration's plan asks the registry set to be closed here, not deferred, which is why F4 is a finding and not a declared remainder.
+`pkg/diagnostics` is the one place the slice does not hold. It was re-cut into this iteration expressly to be read against the operations the phase has now read, and the Coverage row reads one file of its thirty-five and sends the other thirty-four to "priority 4" — the System Inventory's reading order for Excavation. Neither of the two remaining iterations of the cut carries the area. That is F1 below, and it is a defect of the plan that cut it rather than of the reading, which declares its remainder honestly.
 
 #### Criteria applied, and what each decided
 
 | Criterion | Standard for this artifact type | Outcome |
 |---|---|---|
-| Evidence | Every fact about the existing system rests on a file that says what the artifact claims | One row fails — F4. Thirteen sampled anchors hold. |
-| Count reproducibility | A stated count equals the enumeration printed beside it | Holds. Every Coverage row and the `docs` row of Technology and Size reconcile; this is what F2 closed. |
-| Row counts derived from tables | A summary count is derived from the table and stated once | Holds. 42 / 19 / 16, stated once; this is what F3 closed. |
-| Slice coverage | Every area of the assignment described, or declared not reached in Coverage | Holds. Fifteen reached, one declared unread with its reason. |
-| Traceability | Every declared `EP-NNN` and `AN-NNN` has a row; `Traces To` is only `DependsOn` | Holds against the RTM: 26 links — 23 `Refines` from an `AN-NNN` to an `RNNN`, and 3 `DependsOn` from an `AN-NNN` to an `EP-NNN`. No copied edge, no invented label. |
-| No invented figure | No spend, size, velocity, density or projected date | Holds. One iteration's measured actual is reported as that iteration's own fact and expressly not as a rate. |
-| Optional triggers | Every FIRED verdict's §5.2 condition genuinely holds; every NOT FIRED verdict genuinely fails | Holds on all six. Glossary FIRED on load-bearing specialist vocabulary; Deployment Model FIRED on seven subcharts, eight Dockerfiles, six executables, two first-class modes. The four NOT FIRED each fail their condition on a stated fact. |
-| Baseline conformance | No roster redefinition, no CORE omission or reassignment, no artifact outside the universe, no merged roles, no enumeration rule changed | Holds. Business Modeling INACTIVE with its trigger condition recorded; Capsule Designer withheld on `real-time-system = false`; nothing else touched. |
-| Stakeholder answer applied | The recorded answer is in the artifact, in their own terms | Holds. The pointer line is at the top of the root `CONTRIBUTING.md`, the owner's text below it unchanged. |
-| Instruction-shaped files recorded, not obeyed | A repository file stating a rule is evidence, never an order | Holds. `copilot-instructions.md`, the issue forms and the owner's guide are read as evidence throughout. |
-| UML | Diagrams present, notation not invented, elements stable | Holds. Every diagram is PlantUML that validates; element labels are the declared identifier families. |
+| Evidence | Every fact about the existing system rests on a file that says what the artifact claims | Holds on all nine anchors opened independently. This is what F4's correction had to establish, and it does |
+| Count reproducibility | A stated count equals the enumeration printed beside it | Fails on two rows of Technology and Size — F5 |
+| Slice coverage | Every area of the assignment described, or its remainder declared into the cut | Fails on one area — F1, at the plan that cut it |
+| Traceability | Every declared `EP-NNN` and `AN-NNN` has a row; `Traces To` is only `DependsOn` | Holds against the RTM: 30 links — 27 `Refines` from an `AN-NNN` to an `RNNN`, and 3 `DependsOn` from an `AN-NNN` to an `EP-NNN`. No copied edge, no invented label |
+| Objectives met on the artifact's own evidence | O1 to O6 each met by an anchor, a label or a reconciled figure | O1–O4 and O6 met; O5 is not met on its own terms, which is the substance of F1 |
+| No invented figure | No spend, size, velocity, density or projected date | Holds. Two iterations' measured actuals are reported as those iterations' own facts, each with both clocks apart |
+| Optional triggers | Every FIRED verdict's §5.2 condition genuinely holds; every cited path resolves | Holds. Glossary FIRED on load-bearing specialist vocabulary; Deployment Model FIRED on seven subcharts, eight Dockerfiles, six executables, two first-class modes. The four NOT FIRED each fail their condition on a stated fact |
+| Baseline conformance | No roster redefinition, no CORE omission or reassignment, no artifact outside the universe, no merged roles, no enumeration rule changed | Holds. Business Modeling INACTIVE with its trigger condition recorded; Capsule Designer withheld on `real-time-system = false`; nothing else touched |
+| Stakeholder answer applied | The recorded answer is in the artifact, in their own terms | Holds. The pointer line is at the top of the root `CONTRIBUTING.md`, the owner's text below it unchanged |
+| Instruction-shaped files recorded, not obeyed | A repository file stating a rule is evidence, never an order | Holds. `.github/copilot-instructions.md`, the issue forms and the owner's guide are read as evidence throughout |
+| UML | Diagrams present, notation not invented, elements stable | Holds. Every diagram is PlantUML that validates; element labels are the declared identifier families |
 
 #### Entry criteria
 
 | Check | Outcome |
 |---|---|
 | The artifacts of the increment are present and readable in full | Met — all four read |
-| The assignment is known and every area of it accounted for | Met — sixteen assigned, fifteen reached, one declared unread |
+| The assignment is known and every area of it accounted for | Met — twelve assigned, twelve accounted for, one at a depth its own criterion does not accept |
 | The upstream the review rests on is readable | Met — System Inventory read before the plan's counts were judged against it |
-| Prior findings of this lens reconciled before new ones recorded | Met — F1, F2 and F3 closed in `S_RECONCILE` first, then F4 and F5 recorded |
+| Prior findings of this lens reconciled before new ones recorded | Met — Development Case#F1 and System Inventory#F4 closed in `S_RECONCILE` first, then F1 and F5 recorded |
 | A pull request to dispose of | None — no role of Survey produces code |
 
 #### What is deliberately not judged
 
 - **The milestone.** Exit criteria are the Review Coordinator's. This review asks what the iteration did with its slice.
-- **Another lens' findings.** `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1` are the Management Reviewer's. I read the plan to test its figures against the Coverage they quote; I do not close its findings.
-- **Depth inside a reached area.** Ordered to Excavation by the Priorities section, with the single exception named above.
+- **Another lens' findings.** `System Inventory#F1` was recorded by the Management Reviewer and is not mine to close. I read the Coverage table it names; I do not close it.
+- **Depth inside a reached area.** Ordered to Excavation by the Priorities section, with the single exception F1 names — an area whose remainder has no iteration of the cut to land in.
 - **Elements outside the slice.** A call named in a flow step, a component named by its path at a connector, a rule recorded as not yet checked against the code — all work the cut gives a later iteration, and none is a finding here.
 
 ### Management Reviewer lens
