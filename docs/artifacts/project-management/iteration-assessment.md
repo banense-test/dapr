@@ -1,6 +1,8 @@
 ## Document Control
 Phase: Survey
-Status: Draft — iteration 2 assessment, recorded after the Review Coordinator's verdict. The iteration is accepted and the phase iterates; the SBC milestone is not judged and no phase is closed
+
+Status: Draft — iteration 3 assessment, recorded after the Review Coordinator's verdict. The iteration is accepted and the phase iterates; the SBC milestone is not judged and no phase is closed. Two Major findings (`Iteration Plan#F1`, `Iteration Plan#F3`) stand open against this role's plan and hold the SBC gate; this role's end of both was reworked in the same turn this assessment was recorded, and closure is each recording lens' act, not this one's.
+
 Milestone Target: end-of-Survey milestone (SBC) — not achieved
 
 ## Iteration Objectives Reached
