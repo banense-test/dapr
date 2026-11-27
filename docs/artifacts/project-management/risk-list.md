@@ -318,9 +318,11 @@ No forecast of any kind appears in this Risk List. A phase's measured tokens and
 | R026 | AN-021 | Refines | — |
 | R027 | AN-022 | Refines | — |
 | R028 | AN-023 | Refines | — |
-| R029 | — | — | — |
+| R029 | AN-024 | Refines | — |
+| R030 | AN-025 | Refines | — |
+| R031 | AN-026 | Refines | — |
+| R032 | AN-027 | Refines | — |
 
-Twenty-three of the twenty-nine refine an anomaly the Software Archaeologist recorded, and every anomaly of the System Inventory carries at least one. The six with no upstream: R002 to R006 are risks of the phase's own shape — the human gate, the version policy, the decision records, the instruction-shaped files and the empty size — and each cites its Development Case section in its register row, because a development-case section is not a trace endpoint. R029 has no upstream either, for the opposite reason: it is a risk this iteration's slice exposed that the inventory has not yet recorded as an anomaly, and its anchor is the file that declares the fifteen constants and the two paths the tree does not hold.
+Twenty-seven of the thirty-two refine an anomaly the Software Archaeologist recorded, and every anomaly of the System Inventory carries exactly one. The five with no upstream are risks of the phase's own shape — the human gate, the version policy, the decision records, the instruction-shaped files and the empty size — and each cites its Development Case section in its register row, because a development-case section is not a trace endpoint. This register holds no entry whose anomaly is still unrecorded: R029, which had none in iteration 2, now refines `AN-024`.
 
 The edge between an anomaly and the entry point it sits on — AN-012 on EP-002, AN-018 on EP-006, AN-023 on EP-003 — is written in the System Inventory, where those labels are declared. It is not repeated here.
-
