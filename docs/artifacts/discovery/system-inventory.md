@@ -340,7 +340,7 @@ and points to no document, so the perimeter documents were found from the tree a
 @startuml
 title Documentation the delivery carries, graded against the repository tree
 skinparam componentStyle rectangle
-skinparam wrapWidth 240
+skinparam wrapWidth 250
 
 package "Current - nothing in the tree contradicts it" {
   [README.md\nsystem statement] as D1
@@ -350,11 +350,17 @@ package "Current - nothing in the tree contradicts it" {
   [GOVERNANCE.md\nmaintainer governance] as D5
   [CODEOWNERS\nreview ownership] as D6
   [LICENSE\nApache-2.0] as D7
-  [docs/development/\nsetup, build, debug, metrics] as D8
-  [docs/release_notes/\n147 notes, v0.1.0 to v1.19.3] as D9
-  [docs/release_notes/template.md] as D10
-  [.github/pull_request_template.md] as D11
+  [RELEASE.md and SECURITY.md\none-line pointers out of the tree] as D8
+  [docs/development/\nsetup, build, debug, metrics] as D9
+  [docs/release_notes/\n147 notes, v0.1.0 to v1.19.3] as D10
+  [docs/release_notes/template.md] as D11
+  [.github/pull_request_template.md] as D12
   [.github/ISSUE_TEMPLATE/\n9 forms] as D13
+  [pkg/api/errors/README.md\nthe rich error model] as D14
+  [pkg/responsewriter/README.md\nnegroni fork and its provenance] as D15
+  [tests/README.md\nthe nine directories of the substrate] as D16
+  [.build-tools/README.md\nthe build-tools CLI] as D17
+  [charts/dapr/README.md\nevery chart parameter and its default] as D18
 }
 
 package "Contradicted by the code" {
@@ -363,24 +369,35 @@ package "Contradicted by the code" {
   [tools/proto/generate.sh\nreads proto inputs the tree does not hold] as X3
   [dapr/proto/runtime/v1/README.md\nprotoc v4.25.4] as X4
   [.github/copilot-instructions.md\nprotoc v34.1] as X5
+  [pkg/runtime/wfengine/README.md\nstates no purge and no workflow e2e test] as X6
 }
 
 package "Outdated - true when written, not true now" {
   [docs/decision_records/**\nno record added since 2023-09-11] as O1
   [cmd/*/README.md\nfive three-line redirects to docs.dapr.io] as O2
-  [RELEASE.md and SECURITY.md\none-line pointers into dapr/community] as O3
+  [docs/development/README.md\nindexes 5 of the 6 guides] as O3
 }
 
-note bottom of X3
-  generate.sh generates from pkg/proto/dapr/dapr.proto and
-  pkg/proto/daprclient/daprclient.proto. The tree holds
-  dapr/proto/runtime/v1/dapr.proto, and pkg/proto/ carries
-  generated .pb.go files only.
+note bottom of X6
+  The README states that completed workflow state is
+  never purged and must be cleaned by hand, and that
+  no end-to-end test targets workflows. The tree holds
+  pkg/runtime/wfengine/state/retentioner/, the
+  stateRetentionPolicy fields of the Configuration
+  spec, tests/integration/suite/daprd/workflow/ (836
+  files) and tests/e2e/workflows/ (AN-021).
 end note
-note bottom of X1
-  The index lists 24 links across ARC, API, CLI,
-  SDK and ENG. The tree holds 23 records:
-  architecture/ has ARC-001 to ARC-003.
+note bottom of O3
+  docs/development/ holds six guides. The index links
+  five of them; preview-features.md, the only in-tree
+  statement of how a feature flag is declared, toggled
+  and removed at GA, is not among them (AN-022).
+end note
+note bottom of D16
+  It names the nine directories the substrate holds and
+  each exists. It states no behaviour of the system
+  under test, so nothing in it can go stale against the
+  code it exercises.
 end note
 @enduml
 ```
@@ -396,19 +413,25 @@ end note
 | `LICENSE` | The licence grant: Apache 2.0, with the Dapr Authors copyright form | Current | `LICENSE` |
 | `RELEASE.md` | The pointer to the release process | Current as a pointer — the process it names lives in `dapr/community`, outside the delivery | `RELEASE.md` |
 | `SECURITY.md` | The pointer to the security-issue policy | Current as a pointer — the policy lives in `docs.dapr.io`, outside the delivery | `SECURITY.md`, § Security Policy |
-| `docs/decision_records/decision_records.md` | The decision-record index, the five category prefixes, the naming rule and the required fields of a record | Contradicted by the code — it links `ARC-004-http-server.md`, and `docs/decision_records/architecture/` holds three records; the index counts 24 links against 23 files | `docs/decision_records/decision_records.md`, § Dapr decision record organization and index (Architecture list, fourth entry) |
+| `docs/decision_records/decision_records.md` | The decision-record index, the five category prefixes, the naming rule and the required fields of a record | Contradicted by the code — it links `ARC-004-http-server.md`, and `docs/decision_records/architecture/` holds three records; the index counts 24 links against 23 files | `docs/decision_records/decision_records.md`, § Dapr decision record organization and index (Architecture list, fourth entry) against `docs/decision_records/{api,architecture,cli,engineering,sdk}/` (23 records) |
 | `docs/decision_records/**` — 23 records in ARC, API, CLI, SDK, ENG | The architecture, API, CLI, SDK and engineering decisions in force | Outdated — the newest record was committed on 2023-09-11 (`c338385`), while features landed through 2026-11 (scheduler placement authority `3d9dbe6`, search and vector blocks `04215fd`, workflow schedules `61914fd`); the only later commit touching the folder is a typo fix (`62d5128`, 2026-11-25) | `docs/decision_records/{architecture,api,cli,sdk,engineering}/`; commit log of the folder |
-| `docs/development/README.md` and its five guides | How to set up a development environment, build, debug, run unit tests, and configure CI | Current — the commands it gives (`make build`, `make test`, `make check`, `make docker-deploy-k8s`, golangci-lint v2.10.1) match `.github/copilot-instructions.md` and the `Makefile` targets they name | `docs/development/README.md`; `docs/development/developing-dapr.md`, § Build the Dapr binaries / Run unit tests / One-line command for local development |
-| `docs/development/dapr-metrics.md` | The metric catalogue per process and per component, and the tags each metric carries | Current — it marks the metrics retired in 1.17 as retired and names the source file of every group | `docs/development/dapr-metrics.md`, § Dapr Common metrics through § Job metrics |
-| `docs/development/preview-features.md` | How a preview feature is gated: the flag is declared in `pkg/config/configuration.go`, toggled on a Configuration resource, and removed at GA | Current — the file and the `IsFeatureEnabled` call it names are the ones the tree holds | `docs/development/preview-features.md`, § Declaring / Toggling / Using |
+| `docs/development/README.md` and its five linked guides | How to set up a development environment, build, debug, run unit tests, and configure CI | Current, as a set of guides — the commands they give (`make build`, `make test`, `make check`, `make docker-deploy-k8s`, golangci-lint v2.10.1) match `.github/copilot-instructions.md` and the `Makefile` targets they name. The index itself is Outdated: it lists five of the six guides and omits `preview-features.md` (AN-022) | `docs/development/README.md`; `docs/development/developing-dapr.md`, § Build the Dapr binaries / Run unit tests / One-line command for local development |
+| `docs/development/preview-features.md` | How a preview feature is gated: the flag is declared in `pkg/config/configuration.go`, toggled on a Configuration resource, checked with `IsFeatureEnabled`, and removed at GA | Current — the file and the seven feature constants it names are the ones the tree holds, and the `spec.features` list it shows is the one `ConfigurationSpec` declares | `docs/development/preview-features.md`, § Declaring / Toggling / Using / Release GA; `pkg/config/configuration.go` (the `Feature` constants and `IsFeatureEnabled`) |
+| `docs/development/dapr-metrics.md` | The metric catalogue per process and per component, the tags each metric carries, and the source file of every group | Current — every source file it names exists under `pkg/{operator,injector,placement,sentry,scheduler}/monitoring/` or `pkg/diagnostics/`; it marks the metrics retired in 1.17 as retired and documents the scheduler's `/metrics/scaling` handlers | `docs/development/dapr-metrics.md`, § Dapr Common metrics through § Job metrics; `pkg/metrics/exporter.go` (the extra-handler map it describes) |
 | `docs/release_notes/` — 147 notes, `v0.1.0` to `v1.19.3`, plus a template and 5 asset images | What changed in each release: the problem, the impact, the root cause and the solution, per fix | Current — the newest notes (`v1.19.3`, `v1.18.12`, `v1.17.21`) accompany commits of 2026-11-26 | `docs/release_notes/` (153 files: 147 notes, `template.md`, `assets/` 5 files); `docs/release_notes/v1.19.3.md` |
 | `docs/release_notes/template.md` | The shape of a release note and its substitution variables | Current — its sections are the ones the newest notes fill | `docs/release_notes/template.md`, § New in this release / Upgrading / Breaking Changes / Deprecation Notices |
 | `.github/copilot-instructions.md` | Build, test, lint, formatting and convention guidance for a contributor or an agent: package layout, build tags, the licence header, import grouping, test patterns, the PR checklist | Contradicted by the code — the build, test and lint guidance matches the tree, but it states `protoc` v34.1 while `dapr/proto/runtime/v1/README.md` states v4.25.4, `dapr/README.md` states v25.4 and `tools/proto/generate.sh` pins 3.10.0 | `.github/copilot-instructions.md`, § Protobuf / gRPC (required tools) |
 | `.github/pull_request_template.md` | The pull-request checklist a change is asked to satisfy | Current — every item is checkable against the tree (compile, tests, docs and spec issue in `dapr/docs`, sample) | `.github/pull_request_template.md`, § Checklist |
 | `.github/ISSUE_TEMPLATE/` — 9 forms | The intake shape of a bug, a discussion, an endgame, a feature request, a minor patch release, a proposal, a question and a release planning item | Current | `.github/ISSUE_TEMPLATE/` |
-| `cmd/daprd/README.md`, `cmd/injector/README.md`, `cmd/operator/README.md`, `cmd/placement/README.md`, `cmd/sentry/README.md` | A pointer to the published documentation of each executable | Outdated as documentation — each is a three-line redirect to `docs.dapr.io`, so no in-tree document states how any of the five behaves; `cmd/scheduler/` carries no README at all | `cmd/daprd/README.md`; `cmd/injector/README.md`; `cmd/operator/README.md`; `cmd/placement/README.md`; `cmd/sentry/README.md` |
+| `cmd/daprd/README.md`, `cmd/injector/README.md`, `cmd/operator/README.md`, `cmd/placement/README.md`, `cmd/sentry/README.md` | A pointer to the published documentation of each executable | Outdated as documentation — each is a three-line redirect to `docs.dapr.io`, so no in-tree document states how any of the five behaves; `cmd/scheduler/` carries no README at all (AN-011) | `cmd/daprd/README.md`; `cmd/injector/README.md`; `cmd/operator/README.md`; `cmd/placement/README.md`; `cmd/sentry/README.md` |
 | `dapr/README.md` | The proto package overview and the client-generation steps | Contradicted by the code — the package table lists `common`, `internals`, `runtime`, `operator`, `placement`, `sentry`, `components`, and the tree also holds `scheduler/` and `workflows/`; it names `protoc` v25.4 | `dapr/README.md`, § Overview and § Proto client generation |
 | `dapr/proto/**/README.md` — 7 package notes | Per-package proto notes and the generation prerequisite | Contradicted by the code for `runtime/v1` (protoc v4.25.4); the other six state no version | `dapr/proto/runtime/v1/README.md`, § Proto client generation |
+| `pkg/runtime/wfengine/README.md` | How the workflow engine works: internal actors, the workflow state key scheme, the reminder-per-step execution model, how to build and test it | Contradicted by the code — it states "there is no automatic purging of state for completed workflows" and "There are no end-to-end tests that directly target the Dapr Workflows engine yet"; the tree holds `pkg/runtime/wfengine/state/retentioner/`, the `stateRetentionPolicy` fields of the workflow spec, `tests/integration/suite/daprd/workflow/` (836 files) and `tests/e2e/workflows/` (AN-021) | `pkg/runtime/wfengine/README.md`, § State storage ("IMPORTANT") and § Manual testing |
+| `pkg/api/errors/README.md` | How to add an error to the rich error model: check for an existing file, name it after the building block, build with `WithErrorInfo` and `WithFieldViolation`, test it where the state API's errors are tested | Current — `pkg/messages/predefined.go`, `pkg/api/errors/state.go` and the two integration files it names all exist, and the `errors.CodeIllegalKey` constant it uses is the one `pkg/messages/errorcodes` declares | `pkg/api/errors/README.md`, § Step 3 Designing Rich Error Messages; `pkg/api/errors/state.go`; `tests/integration/suite/daprd/state/{grpc,http}/errors.go` |
+| `pkg/responsewriter/README.md` | The provenance of a forked package: which upstream it came from, at which commit, and the MIT licence it carries | Current — `response_writer.go` sits beside it and the licence text is the upstream's | `pkg/responsewriter/README.md`, § License; `pkg/responsewriter/response_writer.go` |
+| `tests/README.md` | The layout of the test substrate: what each of the nine directories holds, and a pointer to the five how-to guides under `tests/docs/` | Current — all nine directories exist and the five guides it links are in `tests/docs/` | `tests/README.md`, § End-to-end tests; `tests/docs/` (8 files) |
+| `.build-tools/README.md` | What the separate `dapr-build-tools` module is, how to run it from source and from a compiled binary | Current — the directory holds the cobra entry point `main.go`, `cmd/` with the four drivers and the module's own `go.mod`, which is what the note describes | `.build-tools/README.md`, § Running the CLI; `.build-tools/{main.go,cmd/,go.mod}` |
+| `charts/dapr/README.md` | The deployment reference: the seven subcharts, and every chart parameter with its default — registry, tag, HA, mTLS, per-service replicas, resources, the scheduler's etcd tuning, the injector's service-account allowlist | Current — it is the only in-tree statement of what the chart deploys and of the etcd and scheduler settings the scheduler's own options read; nothing read in the tree contradicts it | `charts/dapr/README.md`, § Configuration (the global, operator, placement, RBAC, scheduler, sentry and sidecar-injector option tables); `charts/dapr/charts/` (7 subcharts) |
 | `tools/proto/generate.sh` | How proto clients for the SDKs are generated, and which proto files are the inputs | Contradicted by the code — the `generate()` loop reads `${top_root}/pkg/proto/dapr/dapr.proto` and `${top_root}/pkg/proto/daprclient/daprclient.proto`; `pkg/proto/` holds 66 generated `.pb.go` files and no `.proto`, and the definitions live under `dapr/proto/`. It also pins protoc 3.10.0 and the Java gRPC plugin 1.24.1 | `tools/proto/generate.sh`, § generate() and § Download and install tools |
 | `.iari/README.md` | Who leads the project | Current — stakeholder input, not part of the delivery | `.iari/README.md` |
 
