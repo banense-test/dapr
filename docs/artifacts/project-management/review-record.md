@@ -1108,10 +1108,10 @@ The System Boundary Confirmed milestone is **not judged**. No milestone, iterati
 
 | Axis | State | What it rests on |
 |---|---|---|
-| Scope | Holds, with one area carried | Twelve areas assigned in the Work order's order, eleven read to a stated depth. `pkg/diagnostics` opened one file of thirty-five and deferred the rest to a reading order no Survey iteration runs — carried, not accepted |
+| Scope | Holds, with one area carried | Twelve areas assigned in the Work Order's order, eleven read to a stated depth. `pkg/diagnostics` opened one file of thirty-five and deferred the rest to a reading order no Survey iteration runs — carried, not accepted |
 | Schedule | Holds, and is unmeasured | Thirty areas remain across the two iterations that follow, stated as counts of areas. No phase has closed, nothing is projected, and `R001` stands as the overrun risk with one more iteration as the remedy and never less scope |
 | Cost | Reported, never forecast | Iteration 1 at 19 480 197 tokens and 0:36:59.0766494 of agent time, iteration 2 at 30 715 328 tokens and 0:48:19.7330924, each gate's queue time measured apart at 0:00:00. Two actuals are not a velocity; no rate and no forecast is derived from them, and the plan states none |
-| Quality | Holds, with rework outstanding | Four anomalies recorded in this slice, each carried as a scored risk, and `R023` — the third High risk — read from the code rather than from configuration. Two Major findings stand on the plan's account of itself: the Reviewer's `Iteration Plan#F1` on the carried area, and this lens' `Iteration Plan#F3` on the placement count |
+| Quality | Holds, with rework outstanding | Four anomalies recorded in this slice, each carried as a scored risk, and `R023` — the third High risk — read from the code rather than from configuration. Two Major findings stand on the plan's account of itself: the Reviewer's `Iteration Plan#F1` on the carried area and this lens' `Iteration Plan#F3` on the placement count |
 
 ```plantuml
 @startuml
@@ -1170,11 +1170,11 @@ QUAL --> V
 1. **`Iteration Plan#F3` — holds the SBC gate.** The placed count must be true on the reading the plan declares: 25 placed on an iteration, 5 carried by the reading as a whole, 2 carried past the phase; or each of R013 and R021 must name the area of iteration 4 that reads its retirement. Until it moves, the SBC verdict would be answered by a count two of whose twenty-seven placements are paper.
 2. **`Iteration Plan#F4` — holds no gate.** Document Control's opening sentence states an SBC verdict for an iteration close and the same section denies the milestone is judged. The owner corrects it in its next turn.
 
-**What this lens found no defect in.** The Risk List: every magnitude is its exposure's band on the baseline scale, all twenty-seven anomalies are carried by a refining risk, custody is separated from accountability on every row, and no Significant or High risk is on accept with a grant outstanding. The Development Case: the tailoring contradicts no part of the inherited process, and its measurement policy is the rule the plan and the register were judged against.
+**What this lens found no defect in.** The Risk List: every magnitude is its exposure's band on the baseline scale, all twenty-seven anomalies are carried by a refining risk, custody is separated from accountability on every row, and no Significant or High risk is on accept with a grant outstanding. The Development Case: the tailoring contradicts no part of the inherited process — nine disciplines active at the canonical matrix's intensity with no deviation claimed, Business Modeling the one INACTIVE delta on its stated trigger, the roster intact with no role merged or reassigned, and two optionals FIRED and four NOT FIRED each against its own §5.2 condition. Its measurement policy is the rule the plan and the register were judged against, and both follow it.
 
-**Escalation.** Zero Critical findings. Nothing in this review needs a decision only the stakeholder can take, so no question is asked of them and none is outstanding. The two findings are the plan's owner's to correct.
+**Escalation.** Zero Critical findings. Nothing in this review needs a decision only the stakeholder can take, so no question is asked of them and none is outstanding. Both findings are the plan's owner's to correct.
 
-**On the phase.** The SBC gate opens when the cut holds no unread area and every Major finding of the phase has its rework in the baseline. On this review's reading it holds four open Major findings across two lenses — the Reviewer's `Iteration Plan#F1` and `System Inventory#F5`'s class in the count rule, and this lens' `Iteration Plan#F3` — and one area, `pkg/diagnostics`, whose remainder has no iteration of the cut to land in. The phase iterates; it does not advance here.
+**On the phase.** The SBC gate opens when the cut holds no unread area and every Major finding of the phase has its rework in the baseline. It does not open on this review's reading: two Major findings stand open, the Reviewer's `Iteration Plan#F1` and this lens' `Iteration Plan#F3`, and one area, `pkg/diagnostics`, has a declared remainder with no iteration of the cut to land in. The phase iterates; it does not advance here.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
