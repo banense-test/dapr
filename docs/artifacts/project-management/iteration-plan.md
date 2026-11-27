@@ -166,6 +166,69 @@ The chain above is the whole of Survey iteration 3's work: eight agent stretches
 
 The cut places work by where the risk sits, not by where the code sits. Each risk of the Risk List belongs to exactly one row below: **27 are placed on an iteration and 5 are carried by the reading as a whole**, because no area retires them. A placement names an area the iteration it sits on opens — an area this document declares unread is never cited as the reading that settles a risk. Risk ids and magnitudes are the Risk List's.
 
+```plantuml
+@startuml
+title Survey - the 32 risks of the register, by the reading that confronts each
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 320
+skinparam nodesep 22
+skinparam ranksep 30
+
+class "i1 - closed\n13 areas, 13 reached\n11 risks" as I1 {
+  High : R011, R016
+  Significant : R009, R010, R012, R020, R022
+  Moderate : R007, R008, R015, R018
+}
+
+class "i2 - closed\n16 areas, 15 reached\n2 risks" as I2 {
+  Significant : R017, R028
+}
+
+class "i3 - this iteration\n12 areas, reading now\n9 risks" as I3 {
+  High : R023
+  Significant : R014, R019, R029, R030, R032
+  Moderate : R024, R026, R031
+}
+
+class "i4\n17 areas\n5 risks" as I4 {
+  Significant : R001, R013, R021
+  Moderate : R025, R027
+}
+
+class "i5\n13 areas\nno risk" as I5 {
+  none : the helper layer exposes no entry point
+}
+
+class "no area of the cut\nthe reading as a whole\n5 risks" as W {
+  Significant : R005, R006
+  Moderate : R002, R003, R004
+}
+
+I1 --> I2
+I2 --> I3
+I3 --> I4
+I4 --> I5
+
+note bottom of I3
+  Every risk here names an area this iteration opens:
+  R023 and R019 pkg/scheduler/, R014 R024 R026 R029
+  pkg/runtime/wfengine/ and pkg/actors/, R030 R031 R032
+  pkg/scheduler/ pkg/apis/ pkg/client/ and pkg/acl/.
+end note
+note bottom of W
+  These five are retired by the shape of the work, not by
+  the position of an area: R002 the gate, R003 the version
+  policy, R004 the decision records, R005 instruction-shaped
+  files, R006 the empty size. No iteration is claimed for them.
+end note
+note bottom of I1
+  i1 and i2 are restated at what they read, and every
+  placement in them names an area the iteration opened.
+end note
+@enduml
+```
+
 | Iteration | The risks it is sequenced to confront | Why at this point in the cut |
 |---|---|---|
 | i1 — closed | R011 (High), R016 (High), R009, R010, R020, R007, R008, R012, R018, R022, R015 | Two of the phase's three High risks and the five-document generation divergence are reachable from `docs/`, `dapr/`, `pkg/proto/` and `cmd/` and from nowhere else in the cut. Eleven risks, and they sit on areas no later iteration re-opens |
