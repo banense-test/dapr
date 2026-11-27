@@ -310,8 +310,6 @@ Thirteen areas were assigned and thirteen were reached. Depth left inside a reac
 ### Reviewer lens
 <!-- review: Survey I2 -->
 
-<!-- review: Survey I2 -->
-
 Two findings this iteration: one Major on the System Inventory, one Minor on the Development Case. Nothing is recorded against the Iteration Plan or the Risk List from this lens — silence is the approval — and their two open Major findings remain the Management Reviewer's to close, not mine.
 
 #### System Inventory
