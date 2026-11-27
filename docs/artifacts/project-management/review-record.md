@@ -866,96 +866,103 @@ Both sit above the phase's gate condition: the SBC milestone does not close whil
 | This lens | `Iteration Plan#F3`, `System Inventory#F1` | `System Inventory#F1` sits against the same Coverage table as the Reviewer's closed `System Inventory#F2`, but on a figure that check did not reach | Recorded here; not a re-record of `#F2` |
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-No prior finding of this lens exists: this is the first review event of the phase, so there was nothing to reconcile and nothing was closed. The closure column below is an obligation assigned to the recording lens, not a closure performed here.
+Six findings were closed this review, each by the lens that recorded it, each on evidence read from the corrected content rather than from a note saying it was done. Four remain open. No closure is performed or claimed in this section: the closure column is an obligation assigned to the recording lens.
 
 #### Finding lifecycle at this gate
 
 ```plantuml
 @startuml
-title Finding lifecycle at this gate - where the six open findings stand
-skinparam wrapWidth 240
+title Finding lifecycle and the prioritized action list at the close of Survey iteration 2
+skinparam wrapWidth 250
 
-[*] --> Open : record_artifact_finding by a lens
-Open --> Assigned : owner and deadline named in the action list
-Assigned --> Reworked : the owner corrects the artifact
-Reworked --> Closed : resolve_artifact_finding by the SAME lens that recorded it
-Reworked --> Open : the same lens finds the defect still stands, re-recorded under its key
-
-state Closed {
-  [*] --> Verified
-  Verified : resolved by the recording lens only
-  Verified : never by a markdown note alone
-}
-
-state "Open at this gate - 6 findings" as Gate {
-  state "Major - 4, these hold the SBC gate" as Major {
-    System_Inventory_F1 : anchor names an undeclared symbol
-    System_Inventory_F2 : read-counts not reproducible
-    Iteration_Plan_F1 : phase length forecast from one iteration
-    Iteration_Plan_F2 : slice booked 13 of 15 against an assignment of 13
+state "Open - 4 findings at this close" as Open {
+  state "Major - 2, these hold the SBC gate" as Major {
+    SI_F4 : System Inventory#F4, Reviewer, the registry set
+    IP_F3 : Iteration Plan#F3, Management Reviewer, risk placement
   }
   state "Minor - 2, owner's next turn, gate not held" as Minor {
-    System_Inventory_F3 : stated counts disagree with own tables
-    Risk_List_F1 : one role named owner of every risk
+    SI_F1M : System Inventory#F1, Management Reviewer, twenty-four against twenty-three
+    DC_F1 : Development Case#F1, Reviewer, a path the tree lacks
   }
 }
 
-Gate --> Assigned : iteration 2 begins
-Major --> Escalated : only if a Critical is recorded - none is
+[*] --> Open : recorded by its lens this review
+Open --> Assigned : owner and action named below
+Assigned --> Reworked : the owner corrects the artifact
+Reworked --> Closed : resolve_artifact_finding by the SAME lens that recorded it
+Reworked --> Open : the defect still stands, re-recorded under its key
+Closed --> [*]
 
-state Escalated {
-  Escalated : REQUIRES_USER_INPUT to the stakeholder
-  Escalated : the milestone cannot close until they answer
+state "Closed this review - 6" as Closed {
+  SI_F1 : System Inventory#F1, Reviewer - actor-state anchor
+  SI_F2 : System Inventory#F2, Reviewer - read-counts
+  SI_F3 : System Inventory#F3, Reviewer - stated counts
+  IP_F1 : Iteration Plan#F1, Management Reviewer - the quotient
+  IP_F2 : Iteration Plan#F2, Management Reviewer - the i1 row
+  RL_F1 : Risk List#F1, Management Reviewer - accountability
 }
 
-note bottom of Escalated
-  No finding of this review reaches this state: both lenses
-  recorded zero Critical, so nothing is asked of the stakeholder
-  and the phase iterates without a gate decision from them.
+state "Order of work - by what blocks what" as Order {
+  A1 : 1 System Inventory#F4 - Software Archaeologist
+  A2 : 2 Iteration Plan#F3 - Project Manager
+  A3 : 3 System Inventory#F4 consuming end - risk for two unlocated categories
+  A4 : 4 System Inventory#F1 - Software Archaeologist
+  A5 : 5 Development Case#F1 - Process Engineer
+}
+
+Order --> Assigned : each closure verified against the corrected content
+
+note bottom of Major
+  A Major is reworked before any role consumes the failing content again,
+  and the milestone is not sanctioned while it stands. It does not stop
+  this iteration's acceptance: the phase iterates either way.
 end note
-note bottom of Closed
-  A finding closed by a lens other than its recorder is rejected.
-  A defect that persists into the next iteration keeps its key.
+note bottom of Order
+  A1 before A3 because the count must be true before a risk can be scored
+  against it. A4 and A5 follow the two Major, and neither holds the gate.
+  No action carries a size, an effort figure or a projected date.
 end note
 @enduml
 ```
 
 #### Prioritized actions
 
-Priority is set by what blocks what, not by severity alone: `Iteration Plan#F2` comes first because the SBC verdict reads it as evidence, and `System Inventory#F2` comes second because the next cut sizes itself from it. Both are Major and both are owed before the next iteration's slice is fixed.
+Priority is set by what blocks what, not by severity alone. A1 comes first because O2 of the plan asks for the registry set by name and every component artifact of Excavation builds on it; A2 second because the SBC verdict reads the risk placement as evidence that the cut confronts every risk of the register.
 
 | # | Action | Owner | Closes | Deadline | Holds the SBC gate |
 |---|---|---|---|---|---|
-| 1 | Restate iteration 1's cut row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only; restate the "Unread areas declared" criterion on a true fact | Project Manager | `Iteration Plan#F2` | Before the next cut is declared | Yes |
-| 2 | Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-slice total and the `docs` categories; move the anchor out of the unread set it claims | Software Archaeologist | `System Inventory#F2` | Before the next cut sizes itself from these counts | Yes |
-| 3 | Re-quote the corrected in-slice and outside-slice totals in the measurement table, Evaluation Criteria and cut tables | Project Manager | `System Inventory#F2` at its consuming end | Immediately after action 2 | Yes |
-| 4 | Delete the 57 ÷ 13 quotient and the conclusion drawn from it; state the remainder as the counts the cut holds, with R001 as the remedy and one more iteration as the mechanism | Project Manager | `Iteration Plan#F1` | Before the SBC gate is asked | Yes |
-| 5 | Anchor the actor-state start-up requirement on code that enforces it, or restate the claim as what `actorStateStoreBindings` does and what it does not enforce | Software Archaeologist | `System Inventory#F1` | In the iteration that reads `pkg/runtime/` — Survey i3 by the cut | Yes |
-| 6 | Derive the component and external-system counts from the tables and state them once; restate the proto file breakdown consistent with the README and overview anomalies | Software Archaeologist | `System Inventory#F3` | Owner's next turn | No |
-| 7 | Add an accountable-role column distinct from the register's custodian and lift into it the names the mitigation rows already give | Project Manager | `Risk List#F1` | Owner's next turn | No |
+| 1 | For each of the fifteen category constants name the file that registers it; locate the registration of `workflow` and `workflowbackend` or state that it is not located; move the unopened `registry.go` paths out of the anchor column into a not-yet-opened column, or open them; restate the Components table row to match | Software Archaeologist | `System Inventory#F4` | Before Excavation's component recovery consumes the registry set | Yes |
+| 2 | Restate the risk-driven sequencing row to the risks this slice's reading actually confronts: R028 on `pkg/api/http/server.go`; R017 only on the reading that records the allowlist map as the access-control surface, with no claim about `universal/`; move R019 to the i3 row beside R023, R014, R024 and R026, where `pkg/scheduler/` is read; then keep the placed count truthful, each placement naming an area that iteration opens | Project Manager | `Iteration Plan#F3` | Before the SBC gate is asked | Yes |
+| 3 | Carry the two unlocated categories as a risk, scored on the register's own scale, naming the accountable role whose reading locates them | Project Manager | `System Inventory#F4` at its consuming end | Immediately after action 1 states the count | Yes |
+| 4 | State the never-assigned count as twenty-three, or derive it from the rows at the foot of the Coverage table so it cannot drift | Software Archaeologist | `System Inventory#F1` (Management Reviewer) | Owner's next turn | No |
+| 5 | Correct the Deployment Model evidence path to `pkg/modes/modes.go` and cite the file; check the other rows of the same table for paths that do not resolve | Process Engineer | `Development Case#F1` | Owner's next turn | No |
 
-Actions 1 and 4 are one act of correction in one artifact and are worked together; they remain two findings because one is a false account of the slice and the other a figure no measurement produced. Actions 2 and 3 are one correction seen from its source and its consuming end.
+Action 1 is one act of correction worked as a whole: a row naming thirteen of fifteen categories and anchoring thirteen paths must be fixed in the count and in the anchors together, or the reader is left with a corrected number over uncorrected evidence. Action 2 spans one row and three other places that quote it — the Evaluation Criteria, the measurement table's unplaced-risk count, and the plan's Objective O5 statement — and all four are written together.
+
+Actions 4 and 5 are Minor and do not hold the gate. They are ordered after the two Major because the severity contract runs Critical, then Major, then Minor, and not because they are unimportant: each is a single stated figure or path that does not hold, and each is inside its own artifact.
+
+No action is assigned to a role that does not work in this phase. No action carries a size, an effort figure or a calendar date — none has been measured, and a date projected from an estimate would read downstream as an observation.
 
 #### Which lens closes what
 
-| Finding | Closed only by | Verification the lens applies |
-|---|---|---|
-| `System Inventory#F1` | Reviewer | The corrected paragraph cites a symbol the file declares, and the file is in the read set |
-| `System Inventory#F2` | Reviewer | Each count reproduces from the enumeration on its own row |
-| `System Inventory#F3` | Reviewer | The status line and both tables state one number each |
-| `Iteration Plan#F1` | Management Reviewer | The quotient is absent and the remainder is stated as counts |
-| `Iteration Plan#F2` | Management Reviewer | The i1 row reads 13 and 13, and `go.sum` and `img` appear once |
-| `Risk List#F1` | Management Reviewer | Every row names a role that performs the retiring act |
+| Finding | Severity | Closed only by | Verification the lens applies |
+|---|---|---|---|
+| `System Inventory#F4` | Major | Reviewer | Each of the fifteen constants is matched to a file that was read; the two unlocated categories are stated as unlocated or their registration is cited; no anchor names a file the Coverage table declares unread |
+| `Iteration Plan#F3` | Major | Management Reviewer | Every placement names an area the named iteration opens; the placed count is true on that reading; a risk carried past Survey is stated as carried, not placed on an unopened area |
+| `System Inventory#F1` | Minor | Management Reviewer | The count equals the never-assigned rows, or is derived from them |
+| `Development Case#F1` | Minor | Reviewer | The cited path resolves in the tree and the file declares what the row claims |
 
-No action is assigned to a role that does not work in this phase. No action carries a size, an effort figure or a calendar date: none has been measured, and a date projected from an estimate would read downstream as an observation.
+A closure by a lens other than the recorder is rejected. A defect that persists into the next iteration keeps its key and is re-recorded under it, never as a new finding, so review debt stays countable.
 
 #### What this review does not add to the increment
 
-Two optional artifacts are FIRED by the Development Case and produced in later phases — the Glossary and the Deployment Model. Neither is due in Survey and neither was reviewed here; nothing is recorded against them. The remaining four optionals are NOT FIRED and none is produced. The `System Inventory#F3` proto-breakdown and `#F1` actor-state items require the artifact's author to correct its own account of a file; they are corrections, not new reading.
+Two optional artifacts are FIRED by the Development Case — the Glossary and the Deployment Model — and both are produced in later phases. Neither is due in Survey, neither was reviewed here, and nothing is recorded against them. The remaining four optionals are NOT FIRED and none is produced.
+
+No action asks any role to re-read an area. Actions 1, 2, 4 and 5 are corrections to artifacts' accounts of what was already read; action 3 is a register entry scored against a count once that count is true. The cut's next slice — the eleven areas of Survey i3 — is set by the plan and is unchanged by this review.
 
 ## Disposition
 ### Reviewer lens
