@@ -584,4 +584,13 @@ Areas outside this iteration's slice, not opened at all — `pkg/` beyond the 8 
 | AN-011 | — | — | — |
 | AN-012 | — | DependsOn | EP-002 |
 | AN-013 | — | — | — |
+| AN-014 | — | — | — |
+| AN-015 | — | — | — |
+| AN-016 | — | — | — |
+| AN-017 | — | — | — |
+| AN-018 | — | DependsOn | EP-006 |
+| AN-019 | — | — | — |
+| AN-020 | — | — | — |
+
+An entry point has no upstream: it is the first element the reading produces, and every use case recovered from it will cite it. An anomaly has no upstream either — its source is the evidence cited in its own row — except where it sits on an entry point, and the two that do carry `DependsOn` the entry point whose reading exposed them: AN-012 on EP-002, the gRPC surface whose allowlist the map duplicates; AN-018 on EP-006, the scheduler contract whose capability flags negotiate the two authorities.
 
