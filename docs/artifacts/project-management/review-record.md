@@ -182,81 +182,112 @@ end note
 | Iteration Assessment | Not consulted as evidence of this iteration. The Project Manager authors it after this verdict; its absence of iteration-3 content is not a finding |
 
 ### Review Coordinator lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-Iteration Acceptance review of Survey iteration 2, at the close of the sixteen-area slice the Project Manager cut. The event reviewed is COMPLETION of the iteration, not the SBC milestone: the question is what each role did with its assignment, not whether Survey may close.
-
-#### The review event and its trigger
+Iteration Acceptance review of Survey iteration 3, the twelve-area slice the Project Manager cut. The review point is COMPLETION of the iteration, not the milestone's exit criteria: what each role did with its assignment. The SBC gate opens at the end of the phase and is not judged here.
 
 ```plantuml
 @startuml
-title Survey iteration 2 - the review event, the lenses that ran, and the verdict path
-skinparam wrapWidth 260
+title Survey iteration 3 - the review event, its lenses, and the verdict path
+skinparam wrapWidth 270
 
 start
-:Iteration 2 closes its slice\n16 areas assigned, 15 reached,\npkg/diagnostics declared unread in full;
-:Entry criteria checked\nfour artifacts present and readable in full;\nthe assignment known and every area accounted for;
+:Iteration 3 closes its slice\n12 areas assigned in the Work Order's order;
+:Entry criteria checked\nfour artifacts present and readable in full;\nprior findings reconciled before new ones recorded;
 fork
 :Technical lens - Reviewer\nEXECUTED;
 note right
-13 anchors re-opened independently,
-10 held and 3 did not.
-Three prior findings closed, two recorded.
+9 anchors opened independently, 9 held.
+2 prior findings closed, 2 recorded.
+Disposition: Approved with Changes.
+Not the SBC verdict.
 end note
 fork again
 :Management lens - Management Reviewer\nEXECUTED;
 note right
-Three prior findings closed, two recorded.
-Risk scale, risk placement and
-accountability checked.
+1 prior finding closed, 1 re-recorded under
+its key, 1 recorded. Risk scale, placement
+and accountability checked.
+Disposition: Conditional Go on the iteration.
 end note
 fork again
 :Business lens - Business Reviewer\nINACTIVE - did not evaluate this review;
 note right
-Business Modeling is INACTIVE in every
-phase, so the role is withheld by the
-tailoring. No verdict is attributed to it.
+Business Modeling is INACTIVE by the
+Development Case, so the role is withheld
+by the tailoring. No verdict attributed.
 end note
 end fork
 :Consolidate the ledger\nartifact, key, recording lens, severity, criterion;
-:Scan for cross-lens conflict\nkey collisions, overlapping defects,\nand any claim the increment contradicts;
+:Reconcile cross-lens conflicts\nC1 the carried area, C2 one key per defect, C3 key scoping;
+:Prioritize the four actions\nby what blocks what: two Major, then two Minor;
 if (a Critical finding is open?) then (yes)
 :REQUIRES_USER_INPUT to the stakeholder\nnothing closes until they answer;
-else (no - neither executing lens recorded one)
+else (no - both executing lenses recorded zero)
 :Iteration Accepted - the phase iterates\nSBC milestone not judged, no sanction sought;
 endif
-:Next boundary - Survey i3\ncontrol planes and actors, 11 areas;
+:record_milestone_auto_iterate(requiresIteration: true);
 stop
 @enduml
 ```
 
-The event is keyed to the iteration boundary, not to a date: a slipped iteration slips its review with it. The next review event on the calendar is the Iteration Acceptance at the close of Survey i3, and the SBC milestone review opens only after the last iteration of the cut and only when every Major finding of the phase has its rework in the baseline.
+The event is keyed to the iteration boundary, not to a date: a slipped iteration slips its review with it. The next review event is the Iteration Acceptance at the close of Survey iteration 4, and the SBC milestone review opens only after the last iteration of the cut and only once every Major finding of the phase has its rework in the baseline.
 
-#### Scope of record
+#### Lenses convened
+
+| Lens | Participant | Disposition as recorded | Findings from this lens |
+|---|---|---|---|
+| Technical | Reviewer | EXECUTED — Approved with Changes | 2 recorded (`Iteration Plan#F1` Major, `System Inventory#F5` Minor), 2 closed (`System Inventory#F4`, `Development Case#F1`) |
+| Management | Management Reviewer | EXECUTED — Conditional Go on the iteration | 2 open (`Iteration Plan#F3` Major re-recorded, `Iteration Plan#F4` Minor), 1 closed (`System Inventory#F1`) |
+| Business | Business Reviewer | **INACTIVE — did not evaluate this review** | None. No verdict of any kind is attributed to it |
+
+The Business lens did not execute: Business Modeling is INACTIVE in every phase by the Development Case, so the role is withheld by the tailoring rather than absent from the event. The decision in this record rests only on the two lenses that executed.
+
+#### Artifacts reviewed
+
+| Artifact | Owner | Discipline | Reviewed against |
+|---|---|---|---|
+| System Inventory | Software Archaeologist | Discovery | The anchors it cites, opened independently; its Coverage, Technology and Size, Perimeter, Documentation and Traceability tables; the twelve-area slice |
+| Iteration Plan | Project Manager | Project Management | Its objectives O1–O6, its cut arithmetic, its risk placement, whether every figure reproduces |
+| Risk List | Project Manager | Project Management | The baseline risk scale, whether all 27 anomalies are carried, custody against accountability |
+| Development Case | Process Engineer | Environment | The IARI baseline; the optional-trigger conditions and whether every cited path resolves |
+| Iteration Assessment | Project Manager | Project Management | Read, not assessed as evidence: it records iteration 2 and says so; the Project Manager authors the iteration-3 entry after this verdict |
+
+No pull request exists to dispose of. The SCM holds none in any state, which is correct for Survey: no role of this phase produces code and the Implementation Model does not exist yet.
+
+#### Scope of record — the slice this review judges
 
 | Element | Value |
 |---|---|
-| Iteration | Survey 2, cycle 1 — request path and component plane |
-| Areas assigned | 16, in the order the Work Order names them |
-| Areas reached | 15. `pkg/diagnostics` is declared unread in full with its reason and is not counted as reached |
-| Files opened | 28 distinct this iteration; 88 across the phase |
-| Artifacts reviewed | System Inventory, Development Case, Iteration Plan, Risk List |
-| Artifact read, not assessed | Iteration Assessment — it records iteration 1 and says so; the Project Manager authors this iteration's after the verdict |
-| Pull requests to dispose of | None. No role of Survey produces code and the SCM holds no PR in any state, so nothing is approved, changes-requested or deferred |
-| Artifact outside this increment | None recorded. The Software Architecture Document is an LCA review target whose first phase is Excavation; nothing is recorded against it |
+| Iteration | Survey 3, cycle 1 — control planes, actors, security and the client surface |
+| Areas assigned | 12, in the order the Work Order names them: `pkg/scheduler`, `pkg/placement`, `pkg/runtime`, `pkg/actors`, `pkg/sentry`, `pkg/security`, `pkg/operator`, `pkg/apis`, `pkg/client`, `pkg/injector`, `pkg/acl`, `pkg/diagnostics` |
+| Areas accounted for | 12. Eleven read to a stated depth with the remainder declared into the cut |
+| Area carried, not accepted | `pkg/diagnostics` — one file of thirty-five opened, thirty-four deferred to a reading order no Survey iteration runs. See `Iteration Plan#F1` |
+| Files opened | 30 distinct — 27 in-slice and 3 outside it, each with its perimeter reason stated. Phase total 118 of the tree's 6 631 entries |
+| Findings open at this close | 4 — 2 Major, 2 Minor, 0 Critical, 0 Info |
 
 #### Entry criteria, as enforced
 
 | Criterion | Standard | Outcome |
 |---|---|---|
-| Artifacts in target state, not draft fragments | Four artifacts present and readable in full | Met |
-| Reviewers assigned with expertise matched to the artifact domain | Technical lens on all four; management lens on the plan, the register, the iteration's objectives and the tailoring | Met — both lenses executed on their own criteria; the Business lens is withheld by the Development Case, not mismatched |
-| Scope fixed before evaluation, and the scope is the assignment | The Work Order's sixteen areas, in its order | Met — fifteen reached, one declared unread with its reason |
-| Evaluation criteria distributed before evaluation | The plan's six objectives and eight criteria, the IARI risk scale, the Development Case measurement policy | Met — each lens states the criteria it applied |
-| Prior findings of a lens reconciled before new ones recorded | The six findings earlier reviews left open taken first | Met — six closed, four recorded, none folded into another |
-| Findings carry owner, severity and criterion at close | Every finding either closed or scheduled with an owner | Met — the four open findings each carry an action and an owner below |
+| Artifacts of the increment in target state, readable in full | Four artifacts present and readable | Met — all four read; the Iteration Assessment read and set aside as evidence |
+| Reviewers assigned with expertise matched to the artifact domain | Technical lens on all four; management lens on the cut, the register, the objectives and the tailoring | Met — both executing lenses applied their own criteria; the Business lens is withheld by the tailoring, not mismatched |
+| Scope fixed before evaluation, and the scope is the assignment | The Work Order's twelve areas, in its order | Met — twelve accounted for, one carried with its reason stated |
+| Evaluation criteria distributed before evaluation | The plan's objectives and criteria, the IARI risk scale, the Development Case measurement policy | Met — each lens states the criteria it applied |
+| Prior findings of a lens reconciled before new ones recorded | The six findings earlier reviews left open taken first | Met — three closed this review, three were already closed; four recorded, none folded into another |
+
+#### Criteria applied in the consolidation
+
+| Criterion | Standard | Outcome |
+|---|---|---|
+| One defect, one finding | A defect is recorded once, by the lens that owns the artifact type | Holds — the management lens declined to re-record the diagnostics defect under its own key |
+| A persistent defect keeps its key | A defect that survives an iteration is re-recorded under the key it was first given | Holds — `Iteration Plan#F3` carries `occurrenceCount: 2` |
+| Every citation names the recording lens | A finding key is scoped per artifact and per recording lens | Holds — no key appears in this ledger without its lens |
+| Every open finding carries owner, severity and criterion | Assigned at review close | Holds — the four actions below name each owner |
+| No invented figure | No spend, size, velocity, density or projected date | Holds — the iteration actuals are reported as their own facts with both clocks apart |
+| No lens' finding closed by another lens | Closure belongs to the recorder | Holds — three closures, each by the lens that recorded the finding |
 
 ## Findings
 ### Reviewer lens
