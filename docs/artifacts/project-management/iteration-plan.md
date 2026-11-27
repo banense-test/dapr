@@ -166,75 +166,12 @@ The chain above is the whole of Survey iteration 3's work: eight agent stretches
 
 The cut places work by where the risk sits, not by where the code sits. Each risk of the Risk List belongs to exactly one row below: **27 are placed on an iteration and 5 are carried by the reading as a whole**, because no area retires them. A placement names an area the iteration it sits on opens — an area this document declares unread is never cited as the reading that settles a risk. Risk ids and magnitudes are the Risk List's.
 
-```plantuml
-@startuml
-title Survey - the 32 risks of the register, by the reading that confronts each
-hide empty members
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 320
-skinparam nodesep 22
-skinparam ranksep 30
-
-class "i1 - closed\n13 areas, 13 reached\n11 risks" as I1 {
-  High : R011, R016
-  Significant : R009, R010, R012, R020, R022
-  Moderate : R007, R008, R015, R018
-}
-
-class "i2 - closed\n16 areas, 15 reached\n2 risks" as I2 {
-  Significant : R017, R028
-}
-
-class "i3 - this iteration\n12 areas, reading now\n9 risks" as I3 {
-  High : R023
-  Significant : R014, R019, R029, R030, R032
-  Moderate : R024, R026, R031
-}
-
-class "i4\n17 areas\n5 risks" as I4 {
-  Significant : R001, R013, R021
-  Moderate : R025, R027
-}
-
-class "i5\n13 areas\nno risk" as I5 {
-  none : the helper layer exposes no entry point
-}
-
-class "no area of the cut\nthe reading as a whole\n5 risks" as W {
-  Significant : R005, R006
-  Moderate : R002, R003, R004
-}
-
-I1 --> I2
-I2 --> I3
-I3 --> I4
-I4 --> I5
-
-note bottom of I3
-  Every risk here names an area this iteration opens:
-  R023 and R019 pkg/scheduler/, R014 R024 R026 R029
-  pkg/runtime/wfengine/ and pkg/actors/, R030 R031 R032
-  pkg/scheduler/ pkg/apis/ pkg/client/ and pkg/acl/.
-end note
-note bottom of W
-  These five are retired by the shape of the work, not by
-  the position of an area: R002 the gate, R003 the version
-  policy, R004 the decision records, R005 instruction-shaped
-  files, R006 the empty size. No iteration is claimed for them.
-end note
-note bottom of I1
-  i1 and i2 are restated at what they read, and every
-  placement in them names an area the iteration opened.
-end note
-@enduml
-```
-
 | Iteration | The risks it is sequenced to confront | Why at this point in the cut |
 |---|---|---|
 | i1 — closed | R011 (High), R016 (High), R009, R010, R020, R007, R008, R012, R018, R022, R015 | Two of the phase's three High risks and the five-document generation divergence are reachable from `docs/`, `dapr/`, `pkg/proto/` and `cmd/` and from nowhere else in the cut. Eleven risks, and they sit on areas no later iteration re-opens |
 | i2 — closed | R017, R028 | The gRPC allowlist (R017) sits on `EP-002`, and `pkg/api/grpc/endpoints.go` — opened in iteration 1 and re-opened at i2 — is the map recorded as the access-control surface of the operations the request path fixes. Whether those operations are implemented in `pkg/api/universal/` is not a fact that iteration established, and the row claims nothing about that area. R028 is that iteration's own find: the public listener's middleware subset is in `pkg/api/http/server.go`, an area it read |
 | **i3 — this iteration** | **R023 (High), R019, R014, R024, R026, R029, R030, R031, R032** | R023 is the phase's third High risk — one scheduler process, two authorities, negotiated from what peers report — and is the reason `pkg/scheduler/` is taken first, before the placement service it supersedes. R019 sits here because its mitigation names `pkg/scheduler/`: the failure-policy families are settled by reading what the scheduler converts and honours, and no other area of the cut states it. The two suites disabled by renaming (R014) and the registration-file count (R024) are read in `pkg/runtime/wfengine/` and `pkg/actors/`, both in this slice. R026 sits where its remedy is — the engine's retention and coverage, in `pkg/runtime/wfengine/` and `pkg/actors/targets/workflow/retentioner/`. R029 is confronted by the same two subtrees: the registration of the two component categories iteration 2 could not locate is in the code the workflow engine and its actor backend are built from. R030, R031 and R032 are the anomalies this slice recorded — the eleven document-less areas include `pkg/scheduler/`, `pkg/placement/`, `pkg/sentry/` and `pkg/acl/`, the seven resource kinds and the four missing client groups are read in `pkg/apis/` and `pkg/client/`, and the Subscription conversion is read in `pkg/apis/subscriptions/`. Their mitigation is a rule this reading already follows, which is why they are placed where it is applied rather than on a later area |
-| i4 | R001, R013, R021, R025, R027 | Every risk whose exposure is in the delivery surface and the test substrate. R001 is the one that can turn that iteration into two, and its slice is the largest the cut holds. R025's harness parsing and R021's release action are both read in `tests/` and `charts/`. R027 is placed here in both its halves: `charts/dapr/charts/` is enumerated for its seven subcharts rather than taken from the README's six, and `docs/development/` is read for its six guides rather than the index's five |
+| i4 | R001, R013, R021, R025, R027 | Every risk whose exposure is in the delivery surface and the test substrate. R001 is the one that can turn that iteration into two, and its slice is the largest the cut holds. R025's harness parsing and R021's release action are both read in `tests/` and `charts/`. R027's chart half is settled here: `charts/` is this iteration's first area and `charts/dapr/charts/` is enumerated there for its seven subcharts rather than taken from the README's six. R027's documentation half needs no iteration below — the guide the index omits, `docs/development/preview-features.md`, was opened from its directory in iteration 1, and `.github/workflows/dapr.yml` was opened at i2 for the same reason, so both halves of `AN-022` are settled by a directory read and only its chart half is still owed |
 | i5 | none | The helper layer carries no anomaly and exposes no entry point. It is read for the callers already known and adds no risk to the register |
 | the whole reading, no area | R005, R006, R004, R003, R002 | R005 (repository files obeyed rather than recorded), R006 (an empty size filled with a unit nothing measures), R004 (decision records renumbered into project families) and R003 (the tree's toolchain stated as project policy) are avoided by the shape of every role's work order, not by any area's position in the cut. R002 is the gate itself, bounded at 14 days and measured when it opens |
 
