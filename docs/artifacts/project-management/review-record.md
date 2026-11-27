@@ -28,8 +28,6 @@ Milestone Target: end-of-Survey milestone (SBC) — not achieved, not judged by 
 ### Reviewer lens
 <!-- review: Survey I2 -->
 
-<!-- review: Survey I2 -->
-
 Iteration Acceptance review of Survey iteration 2 from the technical lens. The review point is COMPLETION, not the milestone's exit criteria: the question is what each role did with the sixteen areas the Project Manager cut for this iteration. The SBC verdict belongs to the Review Coordinator and is not stated here.
 
 #### Artifacts reviewed
@@ -59,7 +57,7 @@ Every area of the slice appears in the System Inventory's Coverage table, either
 | Count reproducibility | A stated count equals the enumeration printed beside it | Holds. Every Coverage row and the `docs` row of Technology and Size reconcile; this is what F2 closed. |
 | Row counts derived from tables | A summary count is derived from the table and stated once | Holds. 42 / 19 / 16, stated once; this is what F3 closed. |
 | Slice coverage | Every area of the assignment described, or declared not reached in Coverage | Holds. Fifteen reached, one declared unread with its reason. |
-| Traceability | Every declared `EP-NNN` and `AN-NNN` has a row; `Traces To` is only `DependsOn` | Holds against the RTM: 26 links, of which 23 `Refines` from an `AN-NNN` to an `R\u200bNNN` and 3 `DependsOn` from an `AN-NNN` to an `EP-NNN`. No copied edge, no invented label. |
+| Traceability | Every declared `EP-NNN` and `AN-NNN` has a row; `Traces To` is only `DependsOn` | Holds against the RTM: 26 links — 23 `Refines` from an `AN-NNN` to an `RNNN`, and 3 `DependsOn` from an `AN-NNN` to an `EP-NNN`. No copied edge, no invented label. |
 | No invented figure | No spend, size, velocity, density or projected date | Holds. One iteration's measured actual is reported as that iteration's own fact and expressly not as a rate. |
 | Optional triggers | Every FIRED verdict's §5.2 condition genuinely holds; every NOT FIRED verdict genuinely fails | Holds on all six. Glossary FIRED on load-bearing specialist vocabulary; Deployment Model FIRED on seven subcharts, eight Dockerfiles, six executables, two first-class modes. The four NOT FIRED each fail their condition on a stated fact. |
 | Baseline conformance | No roster redefinition, no CORE omission or reassignment, no artifact outside the universe, no merged roles, no enumeration rule changed | Holds. Business Modeling INACTIVE with its trigger condition recorded; Capsule Designer withheld on `real-time-system = false`; nothing else touched. |
