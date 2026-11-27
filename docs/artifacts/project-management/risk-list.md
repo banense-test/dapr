@@ -221,14 +221,35 @@ One gate is in this list and no other: the SBC milestone review, carried as R002
 No spend figure appears in this Risk List, because no phase of this project has closed and nothing has been measured. A phase's measured tokens and elapsed time enter this register only when that phase closes.
 
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
-| R001 | — | — | — |
+| R001 | AN-010 | Refines | — |
 | R002 | — | — | — |
 | R003 | — | — | — |
 | R004 | — | — | — |
 | R005 | — | — | — |
 | R006 | — | — | — |
+| R007 | AN-001 | Refines | — |
+| R008 | AN-002 | Refines | — |
+| R009 | AN-003 | Refines | — |
+| R010 | AN-004 | Refines | — |
+| R011 | AN-005 | Refines | — |
+| R012 | AN-006 | Refines | — |
+| R013 | AN-007 | Refines | — |
+| R014 | AN-008 | Refines | — |
+| R015 | AN-009 | Refines | — |
+| R016 | AN-011 | Refines | — |
+| R017 | AN-012 | Refines | — |
+| R018 | AN-013 | Refines | — |
+| R019 | AN-014 | Refines | — |
+| R020 | AN-015 | Refines | — |
+| R021 | AN-016 | Refines | — |
+| R022 | AN-017 | Refines | — |
+| R023 | AN-018 | Refines | — |
+| R024 | AN-019 | Refines | — |
+| R025 | AN-020 | Refines | — |
 
-Each of these risks is stated from a repository anchor or a Development Case section cited in its register row; none refines an `AN-NNN` yet, because the System Inventory's anomaly stage has not run. When it has, each risk it exposes is added with `| RNNN | AN-NNN | Refines | — |`, and a risk about a control plane or a request path also carries `DependsOn` the entry point or component whose reading exposed it.
+Twenty of the twenty-five refine an anomaly the Software Archaeologist recorded, and every anomaly of the System Inventory now carries at least one. The five with no upstream — R002 to R006 — are risks of the phase's own shape: the human gate, the version policy, the decision records, the instruction-shaped files and the empty size. Each cites its Development Case section in its register row, because a development-case section is not a trace endpoint.
+
+The edge between an anomaly and the entry point it sits on — AN-012 on EP-002, AN-018 on EP-006 — is written in the System Inventory, where those labels are declared. It is not repeated here.
+
