@@ -289,16 +289,19 @@ No work item is given a size. Three iterations of this phase have closed and eac
 |---|---|---|---|
 | Process Engineer | Environment | The Environment stage the inherited process runs at the head of the iteration — Development Case and Contribution Guide | Development Case — W0, an explicit work item so that an artifact of the increment is never absent from the plan that reports on it |
 | Project Manager | Discovery, Project Management | Cut; then Risk List and Iteration Plan; then the Iteration Assessment after the verdict | Iteration Plan, Risk List, Iteration Assessment |
-| Software Archaeologist | Discovery | Read the control planes and the stateful abstractions; locate the two unaccounted component categories; read the resource plane and the monitoring that instruments it; Anomalies and Priorities | System Inventory |
+| Software Archaeologist | Discovery | Read the delivery surface and the test substrate; the harness provisioning; the kept conventions and committed output; Anomalies and Priorities | System Inventory |
 | Reviewer | — | Milestone review | Review Record findings against the SBC criteria |
 | Management Reviewer | — | Milestone review | Investment assessment of the phase |
 | Review Coordinator | — | Milestone review | The milestone verdict |
 
 Roles that do **not** work in Survey: System Analyst, Requirements Specifier, Software Architect, Designer, Database Designer, User Interface Designer, Capsule Designer, Implementer, Integrator, Test Manager, Test Analyst, Test Designer, Tester, Deployment Manager, Technical Writer, Configuration Manager, Change Control Manager, Business Process Analyst, Business Reviewer, Code Reviewer. Their first phase is Excavation or later, per the inherited process. The Business Process Analyst and the Business Reviewer do not work in any phase (Development Case §2); the Capsule Designer does not either (§3).
 
-No role is added to the phase to shorten it. Parallelism across the reading would put two roles on the same area, and the second would be re-reading what the first already wrote. The one role at work on the reading this iteration is the Software Archaeologist, because the slice is one connected surface — the control planes, the actor runtime that binds them and the workflow engine both depend on — and splitting it would split a fact between two accounts, which is the state `R029` exists to prevent.
+`R021`'s retirement is the Integrator's Change Request against `.github/workflows/` — the Integrator is listed above as a role Survey does not run, which is why that risk is carried past this phase rather than placed on an iteration of it.
 
-This iteration is the phase's largest reading after the test substrate: 901 files across twelve areas, of which `pkg/runtime/` alone is 308 and `pkg/actors/` 243. That is a reason to read to a stated depth and declare the rest, not a reason to add a second reader.
+No role is added to the phase to shorten it. Parallelism across the reading would put two roles on the same area, and the second would be re-reading what the first already wrote. The one role at work on the reading this iteration is the Software Archaeologist. `tests/` and `charts/` are read by one reader because the substrate is read against the systems under test that iterations 2 and 3 recovered — a second reader would have to re-establish that context before opening a file, which is the cost `R001` already bounds by iteration count rather than by parallelism.
+
+This iteration is the phase's largest slice: 3 496 files across seventeen areas, of which `tests/` alone is 3 335 and `tests/integration/suite/` 2 073. That is a reason to read to a stated depth — the shape of each suite, the harness, and the enumeration of what ships — and declare the rest, not a reason to add a second reader. Its overrun is `R001`, whose remedy is fixed in advance: a further iteration, never less scope.
+
 ## Use Cases and Scenarios Addressed
 
 None. No use case enters the plan in Survey: the phase's scope unit is the area of the repository listed in the cut above. Use cases are recovered in Excavation from the entry points this phase labels `EP-NNN` — the Use-Case Model traces each recovered use case to the entry point that performs it.
