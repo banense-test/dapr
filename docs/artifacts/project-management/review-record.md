@@ -7,13 +7,15 @@ Status: Draft — iteration 2 review, technical lens. Three prior findings close
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1, management lens -->
+<!-- review: Survey I2 -->
 
-Phase: Survey
-Status: Draft — iteration 1 review, management lens. Two Major findings on the Iteration Plan and one Minor on the Risk List. The SBC verdict is the Review Coordinator's and is not issued here
-Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
+Phase: Survey — iteration 2 of the phase, cycle 1
+Review type: Iteration Acceptance, management lens. The System Boundary Confirmed milestone is not judged and no phase is closed
+Date: 2026-11-27
+Reviewer: Management Reviewer
+Disposition: Conditional Go on the iteration — see Disposition
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
