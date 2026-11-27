@@ -1,22 +1,24 @@
 ## Document Control
 Phase: Survey
-Status: Draft — iteration 1 of the phase, closed by the Review Coordinator's verdict on 2026-11-27. W0 to W7 ran: the process was tailored, the cut is recorded and corrected against what was read, the risk sequencing is written, the 13 assigned areas of the slice were all reached, and the verdict — SBC: iteration REQUIRED — is recorded with its rework applied to this plan. The phase iterates; the SBC milestone is not judged and no phase is closed. No work-item size anywhere, because no phase has closed
+Status: Draft — iteration 2 of the phase, initiated 2026-11-27. The cut assigns this iteration 16 areas of the 57 the four remaining iterations hold. This plan carries no read-count: `System Inventory#F2` is open at its source, so no figure of files opened is restated here. No work-item size anywhere, because no phase has closed and there is no measured actual to size against. The SBC milestone is not judged.
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Iteration Objectives
 
-Survey iteration 1 establishes the perimeter of the existing system and records what the system declares itself to be. The unit of scope in the sprint zero is the **area of the repository**, not a use case: no use case enters this plan.
+Survey iteration 2 reads the sidecar's request path and the component plane it dispatches into. The unit of scope in the sprint zero is the **area of the repository**, not a use case: no use case enters this plan.
 
 | # | Objective | Exit criterion |
 |---|---|---|
-| O1 | The perimeter of the existing system is fixed: every executable, every API surface, every protocol contract and every control plane is enumerated with the path it was read from | The System Inventory "Perimeter" stage names each area it read and each entry point it found, with `Source:` anchors |
-| O2 | What the system declares about itself is recorded: its architectural decision record set, its versioned release history, its stated contribution and release procedure | The System Inventory "Documentation" stage reports the 23 decision records under `docs/decision_records/`, the release history under `docs/release_notes/` and the toolchain fixed in `go.mod` as evidence, each with its path |
-| O3 | What does not hold together in the reading is written down and ordered | The System Inventory "Anomalies and Priorities" stage records each anomaly under an `AN-NNN` label and orders the remaining areas |
-| O4 | The work left in the phase is cut into iterations, each area in exactly one iteration | The cut below is in this document and recorded with the process service before any other role of the iteration reads |
+| O1 | The request path is fixed: how an application's call becomes a call into a component, read from the code that does the dispatch | `go.sum` and `img` are recorded for what they are or are not; `pkg/api/` is read whole — all 124 files — and `pkg/messaging/` and `pkg/channel/` with it; every entry point the slice adds is labelled `EP-NNN` with its `Source:` anchor |
+| O2 | The component plane is recorded: what the request path dispatches into and under what policy | `pkg/components/`, `pkg/resiliency/`, `pkg/middleware/` and `pkg/config/` are read; each registry is stated as the set of component kinds it admits, with the `Source:` anchor that declares the kind list |
+| O3 | The cross-cutting surfaces the request path carries are anchored: observability, health, ports, modes, application health, CORS | `pkg/diagnostics/`, `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/` and `pkg/cors/` are read; each surface is stated with the anchor it was read from |
+| O4 | The phase's own account of itself is reconciled, so its figures can be reproduced from what it prints | Every Coverage row's stated count equals the files enumerated on that row; the outside-the-slice total equals the rows listed; the `docs` categories reconcile; the component and external-system counts are derived from the tables; the proto breakdown is consistent with `AN-002` and `AN-013` |
+| O5 | The remainder of the phase is cut and declared before any other role of the iteration reads | The cut is in this document and recorded with the process service, each area in exactly one iteration |
 
-O1–O3 are the Software Archaeologist's; O4 is this iteration's act of initiation and is complete when the cut is declared.
+O1–O4 are the Software Archaeologist's reading and reconciliation, excepting the re-quote of reconciled figures, which is this role's. O5 is this iteration's act of initiation and is complete when the cut is recorded.
 
 ## Plan and Milestones
+
 The coarse roadmap below is cross-iteration: the milestone sequence of the project, and the cut that assigns every repository area to exactly one iteration of the sprint zero. The fine plan that follows it is bounded to this iteration.
 
 ### Coarse roadmap — the milestone sequence of the project
@@ -39,8 +41,8 @@ title DAPR Core - the sprint zero iterations and the milestone sequence, in orde
 hide footbox
 
 [Survey i1 - perimeter and self-declaration] lasts 1 day
-[Survey i2 - sidecar request path and component plane] starts at [Survey i1 - perimeter and self-declaration]'s end
-[Survey i3 - control planes, actors and workflow] starts at [Survey i2 - sidecar request path and component plane]'s end
+[Survey i2 - request path and component plane, this iteration] starts at [Survey i1 - perimeter and self-declaration]'s end
+[Survey i3 - control planes, actors and workflow] starts at [Survey i2 - request path and component plane, this iteration]'s end
 [Survey i4 - delivery surface and test substrate] starts at [Survey i3 - control planes, actors and workflow]'s end
 [Survey i5 - cross-cutting helper layer] starts at [Survey i4 - delivery surface and test substrate]'s end
 [SBC gate] starts at [Survey i5 - cross-cutting helper layer]'s end
@@ -51,6 +53,7 @@ hide footbox
 [IOC gate - Construction] starts at [LCA gate - Elaboration]'s end
 [PR gate - Transition] starts at [IOC gate - Construction]'s end
 
+[Survey i2 - request path and component plane, this iteration] is colored in LightBlue
 [SBC gate] is colored in Orange
 [AR gate - Excavation] is colored in Orange
 [GHR gate - Consolidation] is colored in Orange
@@ -61,97 +64,108 @@ hide footbox
 
 note bottom
   Every bar is drawn the same length: no duration has been measured, so no bar
-  lengths and no dates are claimed. Agent work is quoted in tokens and measured
-  elapsed time once a phase closes; a human gate (orange) is queue time, bounded
-  at 14 days in the Risk List and measured when it opens.
+  length and no date is claimed. Agent work is quoted in tokens and in measured
+  elapsed agent time once a phase closes; a human gate (orange) is queue time,
+  bounded at 14 days under R002 and measured when it opens. The cut needs a
+  further iteration whenever an iteration overruns (R001) or the Review Record
+  leaves a finding open; the bars show order, not a count that is fixed.
 end note
 @endgantt
 ```
 
 ### Coarse roadmap — the cut of the sprint zero
 
-The cut orders the repository by what the reading itself needs first, and once an iteration has read, by what its Coverage records. The system's own statement of itself — its decision records, its protocol contracts, its release history, its toolchain — is read before any code, because every later area is read against it.
+The cut orders the repository by what the reading itself needs first, and once an iteration has read, by what its Coverage records. The system's own statement of itself was read in iteration 1, because every later area is read against it. This iteration takes the request path, because it is the system's primary entry surface and the component plane is illegible without it.
 
-**The slice this iteration was assigned, in the order it was assigned.** Thirteen areas; all thirteen were reached. The files-held and files-opened counts are the System Inventory's Coverage count, not a re-measurement.
+**The slice iteration 1 was assigned, restated once.** Thirteen areas; thirteen reached. `go.sum` and `img` were not among them and are not counted here — they are iteration 2's, and they appear in iteration 2's row only.
 
-| Order | Area | Files it holds | Files opened | What the reading took from it |
+| Iteration | Areas assigned | Areas reached |
+|---|---|---|
+| Survey i1 | 13 — `.github`, `CODEOWNERS`, `CONTRIBUTING.md`, `GOVERNANCE.md`, `LICENSE`, `README.md`, `RELEASE.md`, `SECURITY.md`, `cmd`, `dapr`, `docs`, `go.mod`, `pkg/proto` | 13. Five of them were opened short of their file count — `.github`, `cmd`, `dapr`, `docs`, `pkg/proto` — and that depth is not a Survey remainder: it is the System Inventory's Priorities order, and it is Excavation's. Re-opening an area an iteration already read would put one area in two iterations of the cut |
+
+**The remainder, counted.** The cut leaves 57 areas over four iterations: 16 in iteration 2, 11 in iteration 3, 17 in iteration 4, 13 in iteration 5. These are counts of areas, not of files read and not a rate: whether the cut still holds is asked and answered at the close of each iteration from what that iteration read, and it is not projected from any earlier iteration. Should an iteration overrun, the remedy is R001's — one more iteration, never less scope, and never more agent roles in parallel.
+
+The entry counts in the table below are the repository tree's, reproducible from the tree call, and they say how large each area is. They are **not** a measurement of this phase: the count of files opened in each area is the System Inventory's Coverage, and this plan does not restate it while `System Inventory#F2` is open at its source.
+
+| Iteration | Areas the iteration takes, in the order to take them | Entries the tree reports | What the iteration establishes | Basis of the split |
 |---|---|---|---|---|
-| 1 | `.github` | 120 | 3 | The gate the delivery claims and does not hold: `workflows/fossa.yml`; the conventions `copilot-instructions.md` states; the PR checklist |
-| 2 | `CODEOWNERS` | 1 | 1 | Whole file — the two maintainer teams `GOVERNANCE.md` names |
-| 3 | `CONTRIBUTING.md` | 1 | 1 | Whole file — the owner's upstream workflow, kept as the owner's, with the stakeholder's approved pointer line at its top |
-| 4 | `GOVERNANCE.md` | 1 | 1 | Whole file — maintainer responsibility, activity rule, super-majority vote |
-| 5 | `LICENSE` | 1 | 1 | Whole file — Apache-2.0 |
-| 6 | `README.md` | 1 | 1 | Whole file — what the system declares itself to be and the twelve APIs it exposes |
-| 7 | `RELEASE.md` | 1 | 1 | Whole file — a one-line pointer out of the tree |
-| 8 | `SECURITY.md` | 1 | 1 | Whole file — a one-line pointer out of the tree |
-| 9 | `cmd` | 183 | 12 | The six executables' wiring, the scheduler's options, the component registry and its build-tag guard |
-| 10 | `dapr` | 45 | 13 | Every gRPC service the tree declares, read from its definition |
-| 11 | `docs` | 196 | 9 | The decision-record index and its category rule, the development guides, the release-note template and the newest note |
-| 12 | `go.mod` | 1 | 1 | Whole file — the toolchain the tree fixes and the module pins |
-| 13 | `pkg/proto` | 66 | 3 | The generation header every committed binding carries, and the failure-policy family with no source |
+| **Survey i2** — this iteration — 16 areas | `go.sum`, `img`, `pkg/api/`, `pkg/messaging/`, `pkg/channel/`, `pkg/components/`, `pkg/resiliency/`, `pkg/middleware/`, `pkg/config/`, `pkg/diagnostics/`, `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/`, `pkg/cors/` | 317 | The sidecar's request path and component plane: how an application's call becomes a component operation, and what it dispatches into. `pkg/api/` is read whole — iteration 1 opened 5 of its 124 files, enough to name the entry points and not enough to state what an operation does | The request path is the primary entry surface and the component registries are what it dispatches into; the two are read together or neither is legible. `go.sum` takes its turn at the head of the slice because it is read against `go.mod`'s pins; `img` because it is what `README.md` embeds |
+| **Survey i3** — 11 areas | `pkg/actors/`, `pkg/runtime/`, `pkg/placement/`, `pkg/scheduler/`, `pkg/sentry/`, `pkg/security/`, `pkg/operator/`, `pkg/injector/`, `pkg/acl/`, `apis/`, `client/` | 866 | The control planes and the stateful abstractions: actor placement and reminders, job scheduling, the trust domain, resource reconciliation, the workflow engine and the access-control layer | Each is a separate process with its own leadership, contracts and failure modes, so they are read as one slice. `pkg/runtime/` lands here rather than in this iteration because its hot-reload, compstore, authorizer, scheduler and wfengine subtrees are what these control planes bind together — the request path in this iteration reaches only its processor subtree |
+| **Survey i4** — 17 areas | `charts/`, `docker/`, `tests/`, `grafana/`, `swagger/`, `platforms/`, `tools/`, `pkg/testing/`, `Makefile`, `.golangci.yml`, `.prettierrc.json`, `.codecov.yaml`, `.devcontainer/`, `.build-tools/`, `.gitattributes`, `.gitignore`, `.prettierignore` | 3 496 | The delivery surface and the test substrate: how the six binaries are deployed, how the layered suites execute, and which conventions the kept code follows | Deployment is a first-class concern of this system and the suites are the only empirical statement of its behaviour; both are read once the systems under test are known. This is the largest slice — 2 073 integration suite files and 631 perf files under `tests/` — and its overrun is R001 |
+| **Survey i5** — 13 areas | `internal/`, `utils/`, `pkg/backoff/`, `pkg/buildinfo/`, `pkg/encryption/`, `pkg/expr/`, `pkg/messages/`, `pkg/outbox/`, `pkg/responsewriter/`, `pkg/retry/`, `pkg/scopes/`, `pkg/sse/`, `pkg/validation/` | 68 | The shared helper layer the request path and the control planes both draw on | These packages expose no entry point of their own; they are read last, once the callers that justify them are known |
 
-**What an area's remaining depth is not.** Five areas were opened well short of their file count — `.github` 3 of 120, `cmd` 12 of 183, `dapr` 13 of 45, `docs` 9 of 196, `pkg/proto` 3 of 66 — because the perimeter closed without it. That depth is **not** a Survey remainder: it is what the System Inventory's Priorities section orders, and it is Excavation's. Re-opening an area this iteration already read would put one area in two iterations of the cut.
-
-**The remainder, counted.** This iteration was assigned thirteen areas and reached every one: it has no unreached area. The Survey remainder is the areas the cut assigns to iterations 2 through 5, and `go.sum` and `img` are among them, listed once, in iteration 2's row. Whether the cut still holds is asked at the close of each iteration from what that iteration read; it is not projected from this one's count. No phase of this project has closed, so there is no measured rate and none is stated. Should an iteration overrun, the remedy is R001's — one more iteration, never less scope, and never more agent roles in parallel.
-
-| Iteration | Areas the iteration takes, in the order to take them | What the iteration establishes | Basis of the split |
-|---|---|---|---|
-| **Survey i1** — 13 areas, 13 read | `.github`, `CODEOWNERS`, `CONTRIBUTING.md`, `GOVERNANCE.md`, `LICENSE`, `README.md`, `RELEASE.md`, `SECURITY.md`, `cmd`, `dapr`, `docs`, `go.mod`, `pkg/proto` | The perimeter and the system's self-declaration: the 23 decision records under `docs/decision_records/`, the protocol contracts under `dapr/proto/`, the six executables under `cmd/`, the 25 CI workflows under `.github/workflows/`, the release history under `docs/release_notes/` and the toolchain the tree fixes | The documents and the contracts are the smallest surface that defines the system's boundary, and every later area is read against them |
-| **Survey i2** — 16 areas | `go.sum`, `img`, `pkg/api/`, `pkg/messaging/`, `pkg/channel/`, `pkg/components/`, `pkg/resiliency/`, `pkg/middleware/`, `pkg/config/`, `pkg/diagnostics/`, `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/`, `pkg/cors/` | The sidecar's request path and component plane: how an application's call becomes a component operation, and what it dispatches into. `pkg/api/` is read whole: iteration 1 opened 5 of its 124 files, enough to name the entry points and not enough to state what an operation does | The request path is the system's primary entry surface and the component registries are what it dispatches into; the two are read together or neither is legible. `go.sum` and `img` take their turn at the head of the slice: the first is read against `go.mod`'s pins, the second holds the images the six executables ship as |
-| **Survey i3** — 11 areas | `pkg/actors/`, `pkg/runtime/`, `pkg/placement/`, `pkg/scheduler/`, `pkg/sentry/`, `pkg/security/`, `pkg/operator/`, `pkg/injector/`, `pkg/acl/`, `apis/`, `client/` | The control planes and the stateful abstractions: actor placement and reminders, job scheduling, the trust domain, resource reconciliation, the workflow engine and the access-control layer | Each is a separate process with its own leadership, contracts and failure modes, so they are read as one slice. `pkg/runtime/` lands here rather than in i2 because its hot-reload, compstore, authorizer, scheduler and wfengine subtrees are what these control planes bind together — the request path in i2 reaches only its processor subtree |
-| **Survey i4** — 17 areas | `charts/`, `docker/`, `tests/`, `grafana/`, `swagger/`, `platforms/`, `tools/`, `pkg/testing/`, `Makefile`, `.golangci.yml`, `.prettierrc.json`, `.codecov.yaml`, `.devcontainer/`, `.build-tools/`, `.gitattributes`, `.gitignore`, `.prettierignore` | The delivery surface and the test substrate: how the six binaries are deployed, how the layered suites execute, and which conventions the kept code follows | Deployment is a first-class concern of this system and the suites are the only empirical statement of its behaviour; both are read once the systems under test are known. This is the largest slice — 2 073 integration suite files and 631 perf files under `tests/` — and its overrun is R001 |
-| **Survey i5** — 13 areas | `internal/`, `utils/`, `pkg/backoff/`, `pkg/buildinfo/`, `pkg/encryption/`, `pkg/expr/`, `pkg/messages/`, `pkg/outbox/`, `pkg/responsewriter/`, `pkg/retry/`, `pkg/scopes/`, `pkg/sse/`, `pkg/validation/` | The shared helper layer the request path and the control planes both draw on | These packages expose no entry point of their own; they are read last, once the callers that justify them are known |
-
-Counted once, the areas sum to 70 — the count the cut declared, with nothing dropped and nothing read twice: 13 read in i1, plus the 16 i2 holds, plus 11, 17 and 13. A further iteration takes exactly what the SBC review leaves open — the Review Record's findings and the actions it sets — and nothing else. The phase iterates while the cut holds an area or the record holds a finding open; it does not iterate because a calendar says so.
+Counted once, the areas sum to 70 — the count the cut declared, with nothing dropped and nothing read twice: 13 read in iteration 1, plus the 16, 11, 17 and 13 the four remaining iterations hold. A further iteration takes exactly what the SBC review leaves open — the Review Record's findings and the actions it sets — and nothing else. The phase iterates while the cut holds an area or the record holds a finding open; it does not iterate because a calendar says so.
 
 The iteration count of the sprint zero is set by the cut of the existing system, not by the rubber profile: that profile distributes the iterations of the RUP phases and is not applied to the reading of a 6 629-entry repository.
 
-### Fine plan — Survey iteration 1
+### What this iteration inherits as rework, and where each item is worked
+
+| Item | Finding | Worked in | Why here and not elsewhere |
+|---|---|---|---|
+| Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-the-slice total and the `docs` categories | `System Inventory#F2` | This iteration, W2 | The finding's consuming end is this plan's own figures: no count can be re-quoted before it reproduces from its enumeration. Its source is the artifact's account of iteration 1's own reading, which is closed reading, not new reading |
+| Derive the component and external-system counts from the tables; restate the proto breakdown against `AN-002` and `AN-013` | `System Inventory#F3` | This iteration, W2 | Two numbers that disagree with the tables they are printed beside; corrected by reading nothing new |
+| Re-quote the corrected figures in the measurement table and the cut tables | `System Inventory#F2` at its consuming end | This iteration, W7 | This role's own end of the finding; it cannot be worked before the source lands |
+| Add an accountable-role column distinct from the register's custodian | `Risk List#F1` | This iteration, W6 | A correction inside the register; it holds no gate but it is the owner's next turn |
+| Anchor the actor-state start-up requirement on code that enforces it, or restate it as what `actorStateStoreBindings` does; move the anchor out of the declared unread set | `System Inventory#F1` | Survey i3, W3 there | The remedy is to cite code that enforces the requirement. That code is in `pkg/runtime/`, which the cut assigns to iteration 3. Placing the fix here would put one area in two iterations of the cut, which the cut forbids |
+| Restate iteration 1's row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only; restate the "Unread areas declared" criterion | `Iteration Plan#F2` | Done at iteration 1's close and carried in this document | The corrected content is in the tables above and in the Evaluation Criteria below; its closure is the Management Reviewer's |
+| Delete the phase-length quotient and state the remainder as the counts the cut holds | `Iteration Plan#F1` | Done at iteration 1's close and carried in this document | The quotient appears nowhere; "The remainder, counted" states counts and R001's remedy, and states that the cut's sufficiency is asked at each iteration close |
+
+### Fine plan — Survey iteration 2
 
 | # | Work item | Owner | Input | Output | Exit condition |
 |---|---|---|---|---|---|
 | W0 | Tailor the process for the phase: Development Case, and the Contribution Guide the owner carries in-tree | Process Engineer | The IARI baseline; the project's declared facts; the owner's `CONTRIBUTING.md` | Development Case | The Environment stage of the inherited process is satisfied before the reading opens; every §5.2 optional is recorded fired or not fired with its reason |
-| W1 | Declare the cut of the phase | Project Manager | This plan; the repository tree | Cut recorded with the process service | The cut is recorded and no other role of the iteration works before it |
-| W2 | Read what the system says it is | Software Archaeologist | `README.md`, `docs/decision_records/`, `docs/release_notes/`, `docs/development/`, `docs/CONTRIBUTING.md`, `go.mod`, `RELEASE.md`, `SECURITY.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `CODEOWNERS` | System Inventory — Documentation | Every claim carries `Source: <path>`; the 23 decision records are reported as evidence and are not renumbered into the project's identifier families |
-| W3 | Fix the perimeter and enumerate the entry points | Software Archaeologist | `cmd/`, `dapr/proto/`, `.github/` | System Inventory — Perimeter | Every executable, every API surface and every protocol contract is enumerated and labelled `EP-NNN`, each with its `Source:` anchor |
-| W4 | Record the anomalies and order what remains | Software Archaeologist | W2, W3 outputs | System Inventory — Anomalies and Priorities | Each anomaly is labelled `AN-NNN` with its anchor; the areas still to read are ordered |
-| W5 | Score the risks the reading exposed and evolve this plan | Project Manager | System Inventory, this plan | Risk List; the cut corrected against Coverage and the sequencing recorded | Every risk carries probability, impact, magnitude, strategy and accountable role; every anomaly carries at least one; the cut matches the recorded cut area for area and in order |
-| W6 | Review the iteration against the SBC criteria | Reviewer, Management Reviewer, Review Coordinator | Iteration increments | Review Record; milestone verdict | The verdict is issued; a Critical finding escalates to the stakeholder and the milestone does not close |
-| W7 | Record the Iteration Assessment given the verdict | Project Manager | Review Record; the iteration's objectives and evaluation criteria | Iteration Assessment | Every objective is stated met or missed, with the scope or plan adjustment the next iteration takes |
+| W1 | Declare the cut of this iteration and of the remainder | Project Manager | This plan; the repository tree | Cut recorded with the process service | The cut is recorded and no other role of the iteration works before it |
+| W2 | Reconcile the Coverage counts and derive the stated counts from the tables | Software Archaeologist | System Inventory — its Coverage table, its Components and External actors tables, `AN-002`, `AN-013` | System Inventory — corrected Coverage, Document Control status line, Proto contracts row | `System Inventory#F2`: each row's stated count equals the files enumerated on it, the outside-the-slice total equals the rows listed, the `docs` categories reconcile. `System Inventory#F3`: each count is derived from its table and stated once; the proto breakdown matches `AN-002` and `AN-013` |
+| W3 | Read what the system says it is: the component registries as declarations | Software Archaeologist | `pkg/components/` | System Inventory — Documentation | Each registry is stated as the set of component kinds it admits, with the `Source:` anchor that declares the kind list; the four pluggable families and the wasm and versioning gates are recorded as declarations, not as behaviour |
+| W4 | Fix the perimeter of the request path and enumerate the entry points it adds | Software Archaeologist | `go.sum`, `img`, `pkg/api/` whole, `pkg/messaging/`, `pkg/channel/` | System Inventory — Perimeter | Every entry point the slice adds is enumerated and labelled `EP-NNN` with its `Source:` anchor; the hand-maintained gRPC allowlist map, the HTTP route families, the two gRPC servers and the app-channel boundary are each stated with file and lines |
+| W5 | Record what the request path and the plane do not hold together, and re-order what remains | Software Archaeologist | W2, W3, W4 outputs | System Inventory — Anomalies and Priorities | Each new anomaly is labelled `AN-NNN` with its anchor; the areas still to read are re-ordered against what this slice exposed |
+| W6 | Score the risks this slice exposed, and name the role accountable for retiring each entry | Project Manager | System Inventory, the Risk List | Risk List | Every risk carries probability, impact, magnitude, strategy and an accountable role distinct from the register's custodian; every anomaly newly recorded here carries at least one risk |
+| W7 | Re-quote the reconciled figures and restate the cut against what was read | Project Manager | W2's corrected counts; W4, W5 outputs; this plan | Iteration Plan | The measurement table carries the reconciled totals and nothing earlier; the cut matches the recorded cut area for area and in order; whether the cut still holds is answered from this iteration's reading |
+| W8 | Review the iteration against the SBC criteria | Reviewer, Management Reviewer, Review Coordinator | Iteration increments | Review Record; milestone verdict | The verdict is issued; a Critical finding escalates to the stakeholder and the milestone does not close |
+| W9 | Record the Iteration Assessment given the verdict | Project Manager | Review Record; this iteration's objectives and evaluation criteria | Iteration Assessment | Every objective is stated met or missed, with the scope or plan adjustment the next iteration takes |
 
-No work item is given a size. Nothing in this project has been measured — no phase has closed — so there is no actual to size against, and no unit of person-duration exists in this system to express one in. What iteration 1 read is counted above in files and areas: that is what this phase measures, it is not a rate to project, and no iteration forecast is derived from it.
+No work item is given a size. One phase iteration has closed and its spend is recorded as that iteration's own measured fact — 19 480 197 tokens and 0:36:59.0766494 of agent time, with 0:00:00 of measured gate queue time — and it is not a rate: it is one iteration of a sprint zero whose reading is dominated by documents and manifests, so nothing is projected from it onto a slice that holds `pkg/api/` whole. W2 exists because the phase's evidence that its reading happened must reproduce from the enumeration printed beside it.
 
-All eight work items ran, W0 to W7. W6 issued the verdict — **SBC: iteration REQUIRED** — and W7 recorded the Iteration Assessment against it. W6 is a human gate and queue time: bounded at 14 days in the Risk List under R002, measured when it opens, never forecast here. W0 ran before the iteration opened and is carried as a work item from iteration 2 on, so that an artifact of the increment is never absent from the plan that reports on it.
-
-For Survey iteration 2 the plan is these same eight work items over the cut's next slice, plus the rework the Review Record leaves open — the Environment stage first, as it is in every iteration of the inherited process.
+### The critical chain of this iteration
 
 ```plantuml
 @startuml
-title Survey iteration 1 - the critical chain from tailoring to gate
-skinparam wrapWidth 240
+title Survey iteration 2 - the critical chain from tailoring to gate
+skinparam wrapWidth 250
 
 |Process Engineer|
 start
-:Tailor the process\nDevelopment Case, Contribution Guide;
+:Tailor the process for the phase\nDevelopment Case, Contribution Guide;
+note right
+  W0 is an explicit work item this
+  iteration: an artifact of the
+  increment is never absent from
+  the plan that reports on it.
+end note
 
 |Project Manager|
-:Cut the phase into iterations and declare it\nrecord_iteration_cut;
+:Declare the cut of this iteration\nrecord_iteration_cut - 16 areas;
 note right
   No other role of the iteration
-  works before this is recorded.
+  works before the cut is recorded.
 end note
 
 |Software Archaeologist|
-:System Inventory - Documentation\nread what the system says it is;
-:System Inventory - Perimeter\nfix the areas, enumerate the entry points;
-:System Inventory - Anomalies and Priorities\nrecord what does not hold together;
+:Reconcile the Coverage counts and derive\nthe stated counts from the tables;
 note right
-  Each stage is a separate invocation
-  with its own tool budget.
+  Closes System Inventory#F2 at its
+  source and #F3; a count that does not
+  reproduce from its enumeration is
+  counted again, not restated.
 end note
+:Documentation - the component registries\nread as declarations;
+:Perimeter - go.sum, img, pkg\/api\/ read whole,\nplus pkg\/messaging\/ and pkg\/channel\/;\nenumerate the entry points the slice adds;
+:Anomalies and Priorities - what the request\npath and the plane do not hold together;\nre-order what Excavation reads first;
 
 |Project Manager|
-:Risk List - score what the reading exposed\nand evolve the Iteration Plan;
+:Risk List - score what the slice exposed,\nname the accountable role of each entry;
+:Iteration Plan - re-quote the reconciled\ntotals, restate the cut against what was read;
 
 |Reviewer|
 :Review the iteration against the SBC criteria;
@@ -160,12 +174,12 @@ end note
 :Assess the investment the phase implies;
 
 |Review Coordinator|
-:Issue the milestone verdict\nSBC - iteration REQUIRED;
+:Issue the milestone verdict;
 note right
   A gate is queue time, not work: bounded
-  at 14 days in the Risk List, measured
-  when it opens. No stage carries a spend
-  figure - no phase has closed yet.
+  at 14 days under R002, measured when it
+  opens. No stage carries a spend figure -
+  one iteration's actual is not a rate.
 end note
 
 |Project Manager|
@@ -175,44 +189,44 @@ stop
 @enduml
 ```
 
-The chain above is the whole of Survey iteration 1's work: six agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — they are bounded in the Risk List and measured when they open, never forecast here.
+The chain above is the whole of Survey iteration 2's work: seven agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — bounded in the Risk List and measured when they open, never forecast here.
 
 ### Risk-driven sequencing — what each iteration is ordered to confront
 
-The cut places work by where the risk sits, not by where the code sits. Each risk of the Risk List belongs to exactly one row below: eleven to this iteration, the rest to the iteration whose slice can retire them, and five to the whole reading because no area retires them. Risk ids and magnitudes are the Risk List's.
+The cut places work by where the risk sits, not by where the code sits. Each risk of the Risk List belongs to exactly one row below: none is left without an iteration, and five are carried by the whole reading because no area retires them. Risk ids and magnitudes are the Risk List's.
 
 | Iteration | The risks it is sequenced to confront | Why at this point in the cut |
 |---|---|---|
-| i1 — this iteration | R011 (High), R016 (High), R009, R010, R020 — the contract-and-generation cluster; R007, R008, R012, R018, R022 — the self-declaration cluster; R015 | R011 and R016 are two of the phase's three High risks, and both are only confrontable here: R011 is the architecture statement stopping in 2023, read from `docs/decision_records/`; R016 is no in-tree account of any executable's behaviour, read from `cmd/` and the redirect READMEs. The five-document generation divergence (R009, R010, R020) is reachable from `dapr/`, `pkg/proto/` and `docs/` and from nowhere else in the cut. The self-declaration cluster sits on the eight files read whole or on the two READMEs — the index that links an absent record (R007), the overview that omits two packages (R008), the two pointers out of the tree (R012), the seven package notes and the two that are missing (R018), the hand-written Go inside the generated tree (R022). R015 is a directory listing in `cmd/daprd/components/`. All eleven sit on areas no later iteration re-opens |
-| i2 | R017, R019 | The gRPC allowlist duplicate (R017) sits on EP-002, whose operations are implemented in `pkg/api/universal/` — named in iteration 1 and readable only here. The failure-policy divergence (R019) is settled from `pkg/scheduler/`, whose contract i2 has by then shown what dispatches into it |
-| i3 | R023 (High), R014 | R023 is the phase's third High risk — one scheduler process, two authorities, negotiated from what peers report — and is the reason `pkg/scheduler/` is read before the placement service it supersedes. The two suites disabled by renaming (R014) are read in `pkg/runtime/wfengine/`, which sits in this slice and not in i2 |
-| i4 | R001, R013, R021, R025, R024 | Every risk whose exposure is in the delivery surface and the test substrate. R001 is the one that can turn this iteration into two, and its slice is the largest the cut holds. R024's count is iteration 1's — 156 registration files against one test — but whether component behaviour is covered at all is stated in `tests/integration/`, which is i4's |
+| i1 — read | R011 (High), R016 (High), R009, R010, R020, R007, R008, R012, R018, R022, R015 | Two of the phase's three High risks and the five-document generation divergence are reachable from `docs/`, `dapr/`, `pkg/proto/` and `cmd/` and from nowhere else in the cut. Eleven risks, and they sit on areas no later iteration re-opens |
+| i2 — this iteration | R017, R019, and the register's own accounting risks: `System Inventory#F2`, `System Inventory#F3`, `Risk List#F1` | The gRPC allowlist duplicate (R017) sits on `EP-002`, whose operations are implemented in `pkg/api/universal/` — named in iteration 1 and readable only here. The failure-policy divergence (R019) begins to be settled from `pkg/components/`, where the registries are declared, before `pkg/scheduler/` is reached in iteration 3. The three accounting risks are worked here because their consuming end is this iteration's figures |
+| i3 | R023 (High), R014, R024 | R023 is the phase's third High risk — one scheduler process, two authorities, negotiated from what peers report — and is the reason `pkg/scheduler/` is read before the placement service it supersedes. The two suites disabled by renaming (R014) and the registration-file count (R024) are read in `pkg/runtime/wfengine/` and `pkg/actors/`, both in this slice. The remedy for `System Inventory#F1` is placed here because the code that enforces the actor-state requirement is `pkg/runtime/` |
+| i4 | R001, R013, R021, R025 | Every risk whose exposure is in the delivery surface and the test substrate. R001 is the one that can turn this iteration into two, and its slice is the largest the cut holds. R025's harness parsing and R021's release action are both read in `tests/` and `charts/` |
 | i5 | none | The helper layer carries no anomaly and exposes no entry point. It is read for the callers already known and adds no risk to the register |
 | the whole reading, no area | R005, R006, R004, R003, R002 | R005 (repository files obeyed rather than recorded), R006 (an empty size filled with a unit nothing measures), R004 (decision records renumbered into project families) and R003 (the tree's toolchain stated as project policy) are avoided by the shape of every role's work order, not by any area's position in the cut. R002 is the gate itself, bounded at 14 days and measured when it opens |
 
-Twenty-five risks, twenty-five rows: eleven in i1, two in i2, two in i3, five in i4, none in i5, five on the whole reading. A risk with no iteration against it is a risk the cut has not confronted, so this table is checked against the Risk List whenever either changes.
+This table is checked against the Risk List whenever either changes; a risk with no iteration against it is a risk the cut has not confronted.
 
 ### Priorities — what Excavation reads first
 
-The System Inventory's **Priorities** section ranks the thirteen areas the reading still needs, and that ranking is Excavation's reading order — this plan cites it and schedules nothing from it. It is not a second Survey pass: ranks 1 to 5 (`dapr/proto/` message shape, `cmd/daprd/`, `pkg/runtime/`, `pkg/api/`, `pkg/actors/`) name depth inside areas iteration 1 opened or iterations 2 and 3 will open, which is why that depth is Excavation's remainder and not a Survey one.
+The System Inventory's **Priorities** section ranks the areas the reading still needs, and that ranking is Excavation's reading order — this plan cites it and schedules nothing from it. It is not a second Survey pass: ranks 1 to 5 (`dapr/proto/` message shape, `cmd/daprd/`, `pkg/runtime/`, `pkg/api/`, `pkg/actors/`) name depth inside areas an iteration has opened or will open, which is why that depth is Excavation's remainder and not a Survey one.
 
 ## Resources
 | Role | Discipline | Stages this iteration | What it produces |
 |---|---|---|---|
-| Process Engineer | Environment | The Environment stage the inherited process runs at the head of the iteration — Development Case and Contribution Guide. It ran before the iteration opened; iteration 2 carries it as an explicit work item, so an artifact of the increment is never absent from the plan that reports on it | Development Case — ready, reviewed clean from both lenses |
+| Process Engineer | Environment | The Environment stage the inherited process runs at the head of the iteration — Development Case and Contribution Guide | Development Case — W0, an explicit work item so that an artifact of the increment is never absent from the plan that reports on it |
 | Project Manager | Discovery, Project Management | Cut; then Risk List and Iteration Plan; then the Iteration Assessment after the verdict | Iteration Plan, Risk List, Iteration Assessment |
-| Software Archaeologist | Discovery | Documentation; Perimeter; Anomalies and Priorities | System Inventory |
+| Software Archaeologist | Discovery | Reconcile the counts; Documentation; Perimeter; Anomalies and Priorities | System Inventory |
 | Reviewer | — | Milestone review | Review Record findings against the SBC criteria |
 | Management Reviewer | — | Milestone review | Investment assessment of the phase |
-| Review Coordinator | — | Milestone review | The SBC verdict |
+| Review Coordinator | — | Milestone review | The milestone verdict |
 
 Roles that do **not** work in Survey: System Analyst, Requirements Specifier, Software Architect, Designer, Database Designer, User Interface Designer, Capsule Designer, Implementer, Integrator, Test Manager, Test Analyst, Test Designer, Tester, Deployment Manager, Technical Writer, Configuration Manager, Change Control Manager, Business Process Analyst, Business Reviewer, Code Reviewer. Their first phase is Excavation or later, per the inherited process. The Business Process Analyst and the Business Reviewer do not work in any phase (Development Case §2); the Capsule Designer does not either (§3).
 
-No role is added to the phase to shorten it. Parallelism across the reading would put two roles on the same area, and the second would be re-reading what the first already wrote.
+No role is added to the phase to shorten it. Parallelism across the reading would put two roles on the same area, and the second would be re-reading what the first already wrote. The one role at work on the reading this iteration is the Software Archaeologist, because the slice is one connected surface — the request path and the plane it dispatches into — and splitting it would split a fact between two accounts.
 
 ## Use Cases and Scenarios Addressed
 
-None. No use case enters the plan in Survey: the phase's scope unit is the area of the repository listed in the cut above. Use cases are recovered in Excavation from the entry points this iteration labels `EP-NNN` — the Use-Case Model traces each recovered use case to the entry point that performs it.
+None. No use case enters the plan in Survey: the phase's scope unit is the area of the repository listed in the cut above. Use cases are recovered in Excavation from the entry points this phase labels `EP-NNN` — the Use-Case Model traces each recovered use case to the entry point that performs it.
 
 | Phase | Scope unit | Where it is planned |
 |---|---|---|
@@ -223,14 +237,15 @@ None. No use case enters the plan in Survey: the phase's scope unit is the area 
 ## Evaluation Criteria
 | Criterion | Threshold | Evidence |
 |---|---|---|
-| Perimeter confirmed | Every executable under `cmd/`, every API surface and every protocol contract under `dapr/proto/` is enumerated, each with a `Source:` anchor | System Inventory — Perimeter: 16 entry points, `EP-001` to `EP-016`, each with its anchor; its component table and its external-actor table are the same stage's, entry by entry |
-| Priorities ordered | The areas still to read are ordered, with the ordering stated and cited as Excavation's reading order rather than as a Survey work item | System Inventory — Priorities: 13 ranks, each with why it comes first; cited in "Priorities — what Excavation reads first" |
-| Traceable reading | No element of the System Inventory is stated without the path and lines it was read from | System Inventory, all stages; the Coverage table accounts for every area of the slice |
+| Request path fixed | `pkg/api/` read whole; `pkg/messaging/` and `pkg/channel/` read; `go.sum` and `img` recorded for what they are; every entry point the slice adds is labelled `EP-NNN` with its `Source:` anchor | System Inventory — Perimeter, this iteration's stage |
+| Component plane recorded | Each registry under `pkg/components/` is stated as the set of component kinds it admits, with the anchor that declares the kind list; `pkg/resiliency/`, `pkg/middleware/` and `pkg/config/` are stated with their anchors | System Inventory — Documentation and Perimeter |
+| Cross-cutting surfaces anchored | `pkg/diagnostics/`, `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/` and `pkg/cors/` each stated with the file and lines read | System Inventory — Perimeter |
+| Counts reproduce from their enumeration | `System Inventory#F2`: every Coverage row's stated count equals the files enumerated on that row, the outside-the-slice total equals the rows listed, and the `docs` categories reconcile. `System Inventory#F3`: the component and external-system counts are derived from their tables and stated once, and the proto breakdown matches `AN-002` and `AN-013` | System Inventory — Coverage, Document Control, Components and External actors tables, Proto contracts row |
+| Plan re-quotes only reconciled figures | This plan carries no read-count while the criterion above is unmet, and carries the reconciled total once it lands. A count that cannot be reproduced from its own enumeration is not re-quoted | This plan's cut tables and measurement table |
 | Cut held | Every area listed in the cut belongs to exactly one iteration, in the order the cut records, and no area of the tree is left uncut | This plan's cut tables and the recorded cut — 70 areas, each in exactly one iteration |
-| Unread areas declared | An area the iteration did not reach is named, not skipped, and the remainder is counted | This iteration had no unreached area: 13 assigned, 13 reached. The declared remainder is the 57 areas the cut assigns to iterations 2 to 5, `go.sum` and `img` among them, each listed once |
-| Depth left in a read area is not a Survey remainder | An area opened short of its file count is scheduled by the System Inventory's Priorities for Excavation, never re-opened inside the Survey cut | This plan: the five areas opened short — `.github`, `cmd`, `dapr`, `docs`, `pkg/proto` — and the Priorities citation |
-| Risks sequenced, not only scored | Every risk of the Risk List names the iteration of the cut that confronts it, or the row of risks the whole reading carries | This plan: "Risk-driven sequencing"; Risk List — 25 risks, all 20 anomalies refined, three High and thirteen Significant all on `avoid` |
-| No figure the process did not measure | No work-item size, no rate, no calendar date and no forecast appears anywhere in the phase's artifacts. What this system measures is reported as measured: agent work in tokens and elapsed agent time, a human gate in queue time, each clock apart and never summed. No phase has closed, so no phase-level spend exists and no forecast is built from this iteration's figures | This plan; the Risk List; the Iteration Assessment's measurement table, which states each figure as this iteration's own measured fact and derives no rate from it |
+| Unread areas declared | An area the iteration does not reach is named in the next iteration's row, not counted as reached; the remainder is stated as the counts the cut holds | This plan's cut tables: 57 areas across the four remaining iterations, `go.sum` and `img` among this iteration's |
+| Risks sequenced and accountable | Every risk of the Risk List names the iteration of the cut that confronts it, and the role accountable for retiring it, distinct from the register's custodian | This plan's "Risk-driven sequencing"; Risk List — every anomaly carried, every High and Significant risk on `avoid` |
+| No figure the process did not measure | No work-item size, no rate, no phase-length forecast and no calendar date appears in this plan. What this system measures is reported as measured: agent work from the iteration that has closed, its token spend and elapsed agent time and its measured gate queue time, with the clocks apart and never summed. That figure is one iteration's actual and is not projected onto this iteration's slice | This plan; the Risk List's R006; the Iteration Assessment's measurement table |
 
 Each criterion is checkable against an artifact in the increment.
 
@@ -238,10 +253,9 @@ Each criterion is checkable against an artifact in the increment.
 
 | Measurement | Value | Decision it enables |
 |---|---|---|
-| Areas of the slice reached | 13 of 13 assigned; five of them opened short of their file count | Whether an area is read at the depth its priority needs, or skimmed — and, where it is short, whether that depth belongs to Excavation instead |
-| Files opened against the files the slice areas hold | Not stated here until the System Inventory's Coverage counts are reconciled — `System Inventory#F2`. The table carries the number the moment each Coverage row reproduces from the files enumerated on it, and carries none before | Whether the perimeter can be closed from the slice alone; a rising count of files opened outside the slice means the cut is drawn in the wrong place |
-| Anomalies recorded | 20 | Whether the reading has found the system's incoherences, or only described it |
-| Risks carrying no iteration against them | 0 | Whether the cut is ordered by risk at all, or only by convenience of location |
+| Areas of the slice reached | Stated at the iteration's close, as assigned against reached | Whether an area is read at the depth its priority needs, or skimmed — and, where short, whether that depth belongs to Excavation instead |
+| Files opened against the files the slice areas hold | Not stated until the Coverage rows reproduce from the files enumerated on them — `System Inventory#F2`. The table carries the number the moment each row does, and carries none before | Whether the perimeter can be closed from the slice alone; a rising count of files opened outside the slice means the cut is drawn in the wrong place |
+| Anomalies recorded, and the new ones this slice added | Counted at the close, against the 20 the phase held | Whether the reading is finding the system's incoherences or only describing it, and whether a slice is large enough to expose any |
+| Risks carrying no iteration against them | 0, checked when the Risk List is scored at W6 | Whether the cut is ordered by risk at all, or only by convenience of location |
 
-No rate is derived from any of these. They are counts of what one iteration read — not a velocity, and not a basis for projecting the length of the phase. The next iteration's slice is set by the cut and the remainder, never by a per-iteration figure.
-
+No rate is derived from any of these. They are counts of what an iteration read — not a velocity, and not a basis for projecting the length of the phase. Whether the cut suffices is asked at each iteration close from what that iteration read.
