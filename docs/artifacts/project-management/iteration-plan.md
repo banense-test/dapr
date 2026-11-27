@@ -123,15 +123,20 @@ The iteration count of the sprint zero is set by the cut of the existing system,
 
 ### What this iteration inherits as rework, and where each item is worked
 
-| Item | Finding | Worked in | Why here and not elsewhere |
+| Item | Finding | Worked in | State |
 |---|---|---|---|
-| Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-the-slice total and the `docs` categories | `System Inventory#F2` | This iteration, W2 | The finding's consuming end is this plan's own figures: no count can be re-quoted before it reproduces from its enumeration. Its source is the artifact's account of the reading, which is closed reading, not new reading |
-| Derive the component and external-system counts from the tables; restate the proto breakdown against `AN-002` and `AN-013` | `System Inventory#F3` | This iteration, W2 | Two numbers that disagree with the tables they are printed beside; corrected by reading nothing new |
-| Re-quote the reconciled figures in the slice table, the cut tables and the Evaluation Criteria | `System Inventory#F2` at its consuming end | This iteration, W7 | This role's own end of the finding; it cannot be worked before the source lands |
-| Add an accountable-role column distinct from the register's custodian | `Risk List#F1` | This iteration, W6 | A correction inside the register; it holds no gate but it is the owner's next turn |
-| Anchor the actor-state start-up requirement on code that enforces it, or restate it as what `actorstateStoreBindings` does; move the anchor out of the declared unread set | `System Inventory#F1` | Survey i3, W3 there | The remedy is to cite code that enforces the requirement. That code is in `pkg/runtime/`, which the cut assigns to iteration 3, and `pkg/config/configuration.go` — read in this iteration — is where the binding rules are enforced. Placing the fix here would put one area in two iterations of the cut, which the cut forbids |
-| Restate iteration 1's row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only; restate the "Unread areas declared" criterion | `Iteration Plan#F2` | This document | The slice tables, the cut tables and the Evaluation Criteria above carry the corrected account. Closure is the Management Reviewer's |
-| Delete the phase-length quotient and state the remainder as the counts the cut holds | `Iteration Plan#F1` | This document | No quotient appears anywhere above; "The remainder, counted" states the counts and `R001`'s remedy, and states that the cut's sufficiency is asked at each iteration close. Closure is the Management Reviewer's |
+| Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-the-slice total and the `docs` categories | `System Inventory#F2` | This iteration, W2 | Closed by its recording lens on hand re-added figures |
+| Derive the component and external-system counts from the tables; restate the proto breakdown against `AN-002` and `AN-013` | `System Inventory#F3` | This iteration, W2 | Closed by its recording lens |
+| Re-quote the reconciled figures in the slice table, the cut tables and the Evaluation Criteria | `System Inventory#F2` at its consuming end | This iteration, W7 | Applied — 28 files this iteration and 88 for the phase, each quoted from the row that reproduces it |
+| Add an accountable-role column distinct from the register's custodian | `Risk List#F1` | This iteration, W6 | Closed by its recording lens |
+| Delete the phase-length quotient and state the remainder as the counts the cut holds | `Iteration Plan#F1` | This document | Closed by its recording lens |
+| Restate iteration 1's row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only | `Iteration Plan#F2` | This document | Closed by its recording lens |
+| Restate the risk-driven sequencing row so every placement names an area its iteration opens; keep the placed count truthful | `Iteration Plan#F3` | This document | Rework applied; closure is the Management Reviewer's |
+| Carry the two unlocated component categories as a scored risk | `System Inventory#F4` at its consuming end | Risk List, W6 | Applied — `R029`, 4 × 3, Significant, avoided, confronted in Survey i3 |
+| Anchor the actor-state start-up requirement on code that enforces it | `System Inventory#F1` (Reviewer) | Survey i3, W3 there | Carried — the enforcing code is in `pkg/runtime/`, which iteration 3 reads |
+| Name the file that registers each of the fifteen component categories, or state the two unlocated; move the unopened paths out of the anchor column | `System Inventory#F4` | Survey i3 | Owed by its owner; the registration of `workflow` and `workflowbackend` is in `pkg/runtime/wfengine/` and `pkg/actors/` |
+| State the never-assigned count as twenty-three, or derive it from the rows at the foot of the Coverage table | `System Inventory#F1` (Management Reviewer) | Owner's next turn | Owed; Minor, holds no gate |
+| Correct the Deployment Model evidence path to `pkg/modes/modes.go` | `Development Case#F5` | Owner's next turn | Owed; Minor, holds no gate |
 
 ### Fine plan — Survey iteration 2
 
