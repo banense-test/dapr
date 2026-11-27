@@ -457,8 +457,9 @@ show being added or taken out — never from how the code looks today.
 | 13 | The helper layer — `internal/`, `utils/`, `pkg/{backoff,buildinfo,encryption,expr,messages,outbox,responsewriter,retry,scopes,sse,validation}` | These expose no entry point of their own; they are legible only once their callers are known. | `internal/` (32 files), `utils/` (9 files), the eleven small `pkg/` packages |
 
 ## Coverage
-Files opened against files in the tree, per area of this iteration's slice. An area at zero is declared unread, not
-skimmed.
+Files opened against files in the tree, per area of this iteration's slice. An area at zero is declared unread,
+not skimmed. The last five rows are files opened outside the slice because the Perimeter could not be closed
+without them; they are declared here rather than counted against any slice area.
 
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
@@ -470,27 +471,28 @@ skimmed.
 | `README.md` | 1 | 1 — whole file | — |
 | `RELEASE.md` | 1 | 1 — whole file | — |
 | `SECURITY.md` | 1 | 1 — whole file | — |
-| `cmd` | 183 | 5 — the READMEs of `daprd`, `injector`, `operator`, `placement` and `sentry` | 178 unread: no `main.go`, `app.go` or `options.go` body was opened, and none of the 156 component shims. `cmd/scheduler/` holds no README — checked, not read. The entry points above are recorded at the surface the tree and the READMEs name; naming their operations is the next iteration's work. |
-| `dapr` | 45 | 2 — `dapr/README.md`, `dapr/proto/runtime/v1/README.md` | 43 unread: the 37 `.proto` files and the other six package READMEs. The API surface is recorded from the package layout and the READMEs, not from the service definitions themselves. Priority 1. |
-| `docs` | 195 | 9 — `README.md`, `CONTRIBUTING.md`, `decision_records/decision_records.md`, `development/README.md`, `development/developing-dapr.md`, `development/dapr-metrics.md`, `development/preview-features.md`, `release_notes/template.md`, `release_notes/v1.19.3.md` | 186 unread: the 23 decision-record bodies, 152 further release notes, the four remaining development guides, and `artifacts/` (three files this process wrote, not part of the system). The decision-record bodies are architecture evidence for Excavation. |
+| `cmd` | 183 | 12 — the five executable READMEs, `daprd/main.go`, `daprd/app/app.go`, `daprd/components/zz_notag.go`, `operator/app/app.go`, `scheduler/app/app.go`, `scheduler/options/options.go`, `injector/app/app.go` | 171 unread: 155 of the 156 component shims, every `options.go` except the scheduler's, `placement/app/app.go`, `sentry/app/app.go`, and the three tool drivers (`e2e.go`, `perf.go`, `check-lint-version.go`). A shim is read where a component's behaviour is in question, not as a sweep. |
+| `dapr` | 45 | 11 — `dapr/README.md` and nine service definitions: `runtime/v1/dapr.proto`, `runtime/v1/appcallback.proto`, `operator/v1/operator.proto`, `sentry/v1/sentry.proto`, `placement/v1/placement.proto`, `scheduler/v1/scheduler.proto`, `scheduler/v1/placement.proto`, `internals/v1/service_invocation.proto`, `components/v1/state.proto` | 34 unread: the message bodies of `runtime/v1` outside `dapr.proto` and `appcallback.proto` (`actors`, `ai`, `state`, `pubsub`, `workflow`, `jobs`, `search`, `vector`, `binarystore`, `crypto`, `lock`, `metadata`, `configuration`, `secret`, `binding`, `invoke`), the `common/v1` types every message reuses, the four remaining component contracts, and the six remaining package READMEs. Every service the tree declares is now read; what remains is message shape, which the Use-Case Model needs and the Perimeter does not. |
+| `docs` | 196 | 9 — `README.md`, `CONTRIBUTING.md`, `decision_records/decision_records.md`, `development/README.md`, `development/developing-dapr.md`, `development/dapr-metrics.md`, `development/preview-features.md`, `release_notes/template.md`, `release_notes/v1.19.3.md` | 187 unread: the 23 decision-record bodies, 152 further release notes, the four remaining development guides, and `artifacts/` (four files this process wrote, not part of the system). The decision-record bodies are architecture evidence for Excavation. |
 | `go.mod` | 1 | 1 — whole file | — |
 | `go.sum` | 1 | 0 | Unread: the resolved checksum list restates the versions `go.mod` pins; it is read when a dependency question is actually open. |
 | `img` | 3 | 0 | Unread: binary assets (`dapr_logo.svg`, `overview.png`, `dapr_conceptual_model.jpg`). `README.md` embeds `overview.png`; the image states nothing the surrounding text does not. |
-| `pkg/proto` | 66 | 0 | Unread: committed generated code. Its contract is `dapr/proto/`, read at priority 1; a generated body is read only where a handler's behaviour is in question. |
+| `pkg/proto` | 66 | 0 | Unread: committed generated code. Its contract is `dapr/proto/`, now read; a generated body is read only where a handler's behaviour is in question. |
+| `tools` — outside the slice | 4 | 2 — `proto/generate.sh`, `boilerplate.go.txt` | Opened to close the Perimeter: `generate.sh` is cited by `dapr/README.md` and `docs/CONTRIBUTING.md` as the proto-generation path, and the boilerplate file was opened to check the licence-header claim in `.github/copilot-instructions.md`. `codegen.mk` and `tools.go` unread. |
+| `.build-tools` — outside the slice | 14 | 1 — `cmd/root.go` | The seventh Go entry point. It is a separate module (`dapr-build-tools`), which is why the component table lists it apart from the six in `cmd/`. |
+| `pkg/api` — outside the slice | 124 | 5 — `http/http.go`, `http/server.go`, `http/endpoints/endpoint.go`, `grpc/server.go`, `grpc/endpoints.go` | The listener count, the route families, the two gRPC servers and the hand-maintained gRPC allowlist map are the sidecar's entry points. 119 unread, including all of `universal/` (29 files), which is priority 4. |
+| `pkg/channel` — outside the slice | 14 | 1 — `http/http_channel.go` | The app channel is the boundary to the application workload. `grpc/` and the fake and testing packages unread. |
+| `pkg/healthz`, `pkg/injector` — outside the slice | 37 | 2 — `healthz/server/server.go`, `injector/service/handler.go` | The `/healthz` endpoint and the admission webhook are entry points. The patcher package (14 files), `injector/service/{injector,config,pod_patch}.go` and the remaining `healthz/` files unread. |
 
-One file outside the slice was opened because the Documentation stage could not be closed without it:
-`tools/proto/generate.sh`, cited by `dapr/README.md` and by `docs/CONTRIBUTING.md` as the proto-generation path.
+Areas outside this iteration's slice, not opened at all — `pkg/` beyond the 8 files above (1 322 of 1 330),
+`tests/` (3 335), `charts/` (67), `docker/` (22), `internal/` (32), `utils/` (9), `apis/` (46), `client/` (41),
+`swagger/` (1), `grafana/` (6), `platforms/` (13), `Makefile`, `.golangci.yml`, `.prettierrc.json`,
+`.codecov.yaml`, `.gitattributes`, `.gitignore`, `.prettierignore`. Where this inventory names one of them it is
+as the implementer of a component or the anchor of a finding, never as a read area.
 
-Areas outside this iteration's slice — `pkg/` (1 330 files), `tests/` (3 335), `charts/` (67), `docker/` (22),
-`internal/` (32), `utils/` (9), `apis/` (46), `client/` (41), `swagger/` (1), `grafana/` (6), `platforms/` (13),
-`tools/` (4), `.build-tools/` (14), `.devcontainer/` (1), `Makefile`, `.golangci.yml`, `.prettierrc.json`,
-`.codecov.yaml`, `.gitattributes`, `.gitignore`, `.prettierignore` — are not read this iteration. Where this
-inventory names one of them it is as the implementer of a component or the anchor of a finding, never as a read
-area.
-
-**Count of this iteration:** 26 files opened of the 621 the fifteen slice areas hold, plus one outside the slice.
-The tree call reported 6 627 entries. The slice's documents are read in full; its code areas are read at surface
-breadth only.
+**Count of this iteration:** 42 files opened of the 622 the fifteen slice areas hold, plus nine outside the
+slice. The tree call reported 6 629 entries. Every gRPC service the delivery declares is read from its
+definition; the message bodies and the component shims are not.
 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
