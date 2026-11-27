@@ -196,49 +196,62 @@ No change request was opened or decided: the Change Control Manager does not wor
 The stakeholder is asked nothing by this assessment. The verdict escalates only an unresolved Critical finding, and both executing lenses recorded zero. No risk of the register is on `accept` at Significant or High magnitude, so no grant is outstanding and none is requested.
 
 ## Rework Required
-Four Major findings and two Minor stand open at the close of the review. All findings against this role's own artifacts — `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1` — have their rework applied this turn; the three against the System Inventory are the Software Archaeologist's and are owed.
+Two Major and two Minor findings stand open at the close of the review, and none of the four is Critical. This role's own end of the record — `Iteration Plan#F3` and the consuming end of `System Inventory#F4` — has its rework applied this turn. What remains is the Software Archaeologist's `F4` and `F1`, the Process Engineer's `F5`, and the four closures, each of which belongs to the lens that recorded it.
 
 ```plantuml
 @startgantt
-title What the phase owes before iteration 2's cut is declared - order only, no duration claimed
+title What Survey owes before the SBC gate is asked - order only, no duration claimed
 hide footbox
 
-[Reconcile the Coverage counts - Software Archaeologist] lasts 1 day
-[Delete the phase-length quotient and restate the slice row - Project Manager] starts at [Reconcile the Coverage counts - Software Archaeologist]'s end
-[Re-quote the corrected totals in the plan - Project Manager] starts at [Delete the phase-length quotient and restate the slice row - Project Manager]'s end
-[Add the accountable-role column to the register - Project Manager] starts at [Re-quote the corrected totals in the plan - Project Manager]'s end
-[Iteration 2 cut declared - Project Manager] starts at [Add the accountable-role column to the register - Project Manager]'s end
-[Survey i2 - request path and component plane] starts at [Iteration 2 cut declared - Project Manager]'s end
-[Iteration Acceptance - Survey i2] starts at [Survey i2 - request path and component plane]'s end
-[SBC gate - not open] starts at [Iteration Acceptance - Survey i2]'s end
+[SI#F4 - name the fifteen registrations - Software Archaeologist] lasts 1 day
+[R029 - restated at its consuming end - Project Manager] starts at [SI#F4 - name the fifteen registrations - Software Archaeologist]'s end
+[SI#F1 - state the count at twenty-three - Software Archaeologist] starts at [R029 - restated at its consuming end - Project Manager]'s end
+[DC#F5 - resolve the cited path - Process Engineer] starts at [SI#F1 - state the count at twenty-three - Software Archaeologist]'s end
+[Lens closures - the recording lens verifies each] starts at [DC#F5 - resolve the cited path - Process Engineer]'s end
+[Survey i3 - control planes, actors and workflow] starts at [Lens closures - the recording lens verifies each]'s end
+[Survey i4 - delivery surface and test substrate] starts at [Survey i3 - control planes, actors and workflow]'s end
+[Survey i5 - cross-cutting helper layer] starts at [Survey i4 - delivery surface and test substrate]'s end
+[SBC gate - not open] starts at [Survey i5 - cross-cutting helper layer]'s end
 
 [SBC gate - not open] is colored in Orange
 
 note bottom
-  Every bar is drawn the same length: no duration has been measured and
-  no phase has closed, so no bar length and no date is claimed. The orange
-  bar is queue time, bounded at 14 days in the Risk List under R002 and
-  measured when it opens - never forecast, never added to agent time.
-  The SBC gate opens only when every area of the cut is read and every
-  Major finding of the phase has its rework in the baseline.
+  Every bar is drawn the same length: no duration has been measured and no
+  phase has closed, so no bar length and no date is claimed. The orange bar
+  is queue time, bounded at 14 days in the Risk List under R002 and measured
+  when it opens - never forecast, never added to agent time. The gate opens
+  only once every area of the cut is read and every Major finding of the
+  phase has its rework in the baseline. Iteration Plan#F3 is absent from this
+  list because its rework is already in the plan; only its closure is owed.
 end note
 @endgantt
 ```
 
 | # | Rework | Owner | Closes | Holds the SBC gate | State |
 |---|---|---|---|---|---|
-| 1 | Delete the 57 ÷ 13 quotient and its conclusion; state the remainder as the counts the cut holds, with `R001` as the risk and one more iteration as the remedy | Project Manager | `Iteration Plan#F1` | Yes | Applied to the Iteration Plan this turn; closure is the Management Reviewer's |
-| 2 | Restate iteration 1's row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only; restate the "Unread areas declared" criterion | Project Manager | `Iteration Plan#F2` | Yes | Applied to the Iteration Plan this turn; closure is the Management Reviewer's |
-| 3 | Add an accountable-role column distinct from the register's custodian, naming the role that performs the retiring act | Project Manager | `Risk List#F1` | No | Applied to the Risk List this turn; closure is the Management Reviewer's |
-| 4 | Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-slice total and the `docs` categories | Software Archaeologist | `System Inventory#F2` | Yes | Owed — before the next cut sizes itself from these counts |
-| 5 | Anchor the actor-state start-up requirement on code that enforces it, or restate the claim as what `actorStateStoreBindings` does; move the anchor out of the declared unread set | Software Archaeologist | `System Inventory#F1` | Yes | Owed — the iteration that reads `pkg/runtime/`, Survey i3 by the cut |
-| 6 | Derive the component and external-system counts from the tables; restate the proto file breakdown consistent with `AN-002` and `AN-013` | Software Archaeologist | `System Inventory#F3` | No | Owed — owner's next turn |
+| 1 | Restate the sequencing row: R028 on `pkg/api/http/server.go`, R017 on the allowlist map itself with no claim about `universal/`, R019 moved to i3 where `pkg/scheduler/` is read; restate the placed count and the criterion it evidences | Project Manager | `Iteration Plan#F3` | Yes | Applied this turn; closure is the Management Reviewer's |
+| 2 | Carry the two unlocated component categories as a scored risk, naming the accountable role whose reading locates them | Project Manager | `System Inventory#F4` at its consuming end | Yes | Applied this turn — `R029`, 4 × 3, Significant, avoided, confronted in Survey i3 |
+| 3 | Name the file that registers each of the fifteen categories; locate `workflow` and `workflowbackend` in `pkg/runtime/wfengine/` and `pkg/actors/`, or state them unlocated; move the unopened `registry.go` paths into a not-yet-opened column; restate the Components table row to match | Software Archaeologist | `System Inventory#F4` | Yes | Owed — before Excavation's component recovery consumes the registry set |
+| 4 | State the never-assigned count as twenty-three, or derive it from the rows at the foot of the Coverage table | Software Archaeologist | `System Inventory#F1` (Management Reviewer) | No | Owed — owner's next turn |
+| 5 | Correct the Deployment Model evidence path to `pkg/modes/modes.go`; check the other rows of that table for paths that do not resolve | Process Engineer | `Development Case#F5` | No | Owed — owner's next turn |
 
-Items 4 and 5 are why the SBC review's entry criterion is unmet and why the phase iterates. Item 5's remedy is placed in the iteration the cut already assigns `pkg/runtime/` to — Survey i3 — so the claim is anchored where the code that enforces it is read, not re-opened inside iteration 2's slice.
+Items 1 and 2 are this role's and are closed for this iteration; items 3 and 4 are the Software Archaeologist's at the same consuming end as item 2, and item 3 is why the SBC review's entry criterion is still unmet. Item 3's remedy sits inside the phase the cut already plans — `pkg/runtime/wfengine/` and `pkg/actors/` are Survey i3's areas — so it is worked where the registration is, not re-opened inside a slice the cut has closed.
 
 ### What iteration 2 takes
 
 The cut's next slice, unchanged: `go.sum` and `img` as its own areas, then `pkg/api/` read whole, `pkg/messaging/`, `pkg/channel/`, `pkg/components/`, `pkg/resiliency/`, `pkg/middleware/`, `pkg/config/`, `pkg/diagnostics/`, `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/`, `pkg/cors/`. No finding of this review adds an area to it or removes one: the four Major findings are corrections to how iteration 1 is accounted for, not reasons to re-read an area. It inherits all sixteen Significant and High risks, unretired and not yet due, and it carries the Environment stage as its first work item. Its two Minor findings are fixed in their owner's next turn; any defect that persists is re-recorded under its existing key, never as a new one.
 
 The re-quote of the corrected Coverage totals — in the Iteration Plan's measurement table, its Evaluation Criteria and its cut tables — cannot be applied before item 4 lands. Until then the plan states no such figure, which is the correct state and not a gap: a count that cannot be reproduced from its own enumeration is corrected at source first, then quoted.
+
+### What iteration 3 takes
+
+The cut's next slice, unchanged by this review: `pkg/actors/`, `pkg/runtime/`, `pkg/placement/`, `pkg/scheduler/`, `pkg/sentry/`, `pkg/security/`, `pkg/operator/`, `pkg/injector/`, `pkg/acl/`, `pkg/apis/`, `pkg/client/` — 11 areas, 866 entries of the tree. It inherits three additions from this iteration's close and one placement moved onto it:
+
+- `R029` and `System Inventory#F4`'s remedy, both answered by `pkg/runtime/wfengine/` and `pkg/actors/`: the two categories are either located or recorded as unlocated, and no artifact of the phase states the plane as fifteen registries in the meantime.
+- `R019`, moved from this iteration's row to i3's, where `pkg/scheduler/` — the area its mitigation names — is read.
+- `System Inventory#F1`, worked in `pkg/runtime/` where the code enforcing the actor-state requirement is read.
+
+It carries all eighteen Significant and High risks, unretired and not yet due, and it carries the Environment stage as its first work item. Its High risk is `R023`, which is why `pkg/scheduler/` is read before the placement service it supersedes. `pkg/diagnostics/` is not in the slice: it is carried to Excavation's Priorities order at priority 4, and re-opening it inside the Survey cut would put one area in two iterations.
+
+The phase iterates because the cut holds three unread iterations and because two Major findings stand open. It does not iterate because a calendar says so, and no further iteration is added to it on account of this review: nothing here displaces an area or cuts declared scope.
 
