@@ -162,14 +162,6 @@ The three High risks are about one thing: the delivery states less about itself 
 
 No risk in this register is Accepted at Significant or High magnitude, so no stakeholder grant is outstanding and none is requested. The three accepted entries — R002, R003, R025 — are Moderate, where acceptance with a written mitigation and contingency is this role's decision and no one else's to approve.
 
-### How a magnitude is fixed, and why two rows are scored at `possible`
-
-Probability is the chance the consequence happens **to the reading this project is doing**, not the chance the defect exists. A defect the tree shows plainly has already happened; what is uncertain is whether it misleads a later role. That is why R015 and R026 — a disabled shim, a stale README — sit at probability 3 while the anomalies they rest on are certain: neither is likely to be reached before the code it misstates is read.
-
-AN-023 is the one new anomaly scored at a probability below `likely`. The public listener's narrower middleware set is in the code, and it is scored `possible` rather than `likely` because whether it is a defect at all depends on a deployment decision — a public port is opt-in, and no Configuration in the tree sets one. Its impact is 4: an unauthenticated GET surface is a declared constraint that can no longer be met as declared, if a deployment turns it on. That is exposure 12, Significant, and the avoidance is the same reading that produces the finding, not a change to the code.
-
-No risk in this register is scored on a scale of its own, and no magnitude is chosen: each is the band its exposure falls in.
-
 ### How a probability is fixed, and why R028 is scored 3 and not 4
 
 Probability is the chance the consequence happens **to the reading this project is doing**, not the chance the defect exists. A defect the tree shows plainly has already happened; what is uncertain is whether it misleads a later role. That is why R015 and R026 — a disabled shim, a stale README — sit at probability 3 even though the anomalies they rest on are certain: neither is likely to be reached before the code it misstates is read.
