@@ -89,36 +89,95 @@ All twelve appear in the System Inventory's Coverage table. Eleven were read to 
 - **Elements outside the slice.** A call named in a flow step, a component named by its path at a connector, a rule recorded as not yet checked against the code — all work the cut gives a later iteration, and none is a finding here.
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+Review type: Iteration Acceptance — the fourth review activity, applied to a sprint-zero iteration. The System Boundary Confirmed milestone is not judged here; the Project Manager's cut still holds 30 areas for the two iterations that follow, and the phase does not end on this verdict.
 
-This is an Iteration Acceptance on the management question: did iteration 2 read the sixteen areas the cut gave it, and is what it returned fit for the roles that consume it? The milestone's exit criteria are not judged here — the cut still holds 41 areas for three further iterations, and the SBC gate opens when those are read and every Major finding of the phase has its rework in the baseline.
+What this review asks, in the management lens, and nothing else:
 
-What was reviewed, and by what standard:
-
-| Artifact | Reviewed for | Owner | Result from this lens |
-|---|---|---|---|
-| System Inventory | The sixteen areas of the slice described or declared not reached; every count reproducible from the enumeration beside it; every entry point and anomaly anchored | Software Archaeologist | One Minor finding (below). The reading's content is accepted |
-| Iteration Plan | The slice stated in the order taken; the remainder counted, not forecast; every risk placed on an iteration that reads its area | Project Manager | One Major finding (below) |
-| Risk List | Every anomaly carried by a scored risk; magnitude its exposure's band; accountability distinct from custody; no Significant or High risk accepted without the stakeholder | Project Manager | No finding. The register is accepted |
-| Development Case | The tailoring the phase runs under: measurement policy, optional triggers, discipline deltas | Process Engineer | No finding from this lens. The Reviewer's F5 sits under its own key |
-| Iteration Assessment | Read as the phase's running account; it still describes iteration 1 and states so in its own Document Control. Its absence of iteration 2 is not a defect: the Project Manager records it after the verdict | Project Manager | Not assessed as evidence of this iteration |
-
-The management checklist applied, against the eight evaluation criteria the Iteration Plan sets for itself and the four objectives of the slice:
-
-| Check | Standard | Outcome |
+| # | Question | Applied to |
 |---|---|---|
-| Slice reached, or declared | Every one of the sixteen areas is described in the System Inventory or named unread with its reason | Pass — fifteen yielded a file; `pkg/diagnostics/` is declared unread in full with its reason, is not counted as reached, and is carried to priority 4 |
-| Objectives met on the artifact's own evidence | O1 to O5 of the plan each met by an anchor, a label or a reconciled figure | Pass — sixteen entry points labelled, three anomalies added, every Coverage row reproducing, the cut recorded |
-| Counts reproduce | Every figure an artifact prints can be re-derived from the enumeration or table printed beside it | Fail, narrowly — the Coverage sentence closing its introduction states twenty-four never-assigned areas against twenty-three rows (`System Inventory#F1`, Minor) |
-| No figure the process did not measure | No work-item size, no rate, no phase-length forecast, no calendar date; a measured actual reported with both clocks apart | Pass — the quotient is gone, the remainder is counts, the one iteration's spend is quoted as that iteration's fact |
-| Risks placed on the iteration that confronts them | Each of the 28 risks names an iteration, and that iteration opens the area its retirement needs | Fail — `Iteration Plan#F3`, Major |
-| Risk magnitude and accountability | Each magnitude is its exposure's band on the IARI scale; each row names the role whose act retires it | Pass — 3 High, 14 Significant, 11 Moderate; no Significant or High on accept; 28 rows carry an accountable role |
-| Stakeholder decision outstanding | No Critical finding is open that only the stakeholder can answer | Pass — nothing is asked this review; the register holds no grant to seek |
-| Artifacts of the increment present | Every artifact the Development Case sanctions for this phase iteration is in the increment | Pass — Development Case, System Inventory, Iteration Plan, Risk List, Review Record |
+| M1 | Did the iteration read what the cut gave it, and is every area it did not reach declared? | System Inventory; Iteration Plan's cut tables |
+| M2 | Is every anomaly the reading recorded carried as a risk with its magnitude, its strategy and an accountable role? | Risk List; System Inventory's anomalies |
+| M3 | Does every risk the plan says an iteration confronts name an area that iteration opens? | Iteration Plan's risk-driven sequencing; Risk List's sources |
+| M4 | Does the plan carry any rate, work-item size, phase-length forecast or calendar date — a figure the process has not measured? | Iteration Plan; Risk List's `R006` |
+| M5 | Does the register hold a Significant or High risk on accept without the stakeholder's grant, and is custody separated from accountability? | Risk List |
+| M6 | Does the Development Case's tailoring contradict the inherited process? | Development Case |
 
-Review type and lens chosen deliberately: this is a completion review of an iteration, not a feasibility review of a plan and not the phase gate. What the cut assigns beyond this iteration's sixteen areas, and leaves unread, is later work and is not a finding here.
+The management lens does not re-open what the technical lens reviewed: anchors, code claims and stated counts are the Reviewer's. Where the two lenses meet the same fact, this block records its own finding only if the defect is the management one — a placement, a count read as evidence, or an unmeasured figure.
+
+```plantuml
+@startuml
+title Compliance matrix - Survey iteration 3, management lens
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 320
+skinparam nodesep 26
+skinparam ranksep 34
+
+class "System Inventory\n(Discovery, Critical)" as SI {
+  P  all 12 areas of the slice assigned and accounted for
+  P  11 read to a stated depth, pkg/diagnostics declared at 1 of 35
+  P  every read count reproduces: 2+2+9+2+1+1+2+4+1+0+2+1 = 27
+  P  27 in-slice plus 3 outside = 30 distinct; 60+28+30 = 118 for the phase
+  P  the three outside-slice files each state the perimeter fact that needed them
+  P  every anchor names a file this inventory opened, or says in place that it did not
+  P  the never-assigned statement now derives from the rows it counts
+}
+
+class "Iteration Plan\n(Project Management, Medium)" as IP {
+  P  12 areas named in the order the Work Order gives
+  P  no rate, no work-item size, no phase-length forecast, no calendar date
+  P  two iteration actuals reported with both clocks apart, neither a rate
+  P  R023 R019 R014 R024 R026 R029 R030 R031 R032 each name an area this slice opens
+  P  R017 restated with no claim about universal/; R019 moved here; R028 on server.go
+  F  R013 and R021 placed on i4, whose areas hold neither anomaly (F3)
+  F  Document Control states an SBC verdict the same section denies (F4)
+}
+
+class "Risk List\n(Project Management, Medium)" as RL {
+  P  scale is the baseline's, every magnitude is its exposure's band
+  P  27 anomalies, 27 refining risks; R029 to R032 carry AN-024 to AN-027
+  P  R023 scored High on a mixed 4x4 and avoided, accountable role named
+  P  no Significant or High risk on accept; no stakeholder grant outstanding
+  P  custody and accountability separate on all 32 rows
+}
+
+class "Development Case\n(Environment, High)" as DC {
+  P  no delta stated this iteration contradicts the baseline
+  P  the measurement policy the plan and the register are judged against is this document's
+}
+
+class "Legend" as L {
+  P = pass
+  F = fail, with the finding key
+  scope = this iteration's 12 areas, in the order taken
+}
+
+note bottom of SI
+  The management questions on this artifact are two: did the iteration
+  read what the cut gave it, and did what it found become a risk.
+  Both hold - 11 areas read to a stated depth, and the four anomalies
+  this slice recorded are R029 to R032.
+end note
+note bottom of IP
+  Two findings: F3 re-recorded, Major, the placement count;
+  F4 recorded, Minor, one Document Control line. The three rows
+  F3's remediation named are corrected; the count they were
+  required to make true is not.
+end note
+@enduml
+```
+
+#### Entry criteria
+
+| Material | State when this review opened |
+|---|---|
+| System Inventory | Read at its iteration-3 state: 12 areas, 27 in-slice files, 3 outside |
+| Iteration Plan | Read at its iteration-3 state: 12 areas, the 32-risk sequencing, this iteration's fine plan |
+| Risk List | Read at its iteration-3 state: 32 risks, five restated and three added this iteration |
+| Development Case | Read for the deltas this iteration states; unchanged in its triggers |
+| Iteration Assessment | Not consulted as evidence of this iteration. The Project Manager authors it after this verdict; its absence of iteration-3 content is not a finding |
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
