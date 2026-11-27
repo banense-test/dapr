@@ -286,6 +286,95 @@ The System Inventory's defects are the Reviewer's findings, under that lens' own
 | A prior finding of this lens to reconcile | None — this is the phase's first review; nothing to close and nothing closed |
 | Pull requests to dispose of | None — no role of Survey produces code, and the SCM holds no PR in any state |
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+Iteration Acceptance review of Survey iteration 1. The event reviewed is COMPLETION of the iteration, not the SBC milestone: the question is what each role did with the thirteen areas the Project Manager cut, not whether Survey may close. No sanction is sought from the stakeholder and none is granted here.
+
+#### Lenses convened, and the one that did not evaluate
+
+| Lens | Participant | Outcome |
+|---|---|---|
+| Technical | Reviewer | EXECUTED — 3 findings, disposition Approved with Changes |
+| Management | Management Reviewer | EXECUTED — 3 findings, disposition Approved with Changes |
+| Business | Business Reviewer | **INACTIVE — did not evaluate this review** |
+
+The Business Reviewer recorded no verdict of any kind, and none is inferred. It does not work in this project: Business Modeling is INACTIVE in every phase (Development Case §2), so the role is withheld by the tailoring rather than absent from this event. The decision below rests on the two lenses that executed.
+
+#### Review calendar — the sprint zero's review events and what triggers each
+
+```plantuml
+@startuml
+title Sprint zero review calendar - every review event keyed to the iteration boundary that triggers it
+skinparam wrapWidth 240
+
+start
+partition "Survey i1 - perimeter and self-declaration" {
+  :Iteration Plan cut declared\nby the Project Manager;
+  :Artifacts of the iteration produced\nDevelopment Case, System Inventory,\nIteration Plan, Risk List;
+  :Entry criteria checked\nfour artifacts present, lenses assigned,\ncriteria fixed before the reading;
+  :Iteration Acceptance - technical lens\nReviewer;
+  :Iteration Acceptance - management lens\nManagement Reviewer;
+  :Business lens not convened\nBusiness Modeling INACTIVE per the Development Case;
+  :Consolidation of both lenses\nReview Coordinator - this record;
+  note right
+    No event is calendared by date. An iteration
+    boundary triggers its review, so a slipped
+    iteration slips its review with it.
+  end note
+  :Iteration Assessment\nProject Manager, after the verdict;
+}
+partition "Survey i2 - request path and component plane" {
+  :Slice read, carried areas first;
+  :Iteration Acceptance at the close;
+}
+partition "Survey i3 - control planes and actors" {
+  :Slice read;
+  :Iteration Acceptance at the close;
+}
+partition "Survey i4 - delivery surface and test substrate" {
+  :Slice read, the overrun risk R001 sits here;
+  :Iteration Acceptance at the close;
+}
+partition "Survey i5 - helper layer" {
+  :Slice read;
+  :Iteration Acceptance at the close;
+}
+partition "SBC milestone gate" {
+  :SBC Lifecycle Milestone Review\nReviewer, then Management Reviewer, then Review Coordinator.
+  Nothing is asked of the stakeholder here: an Iteration Acceptance
+  seeks no phase sanction, and only an unresolved Critical finding
+  escalates to them, in its own round.;
+  if (any cut area still unread, or any Major finding\nwithout its rework in the baseline?) then (yes)
+    :The phase iterates again\none more iteration, never less scope;
+  else (no)
+    :Survey sanctioned, the AR gate opens;
+  endif
+}
+stop
+@enduml
+```
+
+Every review event in the sprint zero sits on an iteration boundary. The SBC milestone review is calendared once, at the close of the last Survey iteration, and its own entry criterion is that every area of the cut is read and every Major finding of the phase has its rework in the baseline — a criterion the phase cannot meet while iteration 1's four Major findings stand.
+
+#### Entry criteria as enforced at this event
+
+| Criterion | Standard | Outcome |
+|---|---|---|
+| The artifacts to be reviewed are in their target state, not draft fragments | Four artifacts present and readable in full | Met — Development Case, System Inventory, Iteration Plan, Risk List all read |
+| Reviewers assigned with expertise matched to the artifact domain | Technical lens on all four; management lens on the plan, the register and the iteration's objectives | Met — both lenses executed, none mismatched |
+| Scope fixed before the reading, and the scope is the assignment | The Work Order's thirteen areas, in its order | Met — all thirteen reached; none outside the list judged except where a finding names it |
+| Evaluation criteria distributed before evaluation | The SBC criteria, the IARI risk scale, the Development Case measurement policy | Met — each lens states the criteria it applied |
+| Findings carry owner, severity and deadline | Every finding closed or scheduled | Met — six findings, each with a named owner and an action |
+
+#### The slice, and what "not reached" would have meant
+
+Thirteen areas were assigned and thirteen were reached. Depth left inside a reached area — `.github` 3 of 120, `cmd` 12 of 183, `dapr` 13 of 45, `docs` 9 of 196, `pkg/proto` 3 of 66 — is ordered by the System Inventory's Priorities as Excavation's reading, not counted as a Survey remainder: re-opening a read area would put one area in two iterations of the cut.
+
+`go.sum` and `img` are not in the assignment, so they are not areas this iteration failed to reach. They belong to iteration 2's slice, where the cut places them. This is the subject of `Iteration Plan#F2` and is resolved under "Resolutions and Actions".
+
 ## Findings
 ### Reviewer lens
 <!-- review: Survey I1 -->
