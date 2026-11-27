@@ -62,15 +62,14 @@ stop
 The fine plan committed ten work items, W0 to W9. All ten ran, in the order written, and the tenth — this document — records the outcome.
 
 ## Use Cases and Scenarios Implemented
+None, and this is the phase working as designed rather than an omission. No use case enters a Survey plan: the scope unit of the sprint zero is the area of the repository, and this iteration's unit was the sixteen areas the cut assigned it. No Test discipline runs in Survey, so no scenario was executed and no executable was produced.
 
-None, and this is the phase working as designed rather than an omission. No use case enters a Survey plan: the scope unit of the sprint zero is the area of the repository, and this iteration's unit was the thirteen areas the cut assigned it. No Test discipline runs in Survey, so no scenario was executed and no executable was produced.
-
-What the iteration returned instead is the raw material a use case will be recovered from in Excavation: sixteen entry points, `EP-001` to `EP-016`, each anchored to the path it was read from. Excavation recovers one use case per entry point and the Use-Case Model traces each recovered use case to it.
+What the iteration returned instead is the raw material a use case will be recovered from in Excavation. This slice fixed the request-path entry points — `EP-003` and `EP-013` on `pkg/api/http/server.go` across its two listeners, `EP-011` on `pkg/healthz/healthz.go`, `EP-012` on `pkg/metrics/exporter.go` — and recorded the operations the app-channel boundary offers in `pkg/channel/channel.go`. `pkg/api/universal/`, where each operation is implemented, is deliberately outside this read: what an operation does is Excavation's, and it is ranked fourth in the System Inventory's Priorities.
 
 | Phase | Scope unit | This iteration |
 |---|---|---|
-| Survey | Repository area | 13 of 70 areas of the cut read |
-| Excavation | Entry point `EP-NNN`, recovered use case | Not started — 16 entry points available as its input |
+| Survey | Repository area | 29 of 70 areas of the cut read over two iterations; 15 of this iteration's 16 areas reached |
+| Excavation | Entry point `EP-NNN`, recovered use case | Not started — the request-path entry points and the app-channel boundary are its input |
 | Consolidation and later | Declared use case, risk-driven selection | Not started |
 
 ## Results Relative to Evaluation Criteria
