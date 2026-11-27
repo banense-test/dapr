@@ -374,10 +374,13 @@ which the roles read directly:
 
 ### Branching, deployment and release
 
-Branch and release procedure is the owner's and sits in `RELEASE.md`, `.github/workflows/create-release.yaml`,
-`.github/workflows/backport.yaml` and `.github/scripts/create-release.sh`. The roles read those files for the
-procedure; the Development Case does not restate it. The branching rules the roles themselves follow — including the
-branch names the Configuration Manager validates — are stated in `docs/CONTRIBUTING.md`.
+The branch naming rule the roles follow, and the one the Configuration Manager tests with `naming-violation`, is
+stated in section 3 of `docs/CONTRIBUTING.md`: a branch is `<type>/<slug>`, where `<type>` is one of `feature`, `fix`,
+`refactor`, `docs`, `chore`, `hotfix`, and `<slug>` is lower-case kebab-case naming the change, at most 60 characters.
+
+Branch and release procedure beyond that is the owner's and sits in `RELEASE.md`,
+`.github/workflows/create-release.yaml`, `.github/workflows/backport.yaml` and `.github/scripts/create-release.sh`.
+The roles read those files for the procedure; the Development Case does not restate it.
 
 ### Measurement policy
 
