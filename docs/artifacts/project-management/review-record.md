@@ -2,8 +2,6 @@
 ### Reviewer lens
 <!-- review: Survey I2 -->
 
-<!-- review: Survey I2 -->
-
 Phase: Survey
 Status: Draft — iteration 2 review, technical lens. Three prior findings closed (System Inventory F1, F2, F3); two issued (System Inventory F4 Major, Development Case F5 Minor). The SBC milestone verdict is the Review Coordinator's and is not issued here
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
