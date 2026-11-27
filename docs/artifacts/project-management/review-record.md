@@ -729,6 +729,98 @@ Actions 1 and 2 are one act of correction in one artifact and should be done tog
 
 The Reviewer's actions on the System Inventory (`System Inventory#F1`, `#F2`, `#F3`) are owed independently. This lens adds no action to them and does not close them.
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+No prior finding of this lens exists: this is the first review event of the phase, so there was nothing to reconcile and nothing was closed. The closure column below is an obligation assigned to the recording lens, not a closure performed here.
+
+#### Finding lifecycle at this gate
+
+```plantuml
+@startuml
+title Finding lifecycle at this gate - where the six open findings stand
+skinparam wrapWidth 240
+
+[*] --> Open : record_artifact_finding by a lens
+Open --> Assigned : owner and deadline named in the action list
+Assigned --> Reworked : the owner corrects the artifact
+Reworked --> Closed : resolve_artifact_finding by the SAME lens that recorded it
+Reworked --> Open : the same lens finds the defect still stands, re-recorded under its key
+
+state Closed {
+  [*] --> Verified
+  Verified : resolved by the recording lens only
+  Verified : never by a markdown note alone
+}
+
+state "Open at this gate - 6 findings" as Gate {
+  state "Major - 4, these hold the SBC gate" as Major {
+    System_Inventory_F1 : anchor names an undeclared symbol
+    System_Inventory_F2 : read-counts not reproducible
+    Iteration_Plan_F1 : phase length forecast from one iteration
+    Iteration_Plan_F2 : slice booked 13 of 15 against an assignment of 13
+  }
+  state "Minor - 2, owner's next turn, gate not held" as Minor {
+    System_Inventory_F3 : stated counts disagree with own tables
+    Risk_List_F1 : one role named owner of every risk
+  }
+}
+
+Gate --> Assigned : iteration 2 begins
+Major --> Escalated : only if a Critical is recorded - none is
+
+state Escalated {
+  Escalated : REQUIRES_USER_INPUT to the stakeholder
+  Escalated : the milestone cannot close until they answer
+}
+
+note bottom of Escalated
+  No finding of this review reaches this state: both lenses
+  recorded zero Critical, so nothing is asked of the stakeholder
+  and the phase iterates without a gate decision from them.
+end note
+note bottom of Closed
+  A finding closed by a lens other than its recorder is rejected.
+  A defect that persists into the next iteration keeps its key.
+end note
+@enduml
+```
+
+#### Prioritized actions
+
+Priority is set by what blocks what, not by severity alone: `Iteration Plan#F2` comes first because the SBC verdict reads it as evidence, and `System Inventory#F2` comes second because the next cut sizes itself from it. Both are Major and both are owed before the next iteration's slice is fixed.
+
+| # | Action | Owner | Closes | Deadline | Holds the SBC gate |
+|---|---|---|---|---|---|
+| 1 | Restate iteration 1's cut row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only; restate the "Unread areas declared" criterion on a true fact | Project Manager | `Iteration Plan#F2` | Before the next cut is declared | Yes |
+| 2 | Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-slice total and the `docs` categories; move the anchor out of the unread set it claims | Software Archaeologist | `System Inventory#F2` | Before the next cut sizes itself from these counts | Yes |
+| 3 | Re-quote the corrected in-slice and outside-slice totals in the measurement table, Evaluation Criteria and cut tables | Project Manager | `System Inventory#F2` at its consuming end | Immediately after action 2 | Yes |
+| 4 | Delete the 57 ÷ 13 quotient and the conclusion drawn from it; state the remainder as the counts the cut holds, with R001 as the remedy and one more iteration as the mechanism | Project Manager | `Iteration Plan#F1` | Before the SBC gate is asked | Yes |
+| 5 | Anchor the actor-state start-up requirement on code that enforces it, or restate the claim as what `actorStateStoreBindings` does and what it does not enforce | Software Archaeologist | `System Inventory#F1` | In the iteration that reads `pkg/runtime/` — Survey i3 by the cut | Yes |
+| 6 | Derive the component and external-system counts from the tables and state them once; restate the proto file breakdown consistent with the README and overview anomalies | Software Archaeologist | `System Inventory#F3` | Owner's next turn | No |
+| 7 | Add an accountable-role column distinct from the register's custodian and lift into it the names the mitigation rows already give | Project Manager | `Risk List#F1` | Owner's next turn | No |
+
+Actions 1 and 4 are one act of correction in one artifact and are worked together; they remain two findings because one is a false account of the slice and the other a figure no measurement produced. Actions 2 and 3 are one correction seen from its source and its consuming end.
+
+#### Which lens closes what
+
+| Finding | Closed only by | Verification the lens applies |
+|---|---|---|
+| `System Inventory#F1` | Reviewer | The corrected paragraph cites a symbol the file declares, and the file is in the read set |
+| `System Inventory#F2` | Reviewer | Each count reproduces from the enumeration on its own row |
+| `System Inventory#F3` | Reviewer | The status line and both tables state one number each |
+| `Iteration Plan#F1` | Management Reviewer | The quotient is absent and the remainder is stated as counts |
+| `Iteration Plan#F2` | Management Reviewer | The i1 row reads 13 and 13, and `go.sum` and `img` appear once |
+| `Risk List#F1` | Management Reviewer | Every row names a role that performs the retiring act |
+
+No action is assigned to a role that does not work in this phase. No action carries a size, an effort figure or a calendar date: none has been measured, and a date projected from an estimate would read downstream as an observation.
+
+#### What this review does not add to the increment
+
+Two optional artifacts are FIRED by the Development Case and produced in later phases — the Glossary and the Deployment Model. Neither is due in Survey and neither was reviewed here; nothing is recorded against them. The remaining four optionals are NOT FIRED and none is produced. The `System Inventory#F3` proto-breakdown and `#F1` actor-state items require the artifact's author to correct its own account of a file; they are corrections, not new reading.
+
 ## Disposition
 ### Reviewer lens
 <!-- review: Survey I1 -->
