@@ -15,6 +15,15 @@ Phase: Survey
 Status: Draft — iteration 1 review, management lens. Two Major findings on the Iteration Plan and one Minor on the Risk List. The SBC verdict is the Review Coordinator's and is not issued here
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+Phase: Survey
+Status: Draft — iteration 1 review consolidated. Iteration Acceptance recorded; the phase iterates. No milestone is judged and no phase is closed
+Milestone Target: end-of-Survey milestone (SBC) — not achieved, not judged by this review
+
 ## Review Scope and Criteria
 ### Reviewer lens
 <!-- review: Survey I1 -->
