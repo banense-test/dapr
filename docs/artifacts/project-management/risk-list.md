@@ -1,6 +1,6 @@
 ## Document Control
 Phase: Survey
-Status: Draft — iteration 1. Twenty-five risks: every one of the System Inventory's twenty anomalies carried as a scored risk, beside five risks of the phase's shape. Three High, thirteen Significant, nine Moderate — all sixteen Significant and High on avoid, the three Moderate accepted with mitigation and contingency. No stakeholder grant is outstanding
+Status: Draft — iteration 1. Twenty-five risks: every one of the System Inventory's twenty anomalies carried as a scored risk, beside five risks of the phase's own shape. Three High, thirteen Significant, nine Moderate — all sixteen Significant and High on avoid, the three Moderate accepted with mitigation and contingency. Every row names the custodian of the register and, separately, the role whose act retires it. No stakeholder grant is outstanding
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Risk Classification
