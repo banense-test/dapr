@@ -312,7 +312,9 @@ R029 is the register's consuming end of `System Inventory#F4`, scored once the p
 | R026 | AN-021 | Refines | — |
 | R027 | AN-022 | Refines | — |
 | R028 | AN-023 | Refines | — |
+| R029 | — | — | — |
 
-Twenty-three of the twenty-eight refine an anomaly the Software Archaeologist recorded, and every anomaly of the System Inventory now carries at least one. The five with no upstream — R002 to R006 — are risks of the phase's own shape: the human gate, the version policy, the decision records, the instruction-shaped files and the empty size. Each cites its Development Case section in its register row, because a development-case section is not a trace endpoint.
+Twenty-three of the twenty-nine refine an anomaly the Software Archaeologist recorded, and every anomaly of the System Inventory carries at least one. The six with no upstream: R002 to R006 are risks of the phase's own shape — the human gate, the version policy, the decision records, the instruction-shaped files and the empty size — and each cites its Development Case section in its register row, because a development-case section is not a trace endpoint. R029 has no upstream either, for the opposite reason: it is a risk this iteration's slice exposed that the inventory has not yet recorded as an anomaly, and its anchor is the file that declares the fifteen constants and the two paths the tree does not hold.
 
 The edge between an anomaly and the entry point it sits on — AN-012 on EP-002, AN-018 on EP-006, AN-023 on EP-003 — is written in the System Inventory, where those labels are declared. It is not repeated here.
+
