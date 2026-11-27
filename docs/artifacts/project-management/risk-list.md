@@ -290,6 +290,12 @@ One gate is in this list and no other: the SBC milestone review, carried as R002
 
 No forecast of any kind appears in this Risk List. A phase's measured tokens and elapsed time enter this register only when that phase closes; until then an iteration's measured spend is reported as that iteration's fact in its Iteration Assessment, with both clocks apart and no rate derived from either.
 
+### R029 — the two categories the plane cannot account for
+
+| ID | Mitigation | Contingency | Trigger that fires the contingency |
+|---|---|---|---|
+| R029 | `pkg/components/category.go` is recorded as fifteen category constants, and every statement of the plane names all three numbers together: fifteen categories declared, thirteen with a registry at `pkg/components/<category>/registry.go`, two — `workflow` and `workflowbackend` — whose registration was not found in any area this phase has read. Survey i3 reads `pkg/runtime/wfengine/` and `pkg/actors/` and states where each of the two registers, or records it as unlocated. No artifact of the phase states the plane as fifteen registries. | If the two cannot be located in Survey i3, the Software Architecture Document's component view states the two categories as unlocated and names the subtree left to read; the view is then incomplete by two kinds and says so, rather than being completed by inference from the constant names. | An artifact states "one registry per category", or a component count of fifteen kinds, without the thirteen-and-two split beside it — or the Software Architecture Document describes a workflow or actor-backend component with no anchor in the code that registers it. |
+
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
