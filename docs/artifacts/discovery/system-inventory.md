@@ -939,6 +939,8 @@ Across the Survey reading so far: **114 distinct files opened of the 6 631 entri
 | AN-023 | — | DependsOn | EP-003 |
 | AN-024 | — | — | — |
 | AN-025 | — | — | — |
+| AN-026 | — | — | — |
+| AN-027 | — | — | — |
 
-An entry point has no upstream: it is the first element the reading produces, and every use case recovered from it will cite it. An anomaly has no upstream either — its source is the evidence cited in its own row — except where it sits on an entry point, and the three that do carry `DependsOn` the entry point whose reading exposed them: AN-012 on EP-002, the gRPC surface whose allowlist the map duplicates; AN-018 on EP-006, the scheduler contract whose capability flags negotiate the two authorities; AN-023 on EP-003, the public listener whose middleware pipeline is the subset. AN-024 and AN-025 are anomalies of the component plane and of what the delivery documents, not of an entry point, so neither carries a link; the same holds for AN-021 and AN-022, which are anomalies of documents.
+An entry point has no upstream: it is the first element the reading produces, and every use case recovered from it will cite it. An anomaly has no upstream either — its source is the evidence cited in its own row — except where it sits on an entry point, and the three that do carry `DependsOn` the entry point whose reading exposed them: AN-012 on EP-002, the gRPC surface whose allowlist the map duplicates; AN-018 on EP-006, the scheduler contract whose capability flags negotiate the two authorities; AN-023 on EP-003, the public listener whose middleware pipeline is the subset. AN-024, AN-025, AN-026 and AN-027 are anomalies of the component plane, of what the delivery documents and of the declared type surface, not of an entry point, so none carries a link; the same holds for AN-021 and AN-022, which are anomalies of documents.
 
