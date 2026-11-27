@@ -223,11 +223,11 @@ package "Read short of its file count - depth left is ordered to Excavation" {
 package "Not in this iteration's assignment" {
   class "go.sum" as N1 <<outside>> {
     status : not assigned
-    plan books it as an i1 area not reached - M-F2
+    plan books it as an i1 area not reached - Iteration Plan#F2
   }
   class "img" as N2 <<outside>> {
     status : not assigned
-    plan books it as an i1 area not reached - M-F2
+    plan books it as an i1 area not reached - Iteration Plan#F2
   }
 }
 
@@ -260,12 +260,12 @@ end note
 
 | Artifact | Owner | Read for | From this lens |
 |---|---|---|---|
-| Iteration Plan | Project Manager | Its four objectives and whether each was met; the cut's account of the slice; whether any figure in it is forecast rather than measured | Two Major findings |
-| Risk List | Project Manager | Whether the register records a magnitude for every anomaly, whether any Significant or High risk is accepted without a grant, whether each risk names who retires it | One Minor finding |
-| System Inventory | Software Archaeologist | Whether the reading returned the perimeter, the anomalies and the priorities its objectives demand — content, not anchor correctness | Approved from this lens; the Reviewer's two Major and one Minor stand and are not re-recorded |
+| Iteration Plan | Project Manager | Its four objectives and whether each was met; the cut's account of the slice; whether any figure in it is forecast rather than measured | `Iteration Plan#F1`, `Iteration Plan#F2` |
+| Risk List | Project Manager | Whether the register records a magnitude for every anomaly, whether any Significant or High risk is accepted without a grant, whether each risk names who retires it | `Risk List#F1` |
+| System Inventory | Software Archaeologist | Whether the reading returned the perimeter, the anomalies and the priorities its objectives demand — content, not anchor correctness | Approved from this lens; the Reviewer's findings stand and are not re-recorded |
 | Development Case | Process Engineer | The measurement policy the plan must obey; the optional-trigger record | Approved — no delta from this lens |
 
-The System Inventory's defects are the Reviewer's findings (F1, F2, F3 under its lens). A second lens does not re-record another lens' defect; it judges a different question. Where the two lenses touch the same figures — the Reviewer's F2 on the Coverage counts and this lens' finding on the plan that quotes them — the defect is recorded twice because the two artifacts each carry it, and the closure of one does not close the other.
+The System Inventory's defects are the Reviewer's findings, under that lens' own keys. A second lens does not re-record another lens' defect; it judges a different question. Where the two lenses touch the same figures — the Reviewer's finding on the Coverage read-counts and this lens' finding on the plan that quotes them — the defect is recorded twice because the two artifacts each carry it, and closure of one does not close the other.
 
 #### Entry criteria and evidence
 
