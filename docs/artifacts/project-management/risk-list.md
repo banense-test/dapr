@@ -166,16 +166,6 @@ The three High risks are about one thing: the delivery states less about itself 
 
 No risk in this register is Accepted at Significant or High magnitude, so no stakeholder grant is outstanding and none is requested. The three accepted entries — R002, R003, R025 — are Moderate, where acceptance with a written mitigation and contingency is this role's decision and no one else's to approve.
 
-### How a probability is fixed, and why R028 is scored 3 and not 4
-
-Probability is the chance the consequence happens **to the reading this project is doing**, not the chance the defect exists. A defect the tree shows plainly has already happened; what is uncertain is whether it misleads a later role. That is why R015 and R026 — a disabled shim, a stale README — sit at probability 3 even though the anomalies they rest on are certain: neither is likely to be reached before the code it misstates is read.
-
-R028 is the one new entry whose probability is set below the band the certainty of the code would suggest. The public listener's narrower middleware set is in the code and is not in doubt; whether it is a defect depends on a deployment decision this project has not seen made. A public port is opt-in, no Configuration in the tree sets one, and the repository holds no deployment that turns it on. So the probability that the consequence reaches a declared constraint is 3 — medium, 31 % to 50 % — and not 4.
-
-Its impact is 4, and that is the band that matters. If a deployment does set a public port, an access-control constraint the operator configured is no longer met as declared, and the failure is silent: the surface is served, so nothing announces that the body ceiling, the CORS policy, the API-token check and the component middleware are absent. Exposure 12, Significant, and the avoidance is the reading that records the middleware set each listener receives — not a change to the code, which no Survey role makes.
-
-No risk in this register is scored on a scale of its own, and no magnitude is chosen: each is the band its exposure falls in.
-
 ### How a probability is fixed
 
 Probability is the chance the consequence happens **to the reading this project is doing**, not the chance the defect exists. A defect the tree shows plainly has already happened; what is uncertain is whether it misleads a later role. That is why R015 and R026 — a disabled shim, a stale README — sit at probability 3 even though the anomalies they rest on are certain: neither is likely to be reached before the code it misstates is read.
