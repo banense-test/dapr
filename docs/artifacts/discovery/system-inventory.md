@@ -462,8 +462,9 @@ package "Contradicted by the code" {
 
 package "Outdated - true when written, not true now" {
   [docs/decision_records/**\nno record added since 2023-09-11] as O1
-  [cmd/*/README.md\nfive three-line redirects to docs.dapr.io] as O2
-  [docs/development/README.md\nindexes 5 of the 6 guides] as O3
+  [docs/development/\nsetup-ci.md predates the current CI] as O2
+  [cmd/*/README.md\nfive three-line redirects to docs.dapr.io] as O3
+  [docs/development/README.md\nindexes 5 of the 6 guides] as O4
 }
 
 note bottom of X6
@@ -483,7 +484,16 @@ note bottom of X7
   default Configuration resource every sidecar reads
   (AN-022).
 end note
-note bottom of O3
+note bottom of O2
+  setup-ci.md describes a CI of build, docker push and
+  GitHub release on PR, push and tag. .github/workflows/dapr.yml
+  still does those, but now also runs a merge-queue gate,
+  five workflow-mode integration jobs, an in-flight
+  workflow upgrade job, a scheduler-placement leg, CodeQL,
+  govulncheck, a gen-proto diff check and a helm release
+  chain. The guide names none of them.
+end note
+note bottom of O4
   docs/development/ holds six guides. The index links
   five of them; preview-features.md, the only in-tree
   statement of how a feature flag is declared, toggled
@@ -511,9 +521,10 @@ end note
 | `SECURITY.md` | The pointer to the security-issue policy | Current as a pointer — the policy lives in `docs.dapr.io`, outside the delivery | `SECURITY.md`, § Security Policy |
 | `docs/decision_records/decision_records.md` | The decision-record index, the five category prefixes, the naming rule and the required fields of a record | Contradicted by the code — it links `ARC-004-http-server.md`, and `docs/decision_records/architecture/` holds three records; the index counts 24 links against 23 files | `docs/decision_records/decision_records.md`, § Dapr decision record organization and index (Architecture list, fourth entry) against `docs/decision_records/{api,architecture,cli,engineering,sdk}/` (23 records) |
 | `docs/decision_records/**` — 23 records in ARC, API, CLI, SDK, ENG | The architecture, API, CLI, SDK and engineering decisions in force | Outdated — the newest record was committed on 2023-09-11 (`c338385`), while features landed through 2026-11 (scheduler placement authority `3d9dbe6`, search and vector blocks `04215fd`, workflow schedules `61914fd`); the only later commit touching the folder is a typo fix (`62d5128`, 2026-11-25) | `docs/decision_records/{architecture,api,cli,sdk,engineering}/`; commit log of the folder |
-| `docs/development/README.md` and its five linked guides | How to set up a development environment, build, debug, run unit tests, and configure CI | Current as guides — the commands they give (`make build`, `make test`, `make check`, `make docker-deploy-k8s`, golangci-lint v2.10.1) match `.github/copilot-instructions.md` and the `Makefile` targets they name. The index itself is Outdated: it lists five of the six guides and omits `preview-features.md` (AN-022) | `docs/development/README.md`; `docs/development/developing-dapr.md`, § Build the Dapr binaries / Run unit tests / One-line command for local development |
-| `docs/development/preview-features.md` | How a preview feature is gated: the flag is declared in `pkg/config/configuration.go`, toggled on a Configuration resource, checked with `IsFeatureEnabled`, and removed at GA | Current — the seven feature constants and the `IsFeatureEnabled` method it names are the ones the file declares, and the `spec.features` list it shows is the one `ConfigurationSpec` declares | `docs/development/preview-features.md`, § Declaring / Toggling / Using / Release GA; `pkg/config/configuration.go` (the `Feature` constants and `IsFeatureEnabled`) |
-| `docs/development/dapr-metrics.md` | The metric catalogue per process and per component, the tags each metric carries, and the source file of every group | Current — every source file it names exists under `pkg/{operator,injector,placement,sentry,scheduler}/monitoring/` or `pkg/diagnostics/`; it marks the metrics retired in 1.17 as retired and documents the scheduler's `/metrics/scaling` handlers | `docs/development/dapr-metrics.md`, § Dapr Common metrics through § Job metrics; `pkg/metrics/exporter.go` (the extra-handler map it describes) |
+| `docs/development/README.md` | The index of the development guides | Outdated — it lists five of the six guides and omits `preview-features.md`, the only in-tree statement of how a feature flag is declared, toggled and removed at GA (AN-022) | `docs/development/README.md` (5 links) against `docs/development/` (six guides) |
+| `docs/development/developing-dapr.md`, `dapr-metrics.md`, `preview-features.md` | How to build, test and lint the runtime; the metric catalogue per process and per component with the source file of every group; how a preview feature is declared, toggled and removed at GA | Current — the commands `developing-dapr.md` gives (`make build`, `make test`, `make check`, `make docker-deploy-k8s`, golangci-lint v2.10.1) match `.github/copilot-instructions.md` and the `Makefile` targets; every source file `dapr-metrics.md` names exists under `pkg/{operator,injector,placement,sentry,scheduler}/monitoring/` or `pkg/diagnostics/`, and it marks the metrics retired in 1.17 as retired; the seven feature constants and `IsFeatureEnabled` that `preview-features.md` describes are the ones `pkg/config/configuration.go` declares | `docs/development/developing-dapr.md`, § Build the Dapr binaries / Run unit tests; `docs/development/dapr-metrics.md`, § Dapr Common metrics through § Job metrics; `docs/development/preview-features.md`, § Declaring / Toggling / Using / Release GA; `pkg/config/configuration.go` (the `Feature` constants and `IsFeatureEnabled`) |
+| `docs/development/setup-ci.md` | How to set up GitHub Actions in a fork: the secrets it needs, and what a pull request, a push to the default branch and a release tag each trigger | Outdated — its trigger table still matches `.github/workflows/dapr.yml` for the pull-request, push and tag cases, but it describes a CI of build, docker push and GitHub release and names none of the gates the workflow now runs: the merge-queue `required` job, the five workflow-mode integration jobs, the in-flight workflow upgrade job, the scheduler-placement leg, CodeQL, `govulncheck`, the gen-proto diff check and the helm release chain | `docs/development/setup-ci.md`, § Trigger the build against `.github/workflows/dapr.yml` (the `required`, `integration-tests-workflow-modes`, `integration-tests-workflow-upgrade`, `integration-tests-scheduler-placement`, `helm` and `helmpublish` jobs) |
+| `docs/development/setup-dapr-development-env.md`, `setup-dapr-development-using-vscode.md` | Environment setup, on the host and in a dev container | Not read — the two guides this inventory has not opened, so nothing is claimed about them | `docs/development/` |
 | `docs/release_notes/` — 147 notes, `v0.1.0` to `v1.19.3`, plus a template and 5 asset images | What changed in each release: the problem, the impact, the root cause and the solution, per fix | Current — the newest notes (`v1.19.3`, `v1.18.12`, `v1.17.21`) accompany commits of 2026-11-26 | `docs/release_notes/` (153 files: 147 notes, `template.md`, `assets/` 5 files); `docs/release_notes/v1.19.3.md` |
 | `docs/release_notes/template.md` | The shape of a release note and its substitution variables | Current — its sections are the ones the newest notes fill | `docs/release_notes/template.md`, § New in this release / Upgrading / Breaking Changes / Deprecation Notices |
 | `.github/copilot-instructions.md` | Build, test, lint, formatting and convention guidance for a contributor or an agent: package layout, build tags, the licence header, import grouping, test patterns, the PR checklist | Contradicted by the code — the build, test and lint guidance matches the tree, but it states `protoc` v34.1 while `dapr/proto/runtime/v1/README.md` states v4.25.4, `dapr/README.md` states v25.4 and `tools/proto/generate.sh` pins 3.10.0 | `.github/copilot-instructions.md`, § Protobuf / gRPC (required tools) |
