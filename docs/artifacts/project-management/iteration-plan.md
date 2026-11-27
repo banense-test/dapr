@@ -191,10 +191,9 @@ Twenty-five risks, twenty-five rows: eleven in i1, two in i2, two in i3, five in
 The System Inventory's **Priorities** section ranks the thirteen areas the reading still needs, and that ranking is Excavation's reading order — this plan cites it and schedules nothing from it. It is not a second Survey pass: ranks 1 to 5 (`dapr/proto/` message shape, `cmd/daprd/`, `pkg/runtime/`, `pkg/api/`, `pkg/actors/`) name depth inside areas iteration 1 opened or iterations 2 and 3 will open, which is why that depth is Excavation's remainder and not a Survey one.
 
 ## Resources
-
 | Role | Discipline | Stages this iteration | What it produces |
 |---|---|---|---|
-| Process Engineer | Environment | Already ran before this iteration opened | Development Case — ready; the Environment checkpoint for the iteration is satisfied |
+| Process Engineer | Environment | The Environment stage the inherited process runs at the head of the iteration — Development Case and Contribution Guide. It ran before the iteration opened; iteration 2 carries it as an explicit work item, so an artifact of the increment is never absent from the plan that reports on it | Development Case — ready, reviewed clean from both lenses |
 | Project Manager | Discovery, Project Management | Cut; then Risk List and Iteration Plan; then the Iteration Assessment after the verdict | Iteration Plan, Risk List, Iteration Assessment |
 | Software Archaeologist | Discovery | Documentation; Perimeter; Anomalies and Priorities | System Inventory |
 | Reviewer | — | Milestone review | Review Record findings against the SBC criteria |
