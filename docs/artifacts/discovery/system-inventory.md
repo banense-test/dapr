@@ -556,6 +556,75 @@ show being added or taken out — never from how the code looks today.
 | `pkg/proto` | Commits not read | — | Not read — generated code; its history is `dapr/proto`'s history | — |
 
 ## Anomalies
+Twenty-three anomalies, each cited to the file it was read from. Nothing here is a judgement of quality: each row states what does not hold together, the anchor that shows it, and the risk it carries for whoever reads the system next.
+
+```plantuml
+@startuml
+title Anomalies recorded through Survey iteration 2 - by area, by kind
+skinparam componentStyle rectangle
+skinparam wrapWidth 230
+
+package "What the system declares about itself" {
+  [AN-001 decision-record index\nlinks a record the tree does not hold] as A1
+  [AN-002 dapr/README.md omits\n2 of the 9 proto packages] as A2
+  [AN-005 decision records dormant\nsince 2023-09-11] as A5
+  [AN-006 RELEASE.md and SECURITY.md\nare one-line pointers out of the tree] as A6
+  [AN-011 no in-tree document states\nhow any of the six executables behaves] as A11
+  [AN-013 2 of the 9 proto packages\ncarry no README] as A13
+  [AN-021 the workflow engine README\ndescribes an older engine] as A21
+  [AN-022 two index documents omit\nthe entries they index] as A22
+}
+
+package "The proto contracts and the generated path" {
+  [AN-003 four documents state four\nprotoc versions, none of them the one that ran] as A3
+  [AN-004 generate.sh reads proto inputs\nthe tree does not hold] as A4
+  [AN-014 scheduler failure-policy types\nwith no .proto behind them] as A14
+  [AN-015 the committed output names two\nprotoc versions, one of them not a release line] as A15
+  [AN-017 hand-written Go committed\ninside the generated tree] as A17
+}
+
+package "The request path" {
+  [AN-012 gRPC allowlist is a hand-maintained\nduplicate of the contracts] as A12
+  [AN-023 the public listener gets a fresh\nrouter and three of the eight middlewares] as A23
+}
+
+package "The component plane and the control planes" {
+  [AN-008 two workflow suites\ndisabled by renaming] as A8
+  [AN-009 one component shim\ndisabled by renaming] as A9
+  [AN-018 one scheduler process, two authorities,\nsettled by per-host capability flags] as A18
+  [AN-019 one test file for 156\ncomponent registrations] as A19
+}
+
+package "The delivery surface and the pipeline" {
+  [AN-007 70 version-skew patches keep\nolder release lines green] as A7
+  [AN-010 tests/ is 2.5x pkg/\nand still unread] as A10
+  [AN-016 the licence scan can report\nbut cannot fail the pipeline] as A16
+  [AN-020 test setup reads cluster CIDRs\nout of an error message] as A20
+}
+
+note right of A18
+  Three anomalies sit on an entry point:
+  AN-012 on EP-002, AN-018 on EP-006,
+  AN-023 on EP-003. The rest sit on a
+  document, a generated file or a test
+  artefact.
+end note
+note bottom of A23
+  The public listener is a second HTTP router
+  over the same handler functions. Its endpoint
+  set is narrowed to the GET-only public list;
+  its middleware is not.
+end note
+note bottom of A21
+  The workflow engine's README is the one
+  in-tree document describing a pkg/ area.
+  Both of its stale claims are contradicted by
+  directories in the same tree: the retentioner
+  actors and the workflow integration suites.
+end note
+@enduml
+```
+
 | ID | Anomaly | Kind | Evidence | Likelihood | Impact |
 |---|---|---|---|---|---|
 | AN-001 | The decision-record index links a record the delivery does not hold: `ARC-004-http-server.md` is listed under Architecture, and `docs/decision_records/architecture/` holds three records. The index offers 24 links; the folder holds 23 records. A reader following the index reaches a 404. | Missing from the delivery | `docs/decision_records/decision_records.md`, § Dapr decision record organization and index (Architecture list, fourth entry) against `docs/decision_records/architecture/` (3 files: ARC-001, ARC-002, ARC-003) | likely | moderate |
