@@ -493,7 +493,6 @@ The tree call reported 6 627 entries. The slice's documents are read in full; it
 breadth only.
 
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | EP-001 | — | — | — |
@@ -510,6 +509,8 @@ breadth only.
 | EP-012 | — | — | — |
 | EP-013 | — | — | — |
 | EP-014 | — | — | — |
+| EP-015 | — | — | — |
+| EP-016 | — | — | — |
 | AN-001 | — | — | — |
 | AN-002 | — | — | — |
 | AN-003 | — | — | — |
@@ -521,3 +522,6 @@ breadth only.
 | AN-009 | — | — | — |
 | AN-010 | — | — | — |
 | AN-011 | — | — | — |
+| AN-012 | — | — | — |
+| AN-013 | — | — | — |
+
