@@ -4,7 +4,6 @@ Status: Draft — iteration 1 assessment, recorded after the Review Coordinator'
 Milestone Target: end-of-Survey milestone (SBC) — not achieved
 
 ## Iteration Objectives Reached
-
 Survey iteration 1 is assessed against the four objectives its Iteration Plan committed to and the phase's three intended objectives. The Review Coordinator's verdict is recorded here as given: **SBC — iteration REQUIRED**. This document records that verdict; it does not issue a milestone.
 
 | # | Objective committed in the Iteration Plan | Owner | Outcome | Evidence, and what qualifies it |
@@ -12,7 +11,7 @@ Survey iteration 1 is assessed against the four objectives its Iteration Plan co
 | O1 | The perimeter of the existing system is fixed: every executable, API surface, protocol contract and control plane enumerated with the path it was read from | Software Archaeologist | **Met** | System Inventory — Perimeter: `EP-001` to `EP-016`, each anchored; 26 components and 15 external systems named entry by entry. Qualified by `System Inventory#F1`: one Persistent Data anchor names a symbol its cited file does not declare, and the file sits in the artifact's own unread set |
 | O2 | What the system declares about itself is recorded — decision records, release history, contribution and release procedure, toolchain | Software Archaeologist | **Met** | 23 decision records graded against the tree, 147 release notes, the template and the newest note, `go.mod` (`go 1.26.11`, `dapr/*` on exact pseudo-versions). Both lenses accepted this content; nothing is recorded against it |
 | O3 | What does not hold together in the reading is written down and ordered | Software Archaeologist | **Met** | 20 anomalies `AN-001` to `AN-020`, each with its anchor; 13 ranked priorities, cited as Excavation's reading order rather than as a Survey work item. Qualified by `System Inventory#F2`: the read-counts printed beside the enumeration are not reproducible from it |
-| O4 | The work left in the phase is cut into iterations, each area in exactly one iteration | Project Manager | **Met, two corrections owed** | 70 areas, each in exactly one iteration, nothing read twice; all 25 risks name the iteration that confronts them. Qualified by `Iteration Plan#F1` (a phase-length quotient no measurement produced) and `Iteration Plan#F2` (the slice booked as 13 of 15 against an assignment of 13) |
+| O4 | The work left in the phase is cut into iterations, each area in exactly one iteration | Project Manager | **Met** | 70 areas, each in exactly one iteration, nothing read twice; all 25 risks name the iteration that confronts them. Qualified by `Iteration Plan#F1` (a phase-length quotient no measurement produced) and `Iteration Plan#F2` (the slice booked as 13 of 15 against an assignment of 13) — both corrected in the plan this turn, each awaiting its recording lens' closure |
 
 | Phase objective this iteration serves | Served? | Where it stands after the verdict |
 |---|---|---|
