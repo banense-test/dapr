@@ -1,6 +1,6 @@
 ## Document Control
 Phase: Survey
-Status: Draft — iteration 1 of the phase. W1 to W5 complete: the cut is recorded and corrected against what was read, the risk sequencing is written, and 13 areas of the slice were read of the 70 the cut holds; `go.sum` and `img` were not reached and are carried by iteration 2. W6, the SBC gate, is open. No spend figure and no work-item size anywhere, because no phase has closed
+Status: Draft — iteration 1 of the phase. W1 to W6 complete: the cut is recorded and corrected against what was read, the risk sequencing is written, the 13 assigned areas of the slice were all read, and the Review Coordinator has issued the iteration a verdict — the phase iterates and the SBC milestone is not sanctioned. No spend figure and no work-item size anywhere, because no phase has closed
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Iteration Objectives
