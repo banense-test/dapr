@@ -292,6 +292,17 @@ Two gates have opened and both are measured: iteration 1's at 0:00:00 of queue t
 
 No forecast of any kind appears in this Risk List. A phase's measured tokens and elapsed time enter this register only when that phase closes; until then an iteration's measured spend is reported as that iteration's fact in its Iteration Assessment, with both clocks apart and no rate derived from either.
 
+### Risks carried past the phase
+
+Two entries are placed on no iteration of the Survey cut, and their rows say so. Neither rests on an area the cut reads, and placing either on an iteration that reads nothing of it would make the placed count arithmetic rather than evidence.
+
+| ID | Why no Survey iteration confronts it | Where its retirement happens |
+|---|---|---|
+| R013 | `AN-007`'s anchor is `.github/scripts/version-skew-test-patches/` — under `.github`, which the cut assigns to Survey iteration 1 and no later iteration re-opens. No area of iterations 2 to 5 holds it. | Already read: iteration 1 opened the corpus and counted it by release line (18 e2e and 52 integration patches across `release-1.12` to `release-1.18`). The risk is retired where it was counted. |
+| R021 | `AN-016`'s anchor is `.github/workflows/fossa.yml` — also iteration 1's area. Its retirement is not a reading at all: the mitigation is a Change Request against `.github/workflows/` owned by the Integrator, a role Survey does not run. | Construction, where the Integrator works and where the Change Request is raised and carried. |
+
+The register's aggregate is therefore stated in three parts: twenty-five entries placed on an iteration that opens the area holding their anchor, five carried by the reading as a whole because no area retires them (`R002` to `R006`), and these two carried past the phase. Nothing is retired on paper, and nothing is claimed as confronted by a reading that did not happen.
+
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
