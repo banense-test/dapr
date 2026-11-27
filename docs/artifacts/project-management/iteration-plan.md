@@ -18,7 +18,6 @@ Survey iteration 2 reads the sidecar's request path and the component plane it d
 O1–O4 are the Software Archaeologist's reading and reconciliation, excepting the re-quote of reconciled figures, which is this role's. O5 is this iteration's act of initiation and is complete when the cut is recorded.
 
 ## Plan and Milestones
-
 The coarse roadmap below is cross-iteration: the milestone sequence of the project, and the cut that assigns every repository area to exactly one iteration of the sprint zero. The fine plan that follows it is bounded to this iteration.
 
 ### Coarse roadmap — the milestone sequence of the project
@@ -160,7 +159,7 @@ note right
   counted again, not restated.
 end note
 :Documentation - the component registries\nread as declarations;
-:Perimeter - go.sum, img, pkg\/api\/ read whole,\nplus pkg\/messaging\/ and pkg\/channel\/;\nenumerate the entry points the slice adds;
+:Perimeter - go.sum, img, pkg/api/ read whole,\nplus pkg/messaging/ and pkg/channel/;\nenumerate the entry points the slice adds;
 :Anomalies and Priorities - what the request\npath and the plane do not hold together;\nre-order what Excavation reads first;
 
 |Project Manager|
@@ -189,7 +188,7 @@ stop
 @enduml
 ```
 
-The chain above is the whole of Survey iteration 2's work: seven agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — bounded in the Risk List and measured when they open, never forecast here.
+The chain above is the whole of Survey iteration 2's work: eight agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — bounded in the Risk List and measured when they open, never forecast here.
 
 ### Risk-driven sequencing — what each iteration is ordered to confront
 
@@ -198,11 +197,11 @@ The cut places work by where the risk sits, not by where the code sits. Each ris
 | Iteration | The risks it is sequenced to confront | Why at this point in the cut |
 |---|---|---|
 | i1 — read | R011 (High), R016 (High), R009, R010, R020, R007, R008, R012, R018, R022, R015 | Two of the phase's three High risks and the five-document generation divergence are reachable from `docs/`, `dapr/`, `pkg/proto/` and `cmd/` and from nowhere else in the cut. Eleven risks, and they sit on areas no later iteration re-opens |
-| i2 — this iteration | R017, R019, and the register's own accounting risks: `System Inventory#F2`, `System Inventory#F3`, `Risk List#F1` | The gRPC allowlist duplicate (R017) sits on `EP-002`, whose operations are implemented in `pkg/api/universal/` — named in iteration 1 and readable only here. The failure-policy divergence (R019) begins to be settled from `pkg/components/`, where the registries are declared, before `pkg/scheduler/` is reached in iteration 3. The three accounting risks are worked here because their consuming end is this iteration's figures |
-| i3 | R023 (High), R014, R024 | R023 is the phase's third High risk — one scheduler process, two authorities, negotiated from what peers report — and is the reason `pkg/scheduler/` is read before the placement service it supersedes. The two suites disabled by renaming (R014) and the registration-file count (R024) are read in `pkg/runtime/wfengine/` and `pkg/actors/`, both in this slice. The remedy for `System Inventory#F1` is placed here because the code that enforces the actor-state requirement is `pkg/runtime/` |
+| i2 — this iteration | R017, R019, R006 | The gRPC allowlist duplicate (R017) sits on `EP-002`, whose operations are implemented in `pkg/api/universal/` — named in iteration 1 and readable only here. The failure-policy divergence (R019) begins to be settled from `pkg/components/`, where the registries are declared, before `pkg/scheduler/` is reached in iteration 3. R006 is the phase's own accounting risk, and it is confronted here because the figures the process did not measure are this iteration's to reconcile and to re-quote |
+| i3 | R023 (High), R014, R024 | R023 is the phase's third High risk — one scheduler process, two authorities, negotiated from what peers report — and is the reason `pkg/scheduler/` is read before the placement service it supersedes. The two suites disabled by renaming (R014) and the registration-file count (R024) are read in `pkg/runtime/wfengine/` and `pkg/actors/`, both in this slice. `System Inventory#F1`'s remedy is placed here because the code that enforces the actor-state requirement is `pkg/runtime/` |
 | i4 | R001, R013, R021, R025 | Every risk whose exposure is in the delivery surface and the test substrate. R001 is the one that can turn this iteration into two, and its slice is the largest the cut holds. R025's harness parsing and R021's release action are both read in `tests/` and `charts/` |
 | i5 | none | The helper layer carries no anomaly and exposes no entry point. It is read for the callers already known and adds no risk to the register |
-| the whole reading, no area | R005, R006, R004, R003, R002 | R005 (repository files obeyed rather than recorded), R006 (an empty size filled with a unit nothing measures), R004 (decision records renumbered into project families) and R003 (the tree's toolchain stated as project policy) are avoided by the shape of every role's work order, not by any area's position in the cut. R002 is the gate itself, bounded at 14 days and measured when it opens |
+| the whole reading, no area | R005, R004, R003, R002 | R005 (repository files obeyed rather than recorded), R004 (decision records renumbered into project families) and R003 (the tree's toolchain stated as project policy) are avoided by the shape of every role's work order, not by any area's position in the cut. R002 is the gate itself, bounded at 14 days and measured when it opens |
 
 This table is checked against the Risk List whenever either changes; a risk with no iteration against it is a risk the cut has not confronted.
 
