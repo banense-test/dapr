@@ -448,7 +448,6 @@ package "Current - nothing in the tree contradicts it" {
   [pkg/responsewriter/README.md\nnegroni fork and its provenance] as D15
   [tests/README.md\nthe nine directories of the substrate] as D16
   [.build-tools/README.md\nthe build-tools CLI] as D17
-  [charts/dapr/README.md\nevery chart parameter and its default] as D18
 }
 
 package "Contradicted by the code" {
@@ -458,6 +457,7 @@ package "Contradicted by the code" {
   [dapr/proto/runtime/v1/README.md\nprotoc v4.25.4] as X4
   [.github/copilot-instructions.md\nprotoc v34.1] as X5
   [pkg/runtime/wfengine/README.md\nstates no purge and no workflow e2e test] as X6
+  [charts/dapr/README.md\nchart details name 6 of the 7 subcharts] as X7
 }
 
 package "Outdated - true when written, not true now" {
@@ -470,10 +470,18 @@ note bottom of X6
   The README states that completed workflow state is
   never purged and must be cleaned by hand, and that
   no end-to-end test targets workflows. The tree holds
-  pkg/runtime/wfengine/state/retentioner/, the
+  pkg/actors/targets/workflow/retentioner/, the
   stateRetentionPolicy fields of the Configuration
   spec, tests/integration/suite/daprd/workflow/ (836
   files) and tests/e2e/workflows/ (AN-021).
+end note
+note bottom of X7
+  The chart details introduce the CRDs, the operator,
+  the sidecar injector, Sentry, Placement and the
+  Scheduler - six items. charts/dapr/charts/ holds seven
+  subcharts; the seventh, dapr_config, renders the
+  default Configuration resource every sidecar reads
+  (AN-022).
 end note
 note bottom of O3
   docs/development/ holds six guides. The index links
@@ -514,12 +522,12 @@ end note
 | `cmd/daprd/README.md`, `cmd/injector/README.md`, `cmd/operator/README.md`, `cmd/placement/README.md`, `cmd/sentry/README.md` | A pointer to the published documentation of each executable | Outdated as documentation — each is a three-line redirect to `docs.dapr.io`, so no in-tree document states how any of the five behaves; `cmd/scheduler/` carries no README at all (AN-011) | `cmd/daprd/README.md`; `cmd/injector/README.md`; `cmd/operator/README.md`; `cmd/placement/README.md`; `cmd/sentry/README.md` |
 | `dapr/README.md` | The proto package overview and the client-generation steps | Contradicted by the code — the package table lists `common`, `internals`, `runtime`, `operator`, `placement`, `sentry`, `components`, and the tree also holds `scheduler/` and `workflows/`; it names `protoc` v25.4 | `dapr/README.md`, § Overview and § Proto client generation |
 | `dapr/proto/**/README.md` — 7 package notes | Per-package proto notes and the generation prerequisite | Contradicted by the code for `runtime/v1` (protoc v4.25.4); the other six state no version | `dapr/proto/runtime/v1/README.md`, § Proto client generation |
-| `pkg/runtime/wfengine/README.md` | How the workflow engine works: internal actors, the workflow state key scheme, the reminder-per-step execution model, how to build and test it | Contradicted by the code — it states "there is no automatic purging of state for completed workflows" and "There are no end-to-end tests that directly target the Dapr Workflows engine yet"; the tree holds `pkg/runtime/wfengine/state/retentioner/`, the `stateRetentionPolicy` fields of the workflow spec, `tests/integration/suite/daprd/workflow/` (836 files) and `tests/e2e/workflows/` (AN-021) | `pkg/runtime/wfengine/README.md`, § State storage ("IMPORTANT") and § Manual testing; `pkg/runtime/wfengine/state/retentioner/` (2 files); `tests/e2e/workflows/` (8 files) |
+| `pkg/runtime/wfengine/README.md` | How the workflow engine works: internal actors, the workflow state key scheme, the reminder-per-step execution model, how to build and test it | Contradicted by the code — it states "there is no automatic purging of state for completed workflows" and "There are no end-to-end tests that directly target the Dapr Workflows engine yet"; the tree holds `pkg/actors/targets/workflow/retentioner/`, the `stateRetentionPolicy` fields of the workflow spec in `pkg/config/configuration.go`, `tests/integration/suite/daprd/workflow/` (836 files) and `tests/e2e/workflows/` (AN-021) | `pkg/runtime/wfengine/README.md`, § State storage ("IMPORTANT") and § Manual testing; `pkg/actors/targets/workflow/retentioner/` (2 files: `factory.go`, `retentioner.go`); `pkg/config/configuration.go` (`WorkflowStateRetentionPolicy`); `tests/integration/suite/daprd/workflow/` (836 files) |
 | `pkg/api/errors/README.md` | How to add an error to the rich error model: check for an existing file, name it after the building block, build it with the `github.com/dapr/kit/errors` builder and `WithFieldViolation`, and test it where the state API's errors are tested | Current — both files it names as the location of errors exist (`pkg/messages/predefined.go` for the legacy set, `pkg/api/errors/` for the new one), its named reference implementation `pkg/api/errors/state.go` exists, and the two integration files it points at are under `tests/integration/suite/daprd/state/` | `pkg/api/errors/README.md`, § Step 1 Understanding the Current Error Handling and § Step 3 Designing Rich Error Messages; `pkg/api/errors/` (7 files, `state.go` among them); `tests/integration/suite/daprd/state/{grpc,http}/` |
 | `pkg/responsewriter/README.md` | The provenance of a forked package: which upstream it came from, at which commit, and the MIT licence it carries | Current — `response_writer.go` sits beside it and the licence text is the upstream's | `pkg/responsewriter/README.md`, § License; `pkg/responsewriter/response_writer.go` |
 | `tests/README.md` | The layout of the test substrate: what each of the nine directories holds, and a pointer to the how-to guides under `tests/docs/` | Current — all nine directories it names exist, and the five guides it links are among the eight files under `tests/docs/` | `tests/README.md`, § End-to-end tests; `tests/docs/` (8 files) |
 | `.build-tools/README.md` | What the separate `dapr-build-tools` module is, how to run it from source and from a compiled binary | Current — the directory holds its own `main.go`, `go.mod` and a `cmd/` of subcommands, which is what the note describes | `.build-tools/README.md`, § Running the CLI; `.build-tools/` (14 files: `main.go`, `go.mod`, `cmd/` 6, `testdata/` 3) |
-| `charts/dapr/README.md` | The deployment reference: the seven subcharts, and every chart parameter with its default — registry, tag, HA, mTLS, per-service replicas, resources, the scheduler's etcd tuning, the injector's service-account allowlist | Current — it is the only in-tree statement of what the chart deploys and of the etcd and scheduler settings the scheduler's own options read; nothing read in the tree contradicts it | `charts/dapr/README.md`, § Configuration (the global, operator, placement, RBAC, scheduler, sentry and sidecar-injector option tables); `charts/dapr/charts/` (7 subcharts) |
+| `charts/dapr/README.md` | The deployment reference: every chart parameter with its default — registry, tag, HA, mTLS, per-service replicas, resources, the scheduler's etcd tuning, the injector's service-account allowlist | Contradicted by the code in one place — the option tables are current and match the chart's `values.yaml`, but § Chart Details names six of the seven subcharts, omitting `dapr_config`, the one that renders the Configuration resource every sidecar reads (AN-022). `charts/dapr/charts/` holds seven | `charts/dapr/README.md`, § Chart Details and § Configuration (the global, operator, placement, RBAC, scheduler, sentry and sidecar-injector option tables) against `charts/dapr/charts/dapr_config/templates/dapr_default_config.yaml` |
 | `tools/proto/generate.sh` | How proto clients for the SDKs are generated, and which proto files are the inputs | Contradicted by the code — the `generate()` loop reads `${top_root}/pkg/proto/dapr/dapr.proto` and `${top_root}/pkg/proto/daprclient/daprclient.proto`; `pkg/proto/` holds 66 generated `.pb.go` files and no `.proto`, and the definitions live under `dapr/proto/`. It also pins protoc 3.10.0 and the Java gRPC plugin 1.24.1 | `tools/proto/generate.sh`, § generate() and § Download and install tools |
 | `.iari/README.md` | Who leads the project | Current — stakeholder input, not part of the delivery | `.iari/README.md` |
 
