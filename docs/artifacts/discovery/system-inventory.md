@@ -22,6 +22,14 @@ headers from the peer's SPIFFE id, discarding what an older daprd forwarded from
 applies the workflow access policy; and a forwarded reminder takes its `SourceAppID` from the peer's SPIFFE id
 unless the peer is a replica of the same app, and is refused outright from another namespace.
 
+The observability surface is a boundary too, and iteration 4 read the instrument side of it. Seven monitoring
+modules register every `dapr_*` measure the sidecar serves, and the trace context that leaves the process is
+built in four more: `pkg/diagnostics/component_monitoring.go`, `service_monitoring.go`, `grpc_monitoring.go`,
+`http_monitoring.go`, `http_monitoring_legacy.go`, `errorcode_monitoring.go`, `resiliency_monitoring.go`,
+`workflow_monitoring.go`, `tracing.go`, `tracing_sampler.go`, `grpc_tracing.go` and `http_tracing.go`. What they
+reach — the Prometheus scraper and the OTLP or Zipkin collector — is named in the external-actors table, and the
+exporters that dial it are the one part of that path this inventory has not opened.
+
 ```plantuml
 @startuml
 title Perimeter of DAPR Core - the components, the boundary, and what the system reaches
@@ -89,6 +97,12 @@ package "DAPR Core - inside the boundary" {
     [typed clients\npkg/client] as CL
     [proto bindings\npkg/proto] as PB
   }
+
+  package "Build and test substrate" {
+    [dapr-build-tools\n.build-tools] as BTOOLS
+    [test platform and runner\ntests/platforms, tests/runner] as TPLAT
+    [mock substrate\npkg/testing] as TMOCK
+  }
 }
 
 actor "Caller / SDK" as CALLER
@@ -104,6 +118,7 @@ cloud "Peer sidecar" as PEER
 cloud "Control-plane peers" as PEERS
 cloud "MCP server backend" as MCPB
 cloud "AI / LLM provider" as LLM
+cloud "Docker registry and test clusters\nACR, KinD, AKS" as REGISTRY
 
 CALLER --> APIH
 CALLER --> APIG
@@ -156,6 +171,11 @@ WF --> MCPB
 WF --> LLM
 PLSRV --> NR
 OPERAPI --> K8S
+BTOOLS --> REGISTRY
+TPLAT --> REGISTRY
+TPLAT --> K8S
+TPLAT --> DAPRD
+TMOCK --> DAPRD
 
 note bottom of DAPRD
   The sidecar alone opens seven listeners:
@@ -186,10 +206,17 @@ note bottom of PEERS
   from what connected peers advertise, not fixed
   by configuration (AN-018).
 end note
+note bottom of TPLAT
+  Not part of the delivered system: the test
+  platform, the runner and the mock substrate are
+  what the suite is written against. They reach the
+  same registry and cluster the executables do, and
+  none of the three holds a document (AN-035).
+end note
 @enduml
 ```
 
-The three tables below hold 42 components, 19 external actors and systems, and 16 entry points. Those are
+The three tables below hold 45 components, 19 external actors and systems, and 16 entry points. Those are
 the row counts of the tables themselves and are stated nowhere else in this inventory.
 
 ### Components
@@ -202,7 +229,7 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | placement | Subsystem | The actor-placement service: Raft leadership composed with the gRPC server, and dissemination of the actor table to every connected host | `pkg/placement/placement.go` (`New`, the `leadership` + `server` composition); `pkg/placement/internal/server/server.go`; `dapr/proto/placement/v1/placement.proto` |
 | scheduler | Subsystem | The durable job and actor-reminder service, with its own etcd; also answers actor placement when `--placement-enabled` is set, by forwarding `ReportActorTypes` to its placement subsystem | `cmd/scheduler/options/options.go`; `pkg/scheduler/server/server.go`; `pkg/scheduler/server/api.go`; `pkg/scheduler/server/internal/etcd/etcd.go` |
 | sentry | Subsystem | Serves the certificate and trust-bundle contract to every other control plane and every sidecar, with no client auth, authenticating on the validator the request selects | `pkg/sentry/server/server.go`; `dapr/proto/sentry/v1/sentry.proto` |
-| dapr-build-tools | Component | The separate `dapr-build-tools` module: the CI helper CLI, not part of the six runtime executables | `.build-tools/README.md`; `.build-tools/cmd/root.go` |
+| dapr-build-tools | Component | The separate `dapr-build-tools` module: the CI helper CLI with the `e2e`, `perf` and `check-linter` drivers, not part of the six runtime executables | `.build-tools/README.md`; `.build-tools/cmd/root.go`; `.build-tools/cmd/check-lint-version.go` |
 | HTTP API server | Layer | Registers the HTTP routes from the endpoint table and applies max-body, CORS, API-token, tracing, metrics, component-middleware and logging middleware around them | `pkg/api/http/server.go`; `pkg/api/http/endpoints/endpoint.go` |
 | gRPC API server | Layer | Builds two gRPC servers from one file with different trust, and serves the `dapr.proto.runtime.v1.Dapr` service over the hand-maintained allowlist | `pkg/api/grpc/server.go`; `pkg/api/grpc/endpoints.go` |
 | Internal service-invocation server | Component | The `ServiceInvocation` server sidecars call each other on, separate from the app-facing gRPC API: service invocation, the streaming variant, actor calls, actor streams and forwarded reminders, each re-deriving the caller from the peer's SPIFFE id instead of trusting the request | `pkg/api/grpc/daprinternal.go` (`CallLocal`, `CallLocalStream`, `CallActor`, `CallActorStream`, `CallActorReminder`, `setPeerIdentityMetadata`, `reminderSourceAppID`); `dapr/proto/internals/v1/service_invocation.proto` |
@@ -222,12 +249,12 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | resiliency provider | Component | Resolves retry, timeout and circuit-breaker policy per app endpoint, per actor type and per component direction | `pkg/resiliency/resiliency.go`; `pkg/resiliency/breaker/` (2 files) |
 | middleware pipeline | Component | The component-middleware contract and the HTTP pipeline that composes it | `pkg/middleware/middleware.go`; `pkg/middleware/http/` (4 files) |
 | app channel | Component | The sidecar's client to the application workload, over HTTP and over gRPC, with its own TLS floor | `pkg/channel/channel.go`; `pkg/channel/http/http_channel.go` |
-| diagnostics | Subsystem | Tracing and monitoring: the OpenTelemetry and Zipkin exporters, the HTTP and gRPC instrumentation, and one monitoring module per building block; seven default meters in `metrics.go` | `pkg/diagnostics/metrics.go`; `pkg/diagnostics/` (35 files); `docs/development/dapr-metrics.md` |
+| diagnostics | Subsystem | Tracing and monitoring: the OpenTelemetry and Zipkin exporters, the HTTP and gRPC instrumentation, and one monitoring module per building block; seven default meters in `metrics.go`, and seven further modules registering the `runtime/*`, `component/*`, `grpc.io/*`, `http/*`, `resiliency/*`, `runtime/workflow/*` and `error_code/*` families, plus four files carrying the W3C and `grpc-trace-bin` context | `pkg/diagnostics/metrics.go`; `pkg/diagnostics/{component,service,grpc,http,http_monitoring_legacy,errorcode,resiliency,workflow}_monitoring.go`; `pkg/diagnostics/{tracing,tracing_sampler,grpc_tracing,http_tracing}.go`; `docs/development/dapr-metrics.md` |
 | metrics exporter | Component | The `/metrics` endpoint: a private Prometheus registry gathered together with the default one, plus the caller-supplied extra handlers | `pkg/metrics/exporter.go`; `pkg/metrics/` (6 files) |
 | healthz | Component | The readiness registry and its `/healthz` listener; `IsReady` is false when no target is registered. Every executable registers its own named targets — the operator registers four | `pkg/healthz/healthz.go`; `pkg/healthz/server/server.go`; `pkg/operator/operator.go` (`secHealthz`, `apiServerHealthz`, `webhookHealthz`, `cacheHealthz`) |
-| app health | Component | The probe loop against the application's health endpoint, with a failure threshold and a change callback | `pkg/apphealth/health.go` |
+| app health | Component | The probe loop against the application's health endpoint, with a failure threshold and a change callback; its probe is measured by both the gRPC and the HTTP monitoring module | `pkg/apphealth/health.go`; `pkg/diagnostics/grpc_monitoring.go` (`AppHealthProbeCompleted`); `pkg/diagnostics/http_monitoring.go` (`AppHealthProbeCompleted`) |
 | security | Subsystem | SPIFFE identities, mTLS options, workload certificates, and JWT and API-token validation, including on-demand JWT SVID minting with a fallback to the startup-issued token. The workload key algorithm is selectable at `--workload-key-algorithm` (`ed25519` default, `ecdsa` for AWS IAM Roles Anywhere), and the operator overrides it to RSA for its own webhook, which some cloud distributions require | `pkg/security/security.go` (the `Handler` and `Provider` interfaces, `MintJWT`); `cmd/daprd/options/options.go` (`--workload-key-algorithm`); `pkg/operator/operator.go` (`KeyAlgorithm: ptr.Of(spiffe.KeyAlgorithmRSA)`); `pkg/security/spiffe/` (3 files) |
-| ACL | Component | The access-control rules for service invocation, over a trie of operations and HTTP verbs with deny-wins merging, and the workflow half: a pure allow-list compiled from one or more `WorkflowAccessPolicy` resources, evaluated per caller, operation and glob-matched workflow or activity name. A `requires` block asserts the caller's *propagated* history and can never grant access while signing is off, because the history is then unverifiable; a nil policy set allows all calls, and a same-app call is always exempt (a one-time warning is emitted if the policy lists the local app id). Reserved internal actor types are refused to another app whatever the policy says | `pkg/acl/acl.go` (`ParseAccessControlSpec`, `ApplyAccessControlPolicies`, `canonicalHTTPOperation`); `pkg/acl/workflow/policy.go` (`Compile`, `Evaluate`, `SelfCallExempt`, `decodeHistoryChunks`) |
+| ACL | Component | The access-control rules for service invocation, over a trie of operations and HTTP verbs with deny-wins merging, and the workflow half: a pure allow-list compiled from one or more `WorkflowAccessPolicy` resources, evaluated per caller, operation and glob-matched workflow or activity name. A `requires` block asserts the caller's *propagated* history and can never grant access while signing is off, because the history is then unverifiable; a nil policy set allows all calls, and a same-app call is always exempt. Reserved internal actor types are refused to another app whatever the policy says. Both halves are counted by a metric: the four `runtime/acl/*` counters and the two `runtime/workflow/acl_action_*` counters | `pkg/acl/acl.go` (`ParseAccessControlSpec`, `ApplyAccessControlPolicies`, `canonicalHTTPOperation`); `pkg/acl/workflow/policy.go` (`Compile`, `Evaluate`, `SelfCallExempt`, `decodeHistoryChunks`); `pkg/diagnostics/service_monitoring.go` (`RequestAllowedByAppAction`, `WorkflowACLActionDenied`) |
 | actors runtime | Subsystem | The actor-type table and the host's placement, reminder and drain bookkeeping: a factory per registered type, with per-type create and retire locks so an actor id is never live in two factories, a `Types()` list advertised to placement against a `ReminderTypes()` list advertised to the scheduler, and hosting that suspends to an empty type list — and refuses to create — while no actor state store is configured | `pkg/actors/table/table.go` (Interface, `RegisterActorTypes`, `DrainActorTypes`, `CompleteDrains`, `SuspendHosting`); `pkg/actors/internal/placement/connector/connector.go` (the `Connect`/`Address` contract the table's host advertises through); `pkg/actors/internal/placement/` (44 files) |
 | scheduler server | Subsystem | The scheduler's own server: etcd-backed job store, host streams, pull dispatch, concurrency gates and placement mode. `api.go` implements `ScheduleJob`, `DeleteJob`, `GetJob`, `ListJobs`, `WatchJobs`, `WatchHosts`, `DeleteByMetadata`, `DeleteByNamePrefix`, and forwards `ReportActorTypes` to the placement subsystem. It validates the priority level and fairness weight, restores etcd's own `ResourceExhausted` code on quota exhaustion because a bare etcd error would cross the wire as `Unknown`, and recovers each listed job's metadata from the stored protobuf rather than re-splitting the key | `pkg/scheduler/server/server.go`; `pkg/scheduler/server/api.go`; `pkg/scheduler/server/internal/etcd/etcd.go` |
 | placement server | Subsystem | Raft leadership and actor-table dissemination for the placement service; refuses `ReportDaprStatus` and `StatePlacementTables` from a node that is not the leader | `pkg/placement/placement.go` (`Run`: leadership and server under one runner); `pkg/placement/internal/server/server.go`; `pkg/placement/internal/leadership/` (5 files) |
@@ -238,6 +265,9 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | typed clients and informers | Layer | The generated clientset, informers and listers — for three of the seven kinds the operator serves: `Components`, `Configuration` and `MCPServer`, each `v1alpha1`, over a `rest.Config` and a discovery client | `pkg/client/clientset/versioned/clientset.go`; `pkg/client/informers/` (9 files) |
 | proto bindings | Layer | The committed generated Go bindings for all nine proto packages, with the hand-written additions committed beside them (AN-017) | `pkg/proto/` (66 files); `dapr/proto/` (37 `.proto`) |
 | small contract packages | Component | Two packages that are constants and nothing else: the two runtime modes, and the CORS default and wildcard origins. `pkg/ports` and `pkg/scopes` sit beside them and are unopened | `pkg/modes/modes.go`; `pkg/cors/cors.go` |
+| test platform | Layer | The Kubernetes deployment plumbing an e2e or perf driver runs on: an app description with its CPU, memory, replica, ingress, metrics and affinity fields, a component description, an app manager that creates and deletes the deployment and its services, a port-forward helper, a secret reader and a log fetcher. Not a delivered behaviour: it exists so the suite can deploy the executables | `tests/platforms/` (13 files); `tests/platforms/kubernetes/app_description.go` |
+| test runner | Layer | The Fortio and k6 load drivers, the test registry and the per-driver resource plumbing. Not opened: no file of the directory has been read | `tests/runner/` (15 files, none opened) |
+| mock substrate | Component | The doubles the unit tests are written against: app channel, app, bindings, component, context, direct messaging, failure, state store, lock, name resolution, pub/sub adapter, querier, resiliency, secrets, subtle crypto and transactional store mocks, plus a manager mock, a gRPC server, a trace helper and a null logger | `pkg/testing/` (26 files); `pkg/testing/component.go` |
 
 ### External actors and systems
 
@@ -264,6 +294,7 @@ An anchor that names a file this inventory has not opened says so in place, and 
 | MCP server backend — stdio, SSE or HTTP tool servers | Messaging | `dapr/proto/workflows/v1/mcp.proto`; `pkg/runtime/mcpservers.go`; the 11-file `pkg/runtime/wfengine/inprocess/mcp/v1/` is **not opened** and is named from the tree listing |
 | AI or model provider — OpenAI, Anthropic, Bedrock, Google AI, Mistral, Ollama, Hugging Face, DeepSeek, echo | Remote call | The nine `conversation_*.go` shims and the one-file `pkg/components/conversation/` are named from the tree listing, not opened; `pkg/runtime/processor/conversation/` is the loop that drives them |
 | Application health endpoint — probed for app health | Service | `pkg/apphealth/health.go`; `pkg/channel/http/http_channel.go`; `cmd/daprd/options/options.go` (`--enable-app-health-check`, `--app-health-check-path`); the probe is measured by `pkg/diagnostics/grpc_monitoring.go` and `http_monitoring.go`, both read at iteration 4 |
+| Container registry and test clusters — Azure Container Registry, KinD, AKS | Data manager | `tests/dapr_tests.mk` (the `DAPR_REGISTRY`, `DAPR_TEST_REGISTRY`, `DAPR_CACHE_REGISTRY` targets and the `setup-kind` and `describe-kind-env` targets); `tests/docs/running-e2e-test.md`, § Run E2E tests on Azure AKS; `tests/test-infra/` (12 Bicep and shell files, not opened) |
 
 ### Entry points
 
