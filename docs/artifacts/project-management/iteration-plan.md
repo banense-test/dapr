@@ -18,9 +18,7 @@ Survey iteration 1 establishes the perimeter of the existing system and records 
 O1–O3 are the Software Archaeologist's; O4 is this iteration's act of initiation and is complete when the cut is declared.
 
 ## Plan and Milestones
-Every area of the tree sits in exactly one iteration: i1 read 13, i2 takes its 14 and the 2 i1 did not reach, i3 11, i4 17, i5 13 — 70 areas, the count the cut declared, with nothing dropped and nothing counted twice. A further iteration takes exactly what the SBC review leaves open — the Review Record's findings and the actions it sets — and nothing else. The phase iterates while the cut holds an area or the record holds a finding open; it does not iterate because a calendar says so.
-
-The iteration count of the sprint zero is set by the cut of the existing system, not by the rubber profile: that profile distributes the iterations of the RUP phases and is not applied to the reading of a 6 629-entry repository.
+The coarse roadmap below is cross-iteration: the milestone sequence of the project, and the cut that assigns every repository area to exactly one iteration of the sprint zero. The fine plan that follows it is bounded to this iteration.
 
 ### Coarse roadmap — the milestone sequence of the project
 
@@ -86,7 +84,7 @@ The cut orders the repository by what the reading itself needs first, and once a
 | Files opened outside the slice | 10 | System Inventory, Coverage, the rows after the slice |
 | Files in the repository | 6 629 | the tree call recorded in the System Inventory |
 
-**The remainder, counted.** The two areas not reached return to the remainder and are carried by Survey iteration 2's slice. Areas in the remainder: 57 — the 55 the cut assigns to i2 through i5, plus `go.sum` and `img`. Areas this iteration read: 13. At the area size this iteration ran, 57 ÷ 13 = 4.4 further iterations; the cut already holds 4, and the 0.4 is two areas of four files between them, absorbed into i2's slice. The five iterations of Survey therefore hold, and the two [ASSUMPTION] marks on the area counts are dropped: the counts above are what the reading measured, not what was assumed when the cut was declared. If i2's enlarged slice overruns, the remedy is R001's — one more iteration, never less scope — and never more agent roles in parallel.
+**The remainder, counted.** The two areas not reached return to the remainder and are carried by Survey iteration 2's slice. Areas in the remainder: 57 — the 55 the cut assigns to i2 through i5, plus `go.sum` and `img`. Areas this iteration read: 13. At the area size this iteration ran, 57 ÷ 13 = 4.4 further iterations; the cut already holds 4, and the 0.4 is two areas of four files between them, absorbed into i2's slice. The five iterations of Survey therefore hold, and the [ASSUMPTION] marks on the area counts are dropped: the counts in the table below are what the reading measured, not what was assumed when the cut was declared. If i2's enlarged slice overruns, the remedy is R001's — one more iteration, never less scope — and never more agent roles in parallel.
 
 | Iteration | Areas the iteration takes, in the order to take them | What the iteration establishes | Basis of the split |
 |---|---|---|---|
@@ -96,7 +94,7 @@ The cut orders the repository by what the reading itself needs first, and once a
 | **Survey i4** | `charts/`, `docker/`, `tests/`, `grafana/`, `swagger/`, `platforms/`, `tools/`, `pkg/testing/`, `Makefile`, `.golangci.yml`, `.prettierrc.json`, `.codecov.yaml`, `.devcontainer/`, `.build-tools/`, `.gitattributes`, `.gitignore`, `.prettierignore` — 17 areas | The delivery surface and the test substrate: how the six binaries are deployed, how the layered suites execute, and which conventions the kept code follows | Deployment is a first-class concern of this system and the suites are the only empirical statement of its behaviour; both are read once the systems under test are known. This is the largest slice — 2 261 integration suite files and 631 perf files under `tests/` — and its overrun is R001 |
 | **Survey i5** | `internal/`, `utils/`, `pkg/backoff/`, `pkg/buildinfo/`, `pkg/encryption/`, `pkg/expr/`, `pkg/messages/`, `pkg/outbox/`, `pkg/responsewriter/`, `pkg/retry/`, `pkg/scopes/`, `pkg/sse/`, `pkg/validation/` — 13 areas | The shared helper layer the request path and the control planes both draw on | These packages expose no entry point of their own; they are read last, once the callers that justify them are known |
 
-Every area of the tree sits in exactly one iteration: i1 15, i2 16, i3 11, i4 17, i5 13, which is 72 areas against the 70 the cut declared, because the two areas i1 did not reach are carried by i2 rather than dropped. A further iteration takes exactly what the SBC review leaves open — the Review Record's findings and the actions it sets — and nothing else. The phase iterates while the cut holds an area or the record holds a finding open; it does not iterate because a calendar says so.
+The areas sum to 70 — the count the cut declared — with nothing dropped and nothing counted twice: i1's 15 stand as declared although it read 13, and its two unread areas are carried by i2, which is why i2 reads 16. A further iteration takes exactly what the SBC review leaves open — the Review Record's findings and the actions it sets — and nothing else. The phase iterates while the cut holds an area or the record holds a finding open; it does not iterate because a calendar says so.
 
 The iteration count of the sprint zero is set by the cut of the existing system, not by the rubber profile: that profile distributes the iterations of the RUP phases and is not applied to the reading of a 6 629-entry repository.
 
