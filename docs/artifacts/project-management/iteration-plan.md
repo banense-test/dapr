@@ -4,19 +4,19 @@ Status: Draft — iteration 2 of the phase, initiated 2026-11-27. The cut assign
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Iteration Objectives
-
 Survey iteration 2 reads the sidecar's request path and the component plane it dispatches into. The unit of scope in the sprint zero is the **area of the repository**, not a use case: no use case enters this plan.
 
 | # | Objective | Exit criterion |
 |---|---|---|
-| O1 | The request path is fixed: how an application's call becomes a call into a component, read from the code that does the dispatch | `go.sum` and `img` are recorded for what they are or are not; `pkg/api/` is read whole — all 124 files — and `pkg/messaging/` and `pkg/channel/` with it; every entry point the slice adds is labelled `EP-NNN` with its `Source:` anchor |
+| O1 | The request path is fixed: how an application's call becomes a call into a component, read from the code that does the dispatch | `go.sum` and `img` are recorded for what they are or are not; the request path is read at the depth its priority needs — `pkg/api/`'s two servers, its route families, the internal invocation server and the hand-maintained allowlist, plus `pkg/messaging/` and `pkg/channel/` — and every entry point the slice adds is labelled `EP-NNN` with its `Source:` anchor. An area opened short of its file count says so in Coverage, and that depth is Excavation's |
 | O2 | The component plane is recorded: what the request path dispatches into and under what policy | `pkg/components/`, `pkg/resiliency/`, `pkg/middleware/` and `pkg/config/` are read; each registry is stated as the set of component kinds it admits, with the `Source:` anchor that declares the kind list |
-| O3 | The cross-cutting surfaces the request path carries are anchored: observability, health, ports, modes, application health, CORS | `pkg/diagnostics/`, `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/` and `pkg/cors/` are read; each surface is stated with the anchor it was read from |
-| O4 | The phase's own account of itself is reconciled, so its figures can be reproduced from what it prints | Every Coverage row's stated count equals the files enumerated on that row; the outside-the-slice total equals the rows listed; the `docs` categories reconcile; the component and external-system counts are derived from the tables; the proto breakdown is consistent with `AN-002` and `AN-013` |
+| O3 | The cross-cutting surfaces the request path carries are anchored: observability, health, ports, modes, application health, CORS | `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/` and `pkg/cors/` are read; each surface is stated with the anchor it was read from. `pkg/diagnostics/` is declared unread in full with its reason, and is not counted as reached |
+| O4 | The phase's own account of itself is reconciled, so its figures can be reproduced from what it prints | Every Coverage row's stated count equals the files enumerated on that row; the outside-the-slice total equals the rows listed; the `docs` categories reconcile; the component and external-system counts are derived from the tables; the proto breakdown is consistent with `AN-002` and `AN-013`. This plan re-quotes the reconciled totals and nothing earlier |
 | O5 | The remainder of the phase is cut and declared before any other role of the iteration reads | The cut is in this document and recorded with the process service, each area in exactly one iteration |
 
 O1–O4 are the Software Archaeologist's reading and reconciliation, excepting the re-quote of reconciled figures, which is this role's. O5 is this iteration's act of initiation and is complete when the cut is recorded.
 
+`pkg/api/` was named "read whole" in this objective when the iteration opened and was not read whole: Coverage records 6 of its 124 files, and `universal/` — the 29 files where each operation is implemented — is unread. The objective is restated on that fact rather than the fact on the objective. What the six files close is the perimeter: the entry points, the two gRPC servers, the public listener and the allowlist map. What they do not close is what an operation does, which is why the System Inventory ranks `pkg/api/` fourth for Excavation and the cut does not re-open the area.
 ## Plan and Milestones
 The coarse roadmap below is cross-iteration: the milestone sequence of the project, and the cut that assigns every repository area to exactly one iteration of the sprint zero. The fine plan that follows it is bounded to this iteration.
 
