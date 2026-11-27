@@ -459,76 +459,88 @@ end note
 
 ## Documentation
 What the delivery says about itself, graded against the tree. The owner's `.iari/README.md` names the stakeholder
-and points to no document, so the perimeter documents were found from the tree and from each other.
+and points to no document, so the perimeter documents were found from the tree and from each other. Every
+document this iteration's slice holds is graded below, together with the documents the three earlier iterations
+read: the chart reference, the five Dockerfiles' companion notes, the eight files under `tests/docs/`, the perf
+chart notes, the build and lint configuration, and the editor and formatting configuration.
 
 ```plantuml
 @startuml
-title Documentation the delivery carries, graded against the repository tree
+title Documentation the delivery carries, graded against the tree
 skinparam componentStyle rectangle
-skinparam wrapWidth 250
+skinparam wrapWidth 245
 
 package "Current - nothing in the tree contradicts it" {
   [README.md\nsystem statement] as D1
-  [docs/README.md\nin-tree docs index] as D2
-  [docs/CONTRIBUTING.md\nproject contribution contract] as D3
-  [CONTRIBUTING.md\nupstream contribution guide] as D4
-  [GOVERNANCE.md\nmaintainer governance] as D5
-  [CODEOWNERS\nreview ownership] as D6
-  [LICENSE\nApache-2.0] as D7
-  [RELEASE.md and SECURITY.md\none-line pointers out of the tree] as D8
-  [docs/development/\nsetup, build, debug, metrics] as D9
-  [docs/release_notes/\n147 notes, v0.1.0 to v1.19.3] as D10
-  [docs/release_notes/template.md] as D11
-  [.github/pull_request_template.md] as D12
-  [.github/ISSUE_TEMPLATE/\n9 forms] as D13
-  [pkg/api/errors/README.md\nthe rich error model] as D14
-  [pkg/responsewriter/README.md\nnegroni fork and its provenance] as D15
-  [tests/README.md\nthe nine directories of the substrate] as D16
-  [.build-tools/README.md\nthe build-tools CLI] as D17
-}
-
-package "Contradicted by the code" {
-  [docs/decision_records/decision_records.md\nindexes ARC-004, absent from the tree] as X1
-  [dapr/README.md\npackage table omits scheduler/ and workflows/] as X2
-  [tools/proto/generate.sh\nreads proto inputs the tree does not hold] as X3
-  [dapr/proto/runtime/v1/README.md\nprotoc v4.25.4] as X4
-  [.github/copilot-instructions.md\nprotoc v34.1] as X5
-  [pkg/runtime/wfengine/README.md\nstates no purge and no workflow e2e test] as X6
-  [charts/dapr/README.md\nchart details name 6 of the 7 subcharts] as X7
+  [docs/README.md\ndocs index] as D2
+  [docs/CONTRIBUTING.md\ncontribution contract] as D3
+  [CONTRIBUTING.md, root\nupstream guide plus one pointer] as D4
+  [GOVERNANCE.md, CODEOWNERS, LICENSE] as D5
+  [.github/copilot-instructions.md\nprotoc 34.1, the version the Makefile enforces] as D6
+  [.golangci.yml\ndepguard and forbidigo name the module] as D7
+  [docker/library-scripts/README.md\nfour vendored scripts] as D8
+  [grafana/README.md\nfive dashboards, all present] as D9
+  [tests/docs/writing-integration-test.md\nnames targets the Makefile defines] as D10
+  [tests/docs/version-skew-tests.md\nnames the patch directories that exist] as D11
+  [tests/docs/e2e-test-infra.md] as D12
+  [tests/perf/report/charts/v1.17.0/README.md\none released digest] as D13
+  [tests/perf/report/charts/v1.16.3/workflows/README.md\nimage index, all present] as D14
+  [tests/apps/actorload/README.md] as D15
+  [pkg READMEs, docs/development guides,\nrelease notes, .build-tools README] as D16
 }
 
 package "Outdated - true when written, not true now" {
-  [docs/decision_records/**\nno record added since 2023-09-11] as O1
-  [docs/development/\nsetup-ci.md predates the current CI] as O2
-  [cmd/*/README.md\nfive three-line redirects to docs.dapr.io] as O3
-  [docs/development/README.md\nindexes 5 of the 6 guides] as O4
+  [docs/decision_records/**\nnothing added since 2023-09-11] as O1
+  [docs/development/README.md\nlists 5 of 6 guides] as O2
+  [docs/development/setup-ci.md\npredates the current CI gates] as O3
+  [tests/README.md\nlinks 5 of the 7 guides under tests/docs/] as O4
+  [tests/docs/running-e2e-test.md\nlinks find_cluster.sh, absent from test-infra] as O5
+  [tests/docs/writing-e2e-test.md\nlinks tests/e2e/helpers.go, moved to utils/] as O6
+  [tests/docs/writing-perf-test.md\nanchor moved to its own file] as O7
+  [tests/perf/workflows/README.md\nchart path pinned to v1.16.3] as O8
+  [cmd/*/README.md\nfive redirects out of the tree] as O9
 }
 
-package "The twelve areas of iteration 3 - what documentation holds" {
-  [pkg/runtime\none README, in wfengine/, and it is contradicted] as A1
-  [pkg/api/errors\nnot in this slice - read at i2, and current] as A2
-  [pkg/scheduler, pkg/placement, pkg/actors,\npkg/security, pkg/sentry, pkg/operator,\npkg/apis, pkg/client, pkg/injector,\npkg/acl, pkg/diagnostics\nno in-tree document at all] as A3
+package "Contradicted by the code" {
+  [Makefile\nits test-race list names 4 absent packages] as X1
+  [.codecov.yaml\nignores pkg/apis as generated; it is hand-written] as X2
+  [.devcontainer/devcontainer.json\nbuild tags no target sets] as X3
+  [docker/README.md\n3 of the 8 Dockerfiles, stale tool versions] as X4
+  [tests/docs/running-perf-tests.md\nits grafana.yaml sample is not valid YAML] as X5
+  [tests/perf/report/charts/README.md\n"workflows only" against six API folders] as X6
+  [decision-record index, dapr/README.md, dapr/proto notes,\ntools/proto/generate.sh, wfengine/README.md,\ncharts/dapr/README.md] as X7
 }
 
-note bottom of X6
-  Both stale claims are contradicted by code read in
-  iteration 3, not only by directories: pkg/runtime/wfengine/
-  backends/actors/actors.go wires the retentioner actor and
-  its RetentionPolicy into the workflow actor factories.
+package "Absent from the delivery" {
+  [eleven pkg/ areas, 593 files, no document] as A1
+  [tests/platforms 13, tests/runner 15, pkg/testing 26,\ntools 4, swagger 1 - no document] as A2
+}
+
+note right of D6
+  The Makefile enforces PROTOC_VERSION = 34.1 in
+  check-proto-version. That is the value this file
+  states; the three documents that disagree with it
+  are the stale ones (AN-003).
 end note
-note bottom of A3
-  Eleven of the twelve areas iteration 3 read hold no
-  in-tree document: no README, no design note. The only
-  in-tree text about their contents is
-  docs/development/dapr-metrics.md, which names the source
-  file of each metric group for pkg/diagnostics without
-  describing what an area does (AN-025).
+note bottom of X1
+  TEST_WITH_RACE lists ./pkg/grpc/..., ./pkg/health/...,
+  ./pkg/http/... and ./pkg/httpendpoint/...; pkg/ holds
+  none of the four. The pipeline also sets CGO_ENABLED=1
+  with echo, not with the go test -race it precedes.
 end note
-note bottom of D16
-  It names the nine directories the substrate holds and
-  each exists. It states no behaviour of the system
-  under test, so nothing in it can go stale against the
-  code it exercises.
+note bottom of X4
+  The README names Dockerfile, Dockerfile-debug and
+  Dockerfile-dev. It states GOLANGCI_LINT_VERSION default
+  1.45.2 while Dockerfile-dev builds 1.64.6 and the
+  Makefile's lint target requires v2.10.1, and
+  PROTOC_VERSION 25.4 while the Makefile enforces 34.1.
+end note
+note bottom of A2
+  Seven areas of this iteration's slice hold no document at
+  all. pkg/testing is the 26-file mock substrate the unit
+  tests are written against, and .codecov.yaml excludes it
+  from coverage as well, so it is neither documented nor
+  measured.
 end note
 @enduml
 ```
@@ -552,21 +564,43 @@ end note
 | `docs/development/setup-dapr-development-env.md`, `setup-dapr-development-using-vscode.md` | Environment setup, on the host and in a dev container | Not read — the two guides this inventory has not opened, so nothing is claimed about them | `docs/development/` |
 | `docs/release_notes/` — 147 notes, `v0.1.0` to `v1.19.3`, plus a template and 5 asset images | What changed in each release: the problem, the impact, the root cause and the solution, per fix | Current — the newest notes (`v1.19.3`, `v1.18.12`, `v1.17.21`) accompany commits of 2026-11-26 | `docs/release_notes/` (153 files: 147 notes, `template.md`, `assets/` 5 files); `docs/release_notes/v1.19.3.md` |
 | `docs/release_notes/template.md` | The shape of a release note and its substitution variables | Current — its sections are the ones the newest notes fill | `docs/release_notes/template.md`, § New in this release / Upgrading / Breaking Changes / Deprecation Notices |
-| `.github/copilot-instructions.md` | Build, test, lint, formatting and convention guidance for a contributor or an agent: package layout, build tags, the licence header, import grouping, test patterns, the PR checklist | Contradicted by the code — the build, test and lint guidance matches the tree, but it states `protoc` v34.1 while `dapr/proto/runtime/v1/README.md` states v4.25.4, `dapr/README.md` states v25.4 and `tools/proto/generate.sh` pins 3.10.0 | `.github/copilot-instructions.md`, § Protobuf / gRPC (required tools) |
+| `.github/copilot-instructions.md` | Build, test, lint, formatting and convention guidance for a contributor or an agent: package layout, build tags, the licence header, import grouping, test patterns, the PR checklist | Current on the build, test and lint guidance, which matches the `Makefile` targets including `golangci-lint v2.10.1`. It states `protoc` v34.1, and that is the version `check-proto-version` enforces — the three documents that disagree with it are the stale ones, and the committed output names two further versions again (AN-003, AN-015) | `.github/copilot-instructions.md`, § Protobuf / gRPC (required tools); `Makefile` (`PROTOC_VERSION = 34.1`, `check-proto-version`) |
 | `.github/pull_request_template.md` | The pull-request checklist a change is asked to satisfy | Current — every item is checkable against the tree (compile, tests, docs and spec issue in `dapr/docs`, sample) | `.github/pull_request_template.md`, § Checklist |
 | `.github/ISSUE_TEMPLATE/` — 9 forms | The intake shape of a bug, a discussion, an endgame, a feature request, a minor patch release, a proposal, a question and a release planning item | Current | `.github/ISSUE_TEMPLATE/` |
 | `cmd/daprd/README.md`, `cmd/injector/README.md`, `cmd/operator/README.md`, `cmd/placement/README.md`, `cmd/sentry/README.md` | A pointer to the published documentation of each executable | Outdated as documentation — each is a three-line redirect to `docs.dapr.io`, so no in-tree document states how any of the five behaves; `cmd/scheduler/` carries no README at all (AN-011) | `cmd/daprd/README.md`; `cmd/injector/README.md`; `cmd/operator/README.md`; `cmd/placement/README.md`; `cmd/sentry/README.md` |
 | `dapr/README.md` | The proto package overview and the client-generation steps | Contradicted by the code — the package table lists `common`, `internals`, `runtime`, `operator`, `placement`, `sentry`, `components`, and the tree also holds `scheduler/` and `workflows/`; it names `protoc` v25.4 | `dapr/README.md`, § Overview and § Proto client generation |
 | `dapr/proto/**/README.md` — 7 package notes | Per-package proto notes and the generation prerequisite | Contradicted by the code for `runtime/v1` (protoc v4.25.4); the other six state no version | `dapr/proto/runtime/v1/README.md`, § Proto client generation |
-| `pkg/runtime/wfengine/README.md` | How the workflow engine works: internal actors, the workflow state key scheme, the reminder-per-step execution model, how to build and test it | Contradicted by the code in both of the places a reader relies on. It states "there is no automatic purging of state for completed workflows" and "There are no end-to-end tests that directly target the Dapr Workflows engine yet". The code read at iteration 3 wires the purge in: `pkg/runtime/wfengine/backends/actors/actors.go` builds `retentioner.Options{Actors, WorkflowActorType, ActorType}` into the workflow actor factories and passes `RetentionPolicy` from `config.WorkflowStateRetentionPolicy` into the orchestrator; `pkg/runtime/wfengine/wfengine.go` reads that policy off `opts.Spec.StateRetentionPolicy` and hands it to the backend. The tree also holds `pkg/actors/targets/workflow/retentioner/` (2 files), `tests/integration/suite/daprd/workflow/` (836 files) and `tests/e2e/workflows/` (AN-021) | `pkg/runtime/wfengine/README.md`, § State storage ("IMPORTANT") and § Manual testing; `pkg/runtime/wfengine/wfengine.go` (`Options.Spec.StateRetentionPolicy`); `pkg/runtime/wfengine/backends/actors/actors.go` (`factoryOptions`, the `retentioner.Options` block); `pkg/config/configuration.go` (`WorkflowStateRetentionPolicy`) |
-| `pkg/api/errors/README.md` | How to add an error to the rich error model: check for an existing file, name it after the building block, build it with the `github.com/dapr/kit/errors` builder and `WithFieldViolation`, and test it where the state API's errors are tested | Current — both files it names as the location of errors exist (`pkg/messages/predefined.go` for the legacy set, `pkg/api/errors/` for the new one), its named reference implementation `pkg/api/errors/state.go` exists, and the two integration files it points at are under `tests/integration/suite/daprd/state/` | `pkg/api/errors/README.md`, § Step 1 Understanding the Current Error Handling and § Step 3 Designing Rich Error Messages; `pkg/api/errors/` (7 files, `state.go` among them); `tests/integration/suite/daprd/state/{grpc,http}/` |
+| `pkg/runtime/wfengine/README.md` | How the workflow engine works: internal actors, the workflow state key scheme, the reminder-per-step execution model, how to build and test it | Contradicted by the code in both of the places a reader relies on. It states "there is no automatic purging of state for completed workflows" and "There are no end-to-end tests that directly target the Dapr Workflows engine yet". The code wires the purge in: `pkg/runtime/wfengine/backends/actors/actors.go` builds `retentioner.Options{Actors, WorkflowActorType, ActorType}` into the workflow actor factories and passes `RetentionPolicy` from `config.WorkflowStateRetentionPolicy` into the orchestrator; `wfengine.go` reads that policy off `opts.Spec.StateRetentionPolicy` and hands it to the backend. The tree also holds `pkg/actors/targets/workflow/retentioner/` (2 files), `tests/integration/suite/daprd/workflow/` (836 files) and `tests/e2e/workflows/` (AN-021) | `pkg/runtime/wfengine/README.md`, § State storage ("IMPORTANT") and § Manual testing; `pkg/runtime/wfengine/wfengine.go` (`Options.Spec.StateRetentionPolicy`); `pkg/runtime/wfengine/backends/actors/actors.go` (`factoryOptions`, the `retentioner.Options` block); `pkg/config/configuration.go` (`WorkflowStateRetentionPolicy`) |
+| `pkg/api/errors/README.md` | How to add an error to the rich error model: check for an existing file, name it after the building block, build it with the `github.com/dapr/kit/errors` builder and `WithFieldViolation`, and test it where the state API's errors are tested | Current — both files it names as the location of errors exist (`pkg/messages/predefined.go` for the legacy set, `pkg/api/errors/` for the new one), its named reference implementation `pkg/api/errors/state.go` exists, and the two integration files it points at are under `tests/integration/suite/daprd/state/` | `pkg/api/errors/README.md`, § Step 1 and § Step 3; `pkg/api/errors/` (7 files, `state.go` among them); `tests/integration/suite/daprd/state/{grpc,http}/` |
 | `pkg/responsewriter/README.md` | The provenance of a forked package: which upstream it came from, at which commit, and the MIT licence it carries | Current — `response_writer.go` sits beside it and the licence text is the upstream's | `pkg/responsewriter/README.md`, § License; `pkg/responsewriter/response_writer.go` |
-| `tests/README.md` | The layout of the test substrate: what each of the nine directories holds, and a pointer to the how-to guides under `tests/docs/` | Current — all nine directories it names exist, and the five guides it links are among the eight files under `tests/docs/` | `tests/README.md`, § End-to-end tests; `tests/docs/` (8 files) |
-| `.build-tools/README.md` | What the separate `dapr-build-tools` module is, how to run it from source and from a compiled binary | Current — the directory holds its own `main.go`, `go.mod` and a `cmd/` of subcommands, which is what the note describes | `.build-tools/README.md`, § Running the CLI; `.build-tools/` (14 files: `main.go`, `go.mod`, `cmd/` 6, `testdata/` 3) |
-| `charts/dapr/README.md` | The deployment reference: every chart parameter with its default — registry, tag, HA, mTLS, per-service replicas, resources, the scheduler's etcd tuning, the injector's service-account allowlist | Contradicted by the code in one place — the option tables are current and match the chart's `values.yaml`, but § Chart Details names six of the seven subcharts, omitting `dapr_config`, the one that renders the Configuration resource every sidecar reads (AN-022). `charts/dapr/charts/` holds seven | `charts/dapr/README.md`, § Chart Details and § Configuration (the global, operator, placement, RBAC, scheduler, sentry and sidecar-injector option tables) against `charts/dapr/charts/dapr_config/templates/dapr_default_config.yaml` |
-| `tools/proto/generate.sh` | How proto clients for the SDKs are generated, and which proto files are the inputs | Contradicted by the code — the `generate()` loop reads `${top_root}/pkg/proto/dapr/dapr.proto` and `${top_root}/pkg/proto/daprclient/daprclient.proto`; `pkg/proto/` holds 66 generated `.pb.go` files and no `.proto`, and the definitions live under `dapr/proto/`. It also pins protoc 3.10.0 and the Java gRPC plugin 1.24.1 | `tools/proto/generate.sh`, § generate() and § Download and install tools |
-| `pkg/scheduler/`, `pkg/placement/`, `pkg/actors/`, `pkg/security/`, `pkg/sentry/`, `pkg/operator/`, `pkg/apis/`, `pkg/client/`, `pkg/injector/`, `pkg/acl/`, `pkg/diagnostics/` — eleven areas | Nothing: no in-tree document states what any of them does | Absent from the delivery — none of the eleven holds a README, a design note or any other document. What each does is stated only on `docs.dapr.io`, outside the tree, and `docs/development/dapr-metrics.md` names the source file of each metric group in `pkg/diagnostics` without describing the area. The files these areas do hold are listed on the row above this one and none is a document (AN-025) | `pkg/scheduler/` (76 files), `pkg/placement/` (26), `pkg/actors/` (243), `pkg/security/` (13), `pkg/sentry/` (36), `pkg/operator/` (38), `pkg/apis/` (46), `pkg/client/` (41), `pkg/injector/` (29), `pkg/acl/` (10), `pkg/diagnostics/` (35) — no `README.md` or other document in any; `docs/development/dapr-metrics.md` |
+| `.build-tools/README.md` | What the separate `dapr-build-tools` module is, how to run it from source and from a compiled binary | Current — the directory holds its own `main.go`, `go.mod` and a `cmd/` of subcommands, which is what the note describes; the `check-linter` driver it documents reads `GOLANGCILINT_VER` from the `lint-slow` job of `.github/workflows/dapr.yml` and compares it to the installed linter's major/minor | `.build-tools/README.md`, § Running the CLI; `.build-tools/cmd/check-lint-version.go` (`GHWorkflow`, `compareVersions`); `.build-tools/` (14 files: `main.go`, `go.mod`, `cmd/` 6, `testdata/` 3) |
+| `charts/dapr/README.md` | The deployment reference: every chart parameter with its default — registry, tag, HA, mTLS, per-service replicas, resources, the scheduler's etcd tuning, the injector's service-account allowlist | Contradicted by the code in one place — the option tables are current and match the chart's `values.yaml`, but § Chart Details names six of the seven subcharts, omitting `dapr_config`, the one that renders the Configuration resource every sidecar reads (AN-022). `charts/dapr/Chart.yaml` declares all seven as dependencies | `charts/dapr/README.md`, § Chart Details and § Configuration against `charts/dapr/Chart.yaml` (`dependencies`: the seven) and `charts/dapr/charts/dapr_config/templates/dapr_default_config.yaml` |
+| `docker/README.md` | The Dockerfiles and the dev-container build args: `GOVERSION`, `INSTALL_ZSH`, the kubectl, Helm and Minikube versions, the protoc and plugin versions, the lint version, and how to set up multi-arch builds | Contradicted by the code — it describes three of the eight Dockerfiles (`Dockerfile`, `Dockerfile-debug`, `Dockerfile-dev`) and none of the four Windows base images or the Mariner image; of the versions it states, `PROTOC_VERSION` 25.4 is the `Dockerfile-dev` build arg but the `Makefile` enforces 34.1, and `GOLANGCI_LINT_VERSION` 1.45.2 is contradicted twice — `Dockerfile-dev` builds 1.64.6 and the `Makefile`'s lint target requires v2.10.1. It also names `/usr/local/share/setup-docker-multiarch.sh`, which `Dockerfile-dev` copies there (AN-029) | `docker/README.md`, § Dev Container build args; `docker/Dockerfile-dev` (`ARG PROTOC_VERSION="25.4"`, `ARG GOLANGCI_LINT_VERSION="1.64.6"`); `Makefile` (`PROTOC_VERSION = 34.1`, § lint) |
+| `docker/library-scripts/README.md` | The provenance note for the vendored provisioning scripts: they come from `microsoft/vscode-dev-containers`' script-library and changes belong upstream | Current — the four scripts it covers (`common-debian.sh`, `docker-in-docker-debian.sh`, `go-debian.sh`, `kubectl-helm-debian.sh`) are the ones present beside it, and `Dockerfile-dev` invokes each | `docker/library-scripts/README.md`, § Maintenance Note; `docker/library-scripts/` (5 files); `docker/Dockerfile-dev`, § the `RUN` block |
+| `grafana/README.md` | The five dashboard templates and what each shows: system services, sidecar, actor, workflow, scheduler; plus the reference links | Current as an index — the five files it names exist and its reference to `../docs/development/dapr-metrics.md` resolves. Not graded further: the dashboard JSON was not opened, so nothing is claimed about what the panels contain | `grafana/README.md`, § Grafana (items 1–5); `grafana/` (6 files) |
+| `tests/README.md` | The layout of the test substrate: what each of the seven directories holds — `apps`, `config`, `docs`, `e2e`, `perf`, `platforms`, `runner`, `test-infra`, `integration` — and a pointer to the how-to guides under `tests/docs/` | Outdated — every directory it names exists, but it links five of the seven guides under `tests/docs/`, omitting `writing-integration-test.md`, the guide to the 2 073-file suite, and `writing-perf-test.md`; it also does not mention `tests/dapr_tests.mk`, which holds every test target the guides call, or `tests/grafana/` (AN-031) | `tests/README.md`, § End-to-end tests (5 links) against `tests/docs/` (7 documents plus `img/`) |
+| `tests/docs/writing-integration-test.md` | How an integration test is written and run: the `Case` interface, `suite.Register`, the blank import in `integration.go`, the log-report variables, and the preview-feature modes the suite runs in | Current on what this iteration could check — the targets it tells the reader to use (`make test-integration-dots`, `FOCUS=`, `make test-integration`, `make test-integration-parallel`) are the ones `tests/dapr_tests.mk` defines, and `DAPR_INTEGRATION_WORKFLOW_CLUSTERED`, `_FASTPATH`, `_SIGNING` and `_STAGED` are the four workflow suite modes the same file's matrix job runs. The framework's own environment variables were not opened | `tests/docs/writing-integration-test.md`, § Invoking the test and § Reading the output; `tests/dapr_tests.mk` (`test-integration-dots`, `GOTESTSUM_INTEGRATION_FLAGS`) |
+| `tests/docs/running-e2e-test.md` | How to run the e2e suite: the environment variables, the namespace and Helm prerequisites, the build-deploy-run path, AKS deployment from the Bicep templates, and the Tailscale subnet router | Outdated — the four run paths it gives name targets that exist (`e2e-build-deploy-run`, `setup-3rd-party`, `setup-test-components`, `test-e2e-all`), but it links `tests/test-infra/find_cluster.sh` for the AKS cluster selection and that file is not in the tree: `tests/test-infra/` holds twelve files and none is a cluster finder (AN-033) | `tests/docs/running-e2e-test.md`, § Run E2E tests through GitHub Actions (the `find_cluster.sh#L12-L17` link) against `tests/test-infra/` (12 files); `tests/dapr_tests.mk` (`e2e-build-deploy-run`, `setup-3rd-party`, `test-e2e-all`) |
+| `tests/docs/writing-e2e-test.md` | How to add an e2e test app and its driver: the app contract, the `E2E_TEST_APPS` entry, the `TestMain` shape, the debug paths | Outdated — its `TestMain` and `AppDescription` guidance still matches `tests/platforms/kubernetes/app_description.go`'s field names, but its debug section links `tests/e2e/helpers.go`, which the tree does not hold: the helpers now sit under `tests/e2e/utils/` (5 files) (AN-033) | `tests/docs/writing-e2e-test.md`, § Debug and validation (the `tests/e2e/helpers.go` link) against `tests/e2e/utils/`; `tests/platforms/kubernetes/app_description.go` |
+| `tests/docs/running-perf-tests.md` | How to run the perf suite: the env variables, the app and tester images, the k6 operator, the chart generation path, and the optional Prometheus/Grafana visualisation | Contradicted by the code in two places — the `grafana.yaml` manifest it prints has `labels:grafana` on one line and `app: grafana` mis-indented under `labels:` on the next, so the sample it tells the reader to `kubectl apply` is not valid YAML; and it points the perf-app/tester selection at fixed lines of `tests/dapr_tests.mk` (`#L61`, `#L70`) that no longer hold those lists. Its Make targets and the `K6_PROMETHEUS_*` variables it names do exist (AN-033) | `tests/docs/running-perf-tests.md`, § Setup for Grafana Server (the yaml block) and § Run performance tests (the pinned commit links); `tests/dapr_tests.mk` (`PERF_TEST_APPS`, `PERF_TESTS`) |
+| `tests/docs/writing-perf-test.md` | How to write a perf test: Fortio against a target app, k6 with a `test.js`, the `TestMain` deployment shape, disruptions, Prometheus remote-write, exit codes | Outdated — its Fortio and k6 guidance matches `tests/dapr_tests.mk` (`build-perf-app-*`, `k6-custom`, `tester`), but its "Follow the same as described in our e2e-tests docs" link is `./running-e2e-test.md#writing-e2e-test.md`, an anchor that does not exist in that file — the e2e writing guide is a document of its own (AN-033) | `tests/docs/writing-perf-test.md`, § The test target; against `tests/docs/` (the anchor's absence) and `tests/dapr_tests.mk` (`PERF_TEST_APPS`) |
+| `tests/docs/e2e-test-infra.md` | The runbook for the E2E Azure infrastructure: the exact `azure/login` failure that means the service-principal secret has expired, and the steps to reissue it into the GitHub secret | Current — the runbook names the workflow step it quotes (`Login to Azure`), the `AZURE_CREDENTIALS` secret, and the Entra ID app registration; nothing in the tree contradicts it | `tests/docs/e2e-test-infra.md`, § Renew Azure Login |
+| `tests/docs/version-skew-tests.md` | How a version-skew patch is produced and where it is committed, and how the in-flight workflow upgrade tests are run locally | Current — the two patch directories it tells the reader to create are the ones the tree holds (`integration/` 52 files, `e2e/` 18), and the `DAPR_INTEGRATION_DAPRD_LEGACY_PATH` it sets is the variable the upgrade suite is gated on | `tests/docs/version-skew-tests.md`, § Preparing version skew test patches; `tests/integration/suite/daprd/workflow/upgrade/` (2 files); `.github/scripts/version-skew-test-patches/` (70 files) |
+| `tests/perf/workflows/README.md` | The workflow performance scenarios: the five test shapes, their VUs, iterations and payload sizes, and how resource usage is measured | Outdated in one place — the scenario descriptions match `tests/perf/workflows/workflow_test.go`'s names, but it points the generated charts at `tests/perf/report/charts/v1.16.3/workflows/`, while the newest committed set is `v1.17.0/` and the standing policy in `tests/perf/report/charts/README.md` is not to commit chart sets for new versions at all (AN-034) | `tests/perf/workflows/README.md`, § Test plan; against `tests/perf/report/charts/` (`v1.0`, `v1.16.3`, `v1.17.0`, `master`) and `tests/perf/report/charts/README.md`, § Where the data and charts live |
+| `tests/perf/report/charts/README.md` | How perf runs are grouped and averaged, every chart type with its axes and metrics, and how reports and charts are stored, published and consumed by the docs site | Contradicted by the code in one statement — it says the charts are "only generated for the Workflows API" and "will be expanded upon in the future", while `v1.17.0/` holds six API folders (actors, configuration, pubsub, service_invocation, state, workflows) and `master/` holds the same six; its per-chart descriptions match the filenames present (AN-034) | `tests/perf/report/charts/README.md`, § Performance charts; against `tests/perf/report/charts/v1.17.0/` (6 API directories) and `master/` (6 API directories) |
+| `tests/perf/report/charts/v1.17.0/README.md` | The v1.17 release digest: how to read each percentile, and one paragraph per API with the measured figures | Current as a record of one run — every figure is that run's measurement and none is checkable against the code, so nothing in the tree contradicts it; the chart links it gives resolve to the six API directories beside it | `tests/perf/report/charts/v1.17.0/README.md`, § Service Invocation through § Configuration; `tests/perf/report/charts/v1.17.0/` (6 API directories with per-API READMEs) |
+| `tests/perf/report/charts/v1.16.3/workflows/README.md` | The image index for the v1.16.3 workflow charts, grouped by test and scenario | Current as an index — every PNG it embeds is present in the same directory (38 files: 1 README and 37 images) | `tests/perf/report/charts/v1.16.3/workflows/README.md`; `tests/perf/report/charts/v1.16.3/workflows/` (38 files) |
+| `tests/apps/actorload/README.md` | How the actor load app is built, run against a sidecar, and driven by its client, with the flag list of both binaries | Current as far as this iteration checked — the directory holds the `cmd/stateactor`, `cmd/testclient`, `deploy/` and `Makefile` structure it describes; its flag lists were not compared against the source, which was not opened | `tests/apps/actorload/README.md`, § Run test locally; `tests/apps/actorload/` (20 files) |
+| `Makefile` | The build contract: the six binaries and their tags, the archive and helm targets, the docker deploy path, the unit, race, integration and e2e test targets, the lint and format targets, the proto generation and version gate, and the build-tools driver | Contradicted by the code in one target — `test-race`'s allow-list names four packages the tree does not hold (`./pkg/grpc/...`, `./pkg/health/...`, `./pkg/http/...`, `./pkg/httpendpoint/...`), and its `test-race` recipe sets `CGO_ENABLED=1` on an `echo` rather than on the `go test -race` it pipes into, so the documented race run cannot pass (AN-028). Its `check-proto-version` target enforces protoc 34.1 and golangci-lint naming consistency with the plugins | `Makefile`, § Target: test-race (`TEST_WITH_RACE`, the recipe) against the `pkg/` listing; § Target: lint; § Target: check-proto-version; § Target: gen-proto |
+| `.golangci.yml` | The linting contract: 40 disabled linters with the four v2 linters noted as pending, the `depguard` deny list that fixes the module to `dapr/kit`, `sigs.k8s.io/yaml`, `jwx/v2` and the standard library, the `forbidigo` ban on `fmt.Print*` and `backend.DefaultLogger`, and the three formatters | Current — every rule names a package the module graph resolves, its exclusions name `pkg/proto` and the generated clientset, both present, and the `unit`, `allcomponents` and `subtlecrypto` build tags it runs under exist in the tree | `.golangci.yml`, § linters (disable, settings.depguard, settings.forbidigo), § formatters |
+| `.codecov.yaml` | The coverage gate: a project status with a 0% threshold that blocks a pull request, a patch status that only reports, and four ignore paths | Contradicted by the code in one justification — it ignores `pkg/apis` as "CRD related files including generated ones", while every kind under `pkg/apis/` holds a hand-written `types.go` and `register.go` beside its generated `zz_generated.deepcopy.go`, so the type surface the operator serves is outside the gate it describes; it also ignores `pkg/testing`, the 26-file mock substrate (AN-030) | `.codecov.yaml`, § ignore against `pkg/apis/*/v1alpha1/` (a `types.go` and `register.go` beside each `zz_generated.deepcopy.go`) and `pkg/testing/` (26 files) |
+| `.devcontainer/devcontainer.json` | The dev-container definition: the published image, the three features, the docker-in-docker mounts, the run args that enable ptrace debugging, and the VS Code settings a contributor inherits | Contradicted by the code in one setting — its `go.buildTags` is `e2e,perf,conftests,unit,integration_test,certtests,allcomponents`, and the tree sets neither `integration_test` nor `certtests` anywhere: the test targets use `integration`, `e2e`, `perf` and `unit`. A contributor's editor therefore builds the integration framework under a tag the Makefile never passes (AN-032) | `.devcontainer/devcontainer.json`, § customizations.vscode.settings (`go.buildTags`) against `Makefile` (`-tags="integration..."`, `-tags=e2e`, `-tags=perf`, `--tags=unit,allcomponents`) and `.golangci.yml` (`build-tags`) |
+| `.prettierrc.json`, `.prettierignore` | The formatting contract for the TypeScript and JavaScript in the tree: an ES5 trailing comma, a four-space indent, no semicolons, single quotes; and the three paths prettier skips | Current — the two configs agree with each other and with the `Makefile`'s prettier targets (`npx prettier --check "*/**/*.{ts,js,mjs,json}"`), and the ignore list covers the two .NET object directories and `grafana/*.json`, which is why the dashboards are unformatted | `.prettierrc.json`; `.prettierignore`; `Makefile`, § Prettier |
+| `.gitignore`, `.gitattributes` | What is generated rather than committed — `dist/`, the auto-generated CRD bases, `go.work`, `test_report*` — with the one explicit negation that keeps the compressed perf reports, and the line-ending rule for Go files | Current — each pattern names a path the tree either produces or is guarded by, and the negation it carries (`!tests/perf/report/data/*/test_report_perf.json.gz`) is exactly the file `tests/perf/report/data/v1.18.0/` holds | `.gitignore` (the `test_report*` and negation lines); `.gitattributes`; `tests/perf/report/data/v1.18.0/test_report_perf.json.gz` |
+| `swagger/swagger.json` | The generated OpenAPI description of the HTTP API | Not graded — the file was not opened in any iteration; it is a generated artifact of the route table EP-001 cites, and this inventory claims nothing about whether it matches it | `swagger/swagger.json` (1 file) |
 | `.iari/README.md` | Who leads the project | Current — stakeholder input, not part of the delivery | `.iari/README.md` |
+| `pkg/scheduler/`, `pkg/placement/`, `pkg/actors/`, `pkg/security/`, `pkg/sentry/`, `pkg/operator/`, `pkg/apis/`, `pkg/client/`, `pkg/injector/`, `pkg/acl/`, `pkg/diagnostics/` — eleven areas | Nothing: no in-tree document states what any of them does | Absent from the delivery — none of the eleven holds a README, a design note or any other document. What each does is stated only on `docs.dapr.io`, outside the tree, and `docs/development/dapr-metrics.md` names the source file of each metric group in `pkg/diagnostics` without describing the area (AN-025) | `pkg/scheduler/` (76 files), `pkg/placement/` (26), `pkg/actors/` (243), `pkg/security/` (13), `pkg/sentry/` (36), `pkg/operator/` (38), `pkg/apis/` (46), `pkg/client/` (41), `pkg/injector/` (29), `pkg/acl/` (10), `pkg/diagnostics/` (35) — no `README.md` or other document in any; `docs/development/dapr-metrics.md` |
+| `tests/platforms/`, `tests/runner/`, `tests/integration/`, `tests/e2e/`, `pkg/testing/`, `tools/`, `swagger/` — seven areas of this iteration's slice | Nothing: no in-tree document states how any of them works | Absent from the delivery — `tests/platforms/` (13 files of Kubernetes and load-test plumbing) and `tests/runner/` (15 files) are the substrate every e2e and perf driver runs on and neither has a note; `pkg/testing/` (26 files) is the mock substrate the unit tests are written against; `tools/` (4 files) holds the proto generation script, the boilerplate header and `codegen.mk` with no note; `swagger/` one file; `tests/integration/` (2 261 files) is documented by `tests/docs/writing-integration-test.md` but has no README of its own. `tests/docs/` documents how to write a test in each framework, never how the framework itself works (AN-035) | `tests/platforms/`; `tests/runner/`; `pkg/testing/`; `tools/`; `swagger/`; `tests/integration/` — no `README.md` in any of the five that lack one |
 
 ## History
 Each row states the commits listed and the period they cover. A reading is drawn only from what those commits
