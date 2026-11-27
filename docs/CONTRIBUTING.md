@@ -18,7 +18,7 @@ Each row quotes the rule as the owner wrote it, names the file it is in, and sta
 | "add a \"[WIP]\" prefix in your PR's title and assign the **do-not-merge** label" | `CONTRIBUTING.md`, section *Use work-in-progress PRs for early feedback* | There is no `do-not-merge` label and no title prefix here. Work handed off for code review carries `ready-for-review`; the Implementer raises it, and the Code Reviewer, Integrator and Reviewer read it. |
 | "A maintainer of the project will be assigned, and you can expect a review within a few days." | `CONTRIBUTING.md`, section *Contributing to Dapr* > *Pull Requests* | An approved change request carries `assigned:<role-kebab>` naming the role that executes it. Review is a recorded activity, not a waiting period: each defect becomes a finding with its criterion and severity, and the review approves by default once no Critical or Major finding stands. |
 | "Wait for the CI process to finish and make sure all checks are green." | `CONTRIBUTING.md`, section *Contributing to Dapr* > *Pull Requests* | Kept, and made explicit as a gate: the Configuration Manager marks a failed gate `missing-approval`, `ci-broken-on-main` or `release-blocker`, and the Integrator marks a red integration line `integration-regression`. |
-| "Fork the relevant repo and create a new branch" | `CONTRIBUTING.md`, section *Contributing to Dapr* > *Pull Requests* | Work happens on a branch of this repository, not a fork. Branch names follow the convention the Configuration Manager validates; a name that breaks it is marked `naming-violation`. |
+| "Fork the relevant repo and create a new branch" | `CONTRIBUTING.md`, section *Contributing to Dapr* > *Pull Requests* | Work happens on a branch of this repository, not a fork. Branch names follow the rule in section 3 below; a name that breaks it is marked `naming-violation`. |
 | "Update relevant documentation for the change" | `CONTRIBUTING.md`, section *Contributing to Dapr* > *Pull Requests* | Kept, and extended: an artifact the change invalidates is updated in the same change, because a superseded artifact is read by the next role as current. |
 
 Two rules of the owner's guide are kept without change and are read from `CONTRIBUTING.md` itself: every commit carries the DCO `Signed-off-by` line, and third-party code is included only with its license.
@@ -76,8 +76,12 @@ A label written differently from this table reaches no role. Adding one is a cha
 
 ### 3. Branching and deployment
 
-- Branch and release procedure is the owner's and is stated in `RELEASE.md`, `.github/workflows/create-release.yaml`, `.github/workflows/backport.yaml` and `.github/scripts/create-release.sh`. Read those files for the procedure; this file does not restate it.
-- This project's rules for the branches the roles themselves cut, and for the names the Configuration Manager validates, are those stated in this file and in the Development Case. A name that breaks the convention is marked `naming-violation`.
+- Every change is worked on a branch of this repository, never a fork. A branch is named `<type>/<slug>`:
+  - `<type>` is one of `feature`, `fix`, `refactor`, `docs`, `chore`, `hotfix`.
+  - `<slug>` is lower-case kebab-case words naming the change, at most 60 characters, no trailing slash.
+  - Example: `fix/actor-reminder-expiry`, `docs/contribution-guide`.
+  - The Configuration Manager marks a name that breaks this rule `naming-violation`; the Integrator does not merge the pull request until it is renamed.
+- Branch and release procedure beyond that is the owner's and is stated in `RELEASE.md`, `.github/workflows/create-release.yaml`, `.github/workflows/backport.yaml` and `.github/scripts/create-release.sh`. Read those files for the procedure; this file does not restate it.
 - Release notes follow `docs/release_notes/template.md`, taken as written.
 - The pipeline configuration under `.github/workflows/` belongs to the Integrator, which reports what it runs and whether it is green. This file names the path, not its contents.
 
