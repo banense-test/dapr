@@ -363,14 +363,14 @@ which the roles read directly:
 
 | Convention area | File | What the roles take from it |
 |---|---|---|
-| Go lint and formatting | `.golangci.yml` | Linter set and formatter set (gofmt, gofumpt, goimports with `github.com/dapr/` local prefix); banned imports (for example `github.com/Sirupsen/logrus` → `github.com/dapr/kit/logger`, `github.com/pkg/errors` → standard `errors`, `gopkg.in/yaml.v2` → `gopkg.in/yaml.v3`); generated-code exclusions |
+| Go lint and formatting | `.golangci.yml` | Linter set and formatter set (gofmt, gofumpt, goimports with `github.com/dapr/` local prefix); banned imports (for example `github.com/Sirupsen/logrus` → `github.com/dapr/kit/logger`, `github.com/pkg/errors` → standard `errors`, `gopkg.in/yaml.v2` → `gopkg.in/yaml.v3`); generated-code exclusions. Linting runs against the `unit`, `allcomponents` and `subtlecrypto` build tags |
 | JS/JSON formatting | `.prettierrc.json` | Trailing comma `es5`, tab width 4, no semicolons, single quotes |
 | Build, test and codegen targets | `Makefile`, `tests/dapr_tests.mk`, `docker/docker.mk`, `tools/codegen.mk` | The targets a change is verified with before handoff |
-| Proto generation | `tools/proto/generate.sh`, `dapr/proto/**/*.proto` | How the 44 proto definitions produce `pkg/proto/**` |
+| Proto generation | `tools/proto/generate.sh`, `dapr/proto/**/*.proto` | How the 37 proto definitions under `dapr/proto/` produce `pkg/proto/**` |
 | Development environment | `docs/development/setup-dapr-development-env.md`, `.devcontainer/devcontainer.json`, `docker/Dockerfile-dev` | How a contributor gets a working build |
-| Test layout and writing | `tests/docs/writing-integration-test.md`, `tests/docs/writing-e2e-test.md`, `tests/docs/writing-perf-test.md` | Where a test belongs and how it is structured |
-| Preview features | `docs/development/preview-features.md` | How a feature is gated |
-| Architectural decisions | `docs/decision_records/` | The 23 accepted records a change must not silently contradict |
+| Test layout and writing | `tests/docs/writing-integration-test.md`, `tests/docs/writing-e2e-test.md`, `tests/docs/writing-perf-test.md` | Where a test belongs — `tests/integration/`, `tests/e2e/`, `tests/perf/` — and how it is structured |
+| Preview features | `docs/development/preview-features.md` | How a feature that is not yet generally available is gated |
+| Architectural decisions | `docs/decision_records/` | The 23 accepted records (`API-*`, `ARC-*`, `CLI-*`, `ENG-*`, `SDK-*`) a change must not silently contradict |
 
 ### Branching, deployment and release
 
