@@ -1004,8 +1004,6 @@ Two optional artifacts are FIRED by the Development Case and produced in later p
 ### Reviewer lens
 <!-- review: Survey I2 -->
 
-<!-- review: Survey I2 -->
-
 **Approved with Changes.** No Critical finding: nothing in this iteration needs a decision only the stakeholder can make, and no `REQUIRES_USER_INPUT` is raised.
 
 One Major finding (`System Inventory#F4`) and one Minor (`Development Case#F5`). Under the severity contract the artifact is reworked before any role consumes the failing content again, and the SBC milestone is not sanctioned while a Major stands. Three prior findings of this lens — `System Inventory#F1`, `#F2`, `#F3` — are closed, each verified against the file its correction cites.
