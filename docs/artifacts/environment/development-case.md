@@ -89,9 +89,9 @@ stop
    governs is stated once, under "Guidelines and Procedures".
 
 ## Disciplines and Intensity
-
-All ten baseline disciplines apply **per the canonical matrix**. This project assigns no intensity level of its own
-and requests no deviation.
+Nine of the ten baseline disciplines are active, and their intensity is the canonical matrix's: this project assigns
+no level of its own and requests no deviation. Business Modeling is the one discipline delta — declared INACTIVE in
+every phase.
 
 | Discipline | Project activation | Note |
 |---|---|---|
