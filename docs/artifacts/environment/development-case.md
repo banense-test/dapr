@@ -5,7 +5,6 @@ Status: Draft — governs the sprint zero, then the RUP phases
 Milestone Target: end-of-Survey milestone (not yet achieved)
 
 ## Tailoring Overview
-
 DAPR Core is a large existing Go system — a runtime plus sidecar, operator, placement, scheduler, sentry, injector
 and a workflow engine — carried by a repository of roughly 6,600 files under `pkg/`, `cmd/`, `dapr/proto/`, `charts/`
 and `tests/`. The project therefore runs the sprint zero first: Survey, Excavation and Consolidation read the system
@@ -84,10 +83,9 @@ stop
 5. **The tree's conventions are taken as written, never restated.** `.golangci.yml`, `.prettierrc.json` and the
    `Makefile` targets are what the kept code follows. The Development Case references them by path; it does not
    paraphrase a linter setting, because a paraphrase drifts and the file does not.
-6. **The owner's `CONTRIBUTING.md` is evidence, not a rule.** The repository carries a contribution guide the
-   stakeholder delivered. It describes how the open-source upstream takes contributions — DCO sign-off, issue types,
-   PR workflow, slash commands. Those are facts about how the system was worked on. The rules the roles of this
-   project follow are in `docs/CONTRIBUTING.md`, published by the Process Engineer; see "Guidelines and Procedures".
+6. **The owner's `CONTRIBUTING.md` is kept as its author wrote it, with one pointer added at the top, in the
+   stakeholder's words: "Yes" to adding the line to `docs/CONTRIBUTING.md`.** What each of the two files governs is
+   stated once, under "Guidelines and Procedures".
 
 ## Disciplines and Intensity
 
