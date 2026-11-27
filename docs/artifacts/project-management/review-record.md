@@ -18,15 +18,17 @@ Status: Draft — management lens, Iteration Acceptance review of Survey iterati
 Milestone Target: end-of-Survey milestone (SBC) — not judged by this review, not yet achieved
 
 ### Review Coordinator lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-Phase: Survey
-Status: Draft — iteration 2 review consolidated. Iteration Acceptance recorded; the phase iterates. No milestone is judged and no phase is closed
-Milestone Target: end-of-Survey milestone (SBC) — not achieved, not judged by this review
-Review type: Iteration Acceptance, not a milestone review. No sanction is sought and none is granted
-Lenses: Technical (Reviewer) EXECUTED, Management (Management Reviewer) EXECUTED, Business (Business Reviewer) INACTIVE — did not evaluate this review
+Phase: Survey — iteration 3, cycle 1
+Status: Draft — the four open findings of this review consolidated with owners, severity and criteria; iteration acceptance recorded, the phase iterates
+Milestone Target: end-of-Survey milestone (SBC) — not judged by this review, not yet achieved
+Review type: Iteration Acceptance. No phase sanction is sought and none is granted
+Lenses: Technical (Reviewer) EXECUTED; Management (Management Reviewer) EXECUTED; Business (Business Reviewer) INACTIVE — did not evaluate this review
+Open at this close: 2 Major, 2 Minor, 0 Critical
+Actions: 4 — two hold the SBC gate, two are their owners' next turn
 
 ## Review Scope and Criteria
 ### Reviewer lens
