@@ -53,22 +53,22 @@ stop
 ```
 
 ## Adherence to Plan
-
-The fine plan committed seven work items. All seven ran, in the order written.
+The fine plan committed eight work items. All eight ran, in the order written.
 
 | # | Work item | Owner | Committed exit condition | Outcome |
 |---|---|---|---|---|
+| W0 | Tailor the process for the phase | Process Engineer | The Environment stage is satisfied before the reading opens; every §5.2 optional recorded fired or not fired with its reason | Met — Development Case delivered before the iteration opened, clean from both lenses |
 | W1 | Declare the cut of the phase | Project Manager | The cut is recorded and no other role of the iteration works before it | Met |
 | W2 | Read what the system says it is | Software Archaeologist | Every claim carries `Source:`; records reported as evidence, never renumbered | Met |
 | W3 | Fix the perimeter and enumerate the entry points | Software Archaeologist | Every executable, API surface and protocol contract enumerated and labelled `EP-NNN` with an anchor | Met, with `System Inventory#F1` on one anchor |
 | W4 | Record the anomalies and order what remains | Software Archaeologist | Each anomaly labelled `AN-NNN` with its anchor; the remaining areas ordered | Met, with `System Inventory#F2` on the counts beside the enumeration |
-| W5 | Score the risks the reading exposed and evolve the plan | Project Manager | Every risk scored with strategy and owner; every anomaly carrying at least one; the cut matching the recorded cut | Met, with `Risk List#F1` on the owner column and `Iteration Plan#F1`, `#F2` on what the plan says it did |
+| W5 | Score the risks the reading exposed and evolve the plan | Project Manager | Every risk scored with strategy and accountable role; every anomaly carrying at least one; the cut matching the recorded cut | Met, with `Risk List#F1` on the owner column and `Iteration Plan#F1`, `#F2` on what the plan says it did |
 | W6 | Review the iteration against the SBC criteria | Reviewer, Management Reviewer, Review Coordinator | The verdict is issued; a Critical finding escalates to the stakeholder and the milestone does not close | Met — verdict issued: **SBC — iteration REQUIRED**; zero Critical findings, nothing escalated |
 | W7 | Record the Iteration Assessment given the verdict | Project Manager | Every objective stated met or missed, with the adjustment the next iteration takes | Met — this document, recorded without a milestone verdict of its own |
 
 ### Variance
 
-Five variances separate what the plan said from what the iteration did. Each is recorded with the root cause and the adjustment it forces in iteration 2. A variance recorded without its correction would be left open for the next iteration's reviewers to find.
+Six variances separate what the plan said from what the iteration did. Each is recorded with the root cause and the adjustment it forces in iteration 2. A variance recorded without its correction would be left open for the next iteration's reviewers to find.
 
 **V1 — `Iteration Plan#F1`, Major.** The plan derives a phase length from one iteration's area count ("57 ÷ 13 = 4.4 further iterations; the five iterations of Survey hold"), in the same document whose measurement table states that no rate is derived from those counts. Root cause: the plan needed to close an open question — whether five iterations suffice — and reached for the only quotient available rather than stating the absence. The quotient is not even transferable: iteration 1's areas are small documents and manifests, while the iterations it is applied to hold `tests/` at 3 335 entries and `pkg/runtime/` at 308 files. *Adjustment:* the quotient and the conclusion drawn from it are deleted from the Iteration Plan this turn; the remainder is stated as the counts the cut holds, with `R001` standing as the risk and one more iteration as the remedy. Whether the cut suffices is asked at each iteration close from what that iteration read, not projected.
 
@@ -76,17 +76,20 @@ Five variances separate what the plan said from what the iteration did. Each is 
 
 **V3 — `System Inventory#F2`, Major.** The Coverage read-counts are not reproducible from the enumerations printed beside them. Root cause: the counts were carried forward from an earlier draft of the table while the enumerations beside them grew. *Adjustment (owner: Software Archaeologist, owed):* reconcile each row's stated count with the files it enumerates; correct the outside-slice total and the `docs` categories. The consuming end is this role's: the Iteration Plan's measurement table quotes those totals, and it is re-quoted from the corrected figures the moment they land — not before. Iteration 2's slice is not sized from an unreconciled count.
 
-**V4 — Plan coverage exceeded by the increment.** The Development Case was not a work item of this iteration at all. The Environment discipline runs it at the head of every phase iteration and it was in the increment, reviewed and clean from both lenses. Root cause: the fine plan's W2–W5 covered the Discovery and Project Management stretches and omitted the Environment stage the inherited process runs before them. *Adjustment:* iteration 2's plan carries the Development Case stage explicitly, with its owner, so an artifact of the increment is never absent from the plan that reports on it.
+**V4 — An artifact of the increment was absent from the plan.** The Development Case was not a work item of this iteration when the plan was written; the Environment discipline runs it at the head of every phase iteration and it was in the increment, reviewed and clean from both lenses. Root cause: the fine plan covered the Discovery and Project Management stretches and omitted the Environment stage the inherited process runs before them. *Adjustment:* W0 is added to this iteration's fine plan retroactively stated — the work ran, the plan now reports it — and iteration 2's plan carries the Development Case stage explicitly, with its owner, so an artifact of the increment is never absent from the plan that reports on it.
 
-**V5 — Risk List register form.** All 25 rows name the Project Manager as Owner, including the sixteen whose retirement is another role's reading. Root cause: the register was written by taking the custodian of the register as the owner of every entry. *Adjustment (Minor, applied to the Risk List this turn):* an "Accountable role" column is added distinct from the custodian, lifting the names the mitigation rows already give — Software Archaeologist for the reading risks, Integrator for `R021`, Project Manager for `R001` and `R002`.
+**V5 — `Risk List#F1`, Minor.** All 25 rows named the Project Manager as Owner, including the sixteen whose retirement is another role's reading. Root cause: the register treated the custodian of the register as the owner of every entry. *Adjustment:* an "Accountable role" column is added distinct from the custodian, lifting the names the mitigation rows already give — Software Archaeologist for the reading risks, Integrator for `R021`, Test Manager for `R025`, Project Manager for `R001` and `R002`. Applied to the Risk List this turn.
+
+**V6 — `R006`'s trigger as first written would have fired on a measured fact.** The trigger read "any token figure, elapsed-time forecast … appears in a sprint-zero artifact", which a measured iteration spend reported with both clocks apart does not satisfy. Uncorrected, the register would have called its own iteration's measured facts a breach. Root cause: the trigger was written to exclude forecasts but worded to exclude the measurement itself. *Adjustment:* the trigger is restated in the Risk List to fire on a figure the process did not measure, and to say explicitly that a measured iteration spend is that iteration's actual, reported with both clocks apart and with no rate derived from it. Applied to the Risk List this turn.
 
 | Variance | Finding it answers | Owner | Correction's state after this turn |
 |---|---|---|---|
 | V1 | `Iteration Plan#F1` | Project Manager | Applied to the Iteration Plan; closure is the Management Reviewer's |
 | V2 | `Iteration Plan#F2` | Project Manager | Applied to the Iteration Plan; closure is the Management Reviewer's |
 | V3 | `System Inventory#F2` | Software Archaeologist | Owed; the plan's re-quote follows the correction |
-| V4 | none recorded | Project Manager | Iteration 2's plan carries the stage |
+| V4 | none recorded — a gap both lenses passed over | Project Manager | Applied to this plan, W0; iteration 2's plan carries it |
 | V5 | `Risk List#F1` | Project Manager | Applied to the Risk List; closure is the Management Reviewer's |
+| V6 | none recorded — a latent defect in this role's own register | Project Manager | Applied to the Risk List |
 
 ## Use Cases and Scenarios Implemented
 
