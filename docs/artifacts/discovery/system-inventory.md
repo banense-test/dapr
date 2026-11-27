@@ -191,12 +191,12 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | Public API listener | Component | A second HTTP listener, opened only when a public port is configured, serving the GET-only public endpoint set over a subset of the primary pipeline (AN-023) | `pkg/api/http/server.go` (§ the `PublicPort` block) |
 | gRPC proxy | Component | Relays a gRPC call from the sidecar to the application, with its own director, codec and handler | `pkg/api/grpc/proxy/handler.go`; `pkg/api/grpc/proxy/director.go` |
 | compstore | Component | The in-process store of loaded components, subscriptions, configurations and resource metadata | `pkg/runtime/compstore/compstore.go`; `pkg/runtime/compstore/components.go` |
-| component processor | Subsystem | Loads, initialises and runs each component category and owns the per-category loops | `pkg/runtime/processor/processor.go`; `pkg/runtime/processor/loops/loops.go` |
+| component processor | Subsystem | Loads, initialises and runs each component category and owns the per-category loops | `pkg/runtime/processor/processor.go`; `pkg/runtime/processor/loops/loops.go`; `pkg/runtime/processor/loops/category/category.go` |
 | hot reload | Subsystem | Watches the resource sources and reconciles a changed component, configuration, subscription or endpoint into the running sidecar | `pkg/runtime/hotreload/hotreload.go`; `pkg/runtime/hotreload/reconciler/reconciler.go` |
 | workflow engine | Subsystem | The durable workflow engine: orchestrators, activities, the actor backend, the in-process backend and the workflow state store | `pkg/runtime/wfengine/wfengine.go`; `pkg/runtime/wfengine/backends/actors/actors.go` |
 | scheduler client | Layer | The sidecar's client to the scheduler: connection pool, host watch, leadership and pull slots | `pkg/runtime/scheduler/client/client.go`; `pkg/runtime/scheduler/internal/cluster/cluster.go` |
 | pub/sub and subscription pipeline | Component | The CloudEvent adapter, bulk publish and subscribe, the outbox, and the per-protocol subscription postmen | `pkg/runtime/pubsub/adapter.go`; `pkg/runtime/pubsub/outbox.go`; `pkg/runtime/subscription/postman/postman.go` |
-| component registries | Subsystem | One registry per component category, with versioning, WASM support and the local loader | `pkg/components/category.go`; `pkg/components/state/registry.go`; `pkg/components/loader/localloader.go` |
+| component registries | Subsystem | The component plane: fifteen `Category` constants, thirteen of them with a registry under `pkg/components/<category>/` and all thirteen held together by one `registry.Registry`. The remaining two constants, `workflow` and `workflowbackend`, have no registry in this package and no component shim: the workflow engine builds its actor backend directly (`pkg/runtime/wfengine/wfengine.go`) and the `WorkflowBackendManager` it is handed is never consulted (AN-024) | `pkg/components/category.go`; `pkg/runtime/registry/registry.go`; `pkg/components/` (53 files: 13 category directories with a `registry.go`, plus `category.go`, `loader/`, `pluggable/`, `versioning.go`, `wasm.go`) |
 | component shims | Layer | One registration file per component implementation; the package builds only under `allcomponents` or `stablecomponents`, and `zz_notag.go` panics otherwise | `cmd/daprd/components/` (156 files); `cmd/daprd/components/zz_notag.go` |
 | pluggable component host | Component | Discovers and dials out-of-process components over a unix socket, and wraps them as in-process components | `pkg/components/pluggable/discovery.go`; `pkg/components/pluggable/grpc.go` |
 | configuration model | Component | The `Configuration` resource as the runtime reads it, with the validation that refuses a bad spec | `pkg/config/configuration.go`; `pkg/config/acl_trie.go` |
@@ -230,18 +230,18 @@ the row counts of the tables themselves and are stated nowhere else in this inve
 | Peer control plane — placement, scheduler and sentry as each other's clients | Remote call | `dapr/proto/placement/v1/placement.proto`; `dapr/proto/scheduler/v1/scheduler.proto`; `pkg/security/security.go` |
 | Kubernetes API server | Data manager | `pkg/operator/api/api.go`; `pkg/internal/loader/kubernetes/kubernetes.go`; `pkg/injector/service/handler.go` |
 | Scheduler etcd — embedded or external cluster | Data manager | `pkg/scheduler/server/internal/etcd/etcd.go`; `cmd/scheduler/options/options.go` (`--etcd-embed`, `--etcd-client-endpoints`) |
-| State store component | Data manager | `cmd/daprd/components/state_*.go` (36 registrations); `pkg/components/state/registry.go` |
-| Pub/sub broker component | Messaging | `cmd/daprd/components/pubsub_*.go`; `pkg/components/pubsub/registry.go` |
-| Secret store component | Service | `cmd/daprd/components/secretstores_*.go`; `pkg/components/secretstores/registry.go` |
-| Binding component — input and output | Service | `cmd/daprd/components/bindings_*.go`; `pkg/components/bindings/registry.go` |
-| Configuration store component | Service | `cmd/daprd/components/configuration_*.go`; `pkg/components/configuration/registry.go` |
-| Crypto provider component | Service | `cmd/daprd/components/crypto_*.go`; `pkg/components/crypto/registry.go` |
-| Lock store component | Service | `cmd/daprd/components/lock_redis.go`; `pkg/components/lock/registry.go` |
-| Name-resolution backend — Kubernetes DNS, mDNS, Consul, AWS Cloud Map, SQLite | Service | `cmd/daprd/components/nameresolution_*.go`; `pkg/components/nameresolution/registry.go` |
+| State store component | Data manager | `cmd/daprd/components/` (`state_*.go`, 36 registrations); `pkg/components/state/` (8 files) |
+| Pub/sub broker component | Messaging | `cmd/daprd/components/` (`pubsub_*.go`); `pkg/components/pubsub/` (4 files) |
+| Secret store component | Service | `cmd/daprd/components/` (`secretstores_*.go`); `pkg/components/secretstores/` (4 files) |
+| Binding component — input and output | Service | `cmd/daprd/components/` (`bindings_*.go`); `pkg/components/bindings/` (6 files) |
+| Configuration store component | Service | `cmd/daprd/components/` (`configuration_*.go`); `pkg/components/configuration/` (2 files) |
+| Crypto provider component | Service | `cmd/daprd/components/` (`crypto_*.go`); `pkg/components/crypto/` (2 files) |
+| Lock store component | Service | `cmd/daprd/components/` (`lock_*.go`); `pkg/components/lock/` (4 files) |
+| Name-resolution backend — Kubernetes DNS, mDNS, Consul, AWS Cloud Map, SQLite | Service | `cmd/daprd/components/` (`nameresolution_*.go`); `pkg/components/nameresolution/` (2 files); `pkg/runtime/registry/registry.go` (`NameResolutions()`) |
 | OTLP or Zipkin collector | Remote call | `pkg/diagnostics/tracing.go`; `go.mod` (`go.opentelemetry.io/otel/exporters/otlp/otlptrace{,grpc,http}`, `.../zipkin`) |
 | Prometheus scraper — including the scheduler's `/metrics/scaling` | Service | `pkg/metrics/exporter.go`; `pkg/scheduler/monitoring/scaling/scaling.go` |
 | MCP server backend — stdio, SSE or HTTP tool servers | Messaging | `dapr/proto/workflows/v1/mcp.proto`; `pkg/runtime/wfengine/inprocess/mcp/v1/worker.go`; `pkg/runtime/mcpservers.go` |
-| AI or model provider — OpenAI, Anthropic, Bedrock, Google AI, Mistral, Ollama, Hugging Face, DeepSeek, echo | Remote call | `cmd/daprd/components/conversation_*.go`; `pkg/components/conversation/registry.go` |
+| AI or model provider — OpenAI, Anthropic, Bedrock, Google AI, Mistral, Ollama, Hugging Face, DeepSeek, echo | Remote call | `cmd/daprd/components/` (`conversation_*.go`); `pkg/components/conversation/` (1 file) |
 | Application health endpoint — probed for app health | Service | `pkg/apphealth/health.go`; `pkg/channel/http/http_channel.go` |
 
 ### Entry points
