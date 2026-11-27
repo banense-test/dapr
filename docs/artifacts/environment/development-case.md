@@ -417,3 +417,46 @@ does not wait for the milestone.
 - No Glossary entry without a definition taken from the system's own vocabulary and confirmed by the stakeholder.
 - No process artifact outside the CORE catalog, the six OPTIONAL artifacts and the sprint zero's System Inventory.
 
+### The change life cycle
+
+Nothing is worked before it is approved, and nothing reaches the main line before its gates are green. The labels in
+this diagram are the ones `docs/CONTRIBUTING.md` publishes; a label written differently reaches no role.
+
+```plantuml
+@startuml
+title The change-request life cycle in this project
+start
+:Whoever needs a change opens an issue and labels it\nchange-request with its nature;
+:Change Control Manager labels it cr:logged;
+if (the change carries impact:architectural?) then (yes)
+  :park it with needs-architect-review;
+  :Software Architect decides;
+  if (architect:concurs?) then (no)
+    :label cr:rejected;
+    stop
+  else (yes)
+  endif
+else (no)
+endif
+:Change Control Manager sets priority\nand labels cr:approved with assigned:role-kebab;
+:The assigned role does the work on a branch of this repository;
+:At handoff the branch carries ready-for-review;
+repeat
+  :Code Reviewer, Integrator and Reviewer read it\nand record findings with criterion and severity;
+  :each owner reworks what a finding names;
+  :a Critical finding escalates to the stakeholder;
+repeat while (a Critical or Major finding still stands?) is (yes) not (no)
+:Integrator merges to the main line;
+if (pipeline and gates green?) then (no)
+  :Configuration Manager marks missing-approval,\nci-broken-on-main or release-blocker;
+  :Integrator marks integration-regression;
+else (yes)
+endif
+:Change Control Manager labels cr:complete;
+stop
+@enduml
+```
+
+The sprint zero runs without a ledger: the Change Control Manager does not work there, so a stakeholder order reaches
+its owner in the Work Order and no `cr:` label is set on it.
+
