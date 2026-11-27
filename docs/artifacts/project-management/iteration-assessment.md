@@ -107,7 +107,7 @@ What the iteration returned instead is the raw material a use case will be recov
 | Consolidation and later | Declared use case, risk-driven selection | Not started |
 
 ## Results Relative to Evaluation Criteria
-Each of the nine criteria the Iteration Plan carried, answered against the evidence that exists after the review. Seven met, two met with rework owed, one not met as written and corrected this turn.
+Each of the nine criteria the Iteration Plan carried, answered against the evidence that exists after the review. Six met, two met with a defect recorded against the artifact that evidences them, and one not met as written and corrected in the plan this turn.
 
 ```plantuml
 @startuml
@@ -124,7 +124,7 @@ class "Request path fixed" as C1 <<met>> {
   evidence : go.sum and img recorded for what they are
 }
 
-class "Component plane recorded" as C2 <<met with rework owed>> {
+class "Component plane recorded" as C2 <<met, defect recorded>> {
   evidence : thirteen registries stated with anchors
   defect : System Inventory#F4 - fifteen constants
   defect : System Inventory#F4 - two unlocated
@@ -137,7 +137,7 @@ class "Cross-cutting surfaces anchored" as C3 <<met>> {
   evidence : pkg/diagnostics declared unread in full
 }
 
-class "Counts reproduce" as C4 <<met, one count open>> {
+class "Counts reproduce" as C4 <<met, defect recorded>> {
   evidence : F2 and F3 closed by their lens
   defect : System Inventory#F1 - 24 against 23
 }
@@ -168,7 +168,7 @@ class "No figure the process did not measure" as C9 <<met>> {
 
 class "Outcome" as O <<the iteration's own verdict>> {
   met : C1, C3, C5, C6, C7, C9
-  met with rework : C2, C4
+  met, defect recorded : C2, C4
   not met as written : C8, corrected this turn
 }
 
@@ -189,33 +189,6 @@ note bottom of O
 end note
 @enduml
 ```
-
-| Criterion | Threshold | Outcome | Evidence |
-|---|---|---|---|
-| Request path fixed | `go.sum` and `img` recorded for what they are; the request path read at the depth its priority needs; every entry point the slice adds labelled `EP-NNN` with its `Source:` anchor | Met | System Inventory — Perimeter and Coverage: `EP-003` and `EP-013` on `pkg/api/http/server.go`, the allowlist on `pkg/api/grpc/endpoints.go`, `pkg/messaging/v1/messaging.go`, `pkg/channel/channel.go`. `go.sum` recorded as a closed module graph, `img` as three files stating no fact about the perimeter |
-| Component plane recorded | Each registry stated as the set of component kinds it admits, with the anchor that declares the kind list; `pkg/resiliency/`, `pkg/middleware/` and `pkg/config/` anchored. Complete only if the count holds | **Met, with rework owed** | Thirteen registries anchored and stated; `state/`, `lock/` and `conversation/` opened for the review and all three follow the pattern. `System Inventory#F4`: fifteen `Category` constants, and `pkg/components/workflow/registry.go` and `workflowbackend/registry.go` resolve to nothing. Carried as `R029` |
-| Cross-cutting surfaces anchored | `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/`, `pkg/cors/` each stated with file and lines; `pkg/diagnostics/` declared unread in full with its reason | Met | All six read and anchored; `healthz.go`, `modes.go` and `cors.go` opened for the review and each holds. `pkg/diagnostics/` (35 files) declared unread, not counted as reached |
-| Counts reproduce from their enumeration | Every Coverage row's stated count equals the files enumerated on it; the outside-slice total equals the rows listed; the `docs` categories reconcile; each stated count derived from its table and stated once | **Met, one count open** | `System Inventory#F2` and `#F3` closed by their recording lens on hand re-addition: 60 + 28 = 88 for the phase, 42 / 19 / 16 derived from the tables, proto at 37 + 7 + 1 = 45. `System Inventory#F1` (Minor, Management Reviewer) on the never-assigned sentence: twenty-four asserted, twenty-three rows |
-| Plan re-quotes only reproduced figures | Every figure taken from a Coverage row that reproduces from its own enumeration, quoted with the iteration that opened it | Met | 28 distinct files this iteration, 88 for the phase, quoted from the reconciled rows with iteration 1's 60 named beside them. No count is stated that its own row does not reproduce |
-| Cut held | Every area in exactly one iteration, in the order recorded, none left uncut | Met | 70 areas — `.iari/` excluded as not part of the system — each in exactly one iteration; 16 here, 41 across the three that follow, 13 read at i1 |
-| Unread areas declared | An area the iteration does not reach is named in the next iteration's row, not counted as reached; the remainder stated as the counts the cut holds | Met | 16 assigned, 15 reached; `pkg/diagnostics/` named with its reason and carried to Excavation's Priorities order at priority 4 |
-| Risks sequenced and accountable | Every risk names the iteration that confronts it and the role accountable for retiring it; a placement names an area that iteration opens | **Not met as written** — corrected this turn | `Iteration Plan#F3`: R017 rested on `pkg/api/universal/` and R019 on `pkg/components/`, both declared unread here, and R019's mitigation names `pkg/scheduler/`, which i3 reads while omitting the risk. Corrected in the plan this turn to R017 and R028 on `pkg/api/` and R019 on i3; 29 risks placed, none on an unopened area |
-| No figure the process did not measure | No work-item size, no rate, no phase-length forecast, no calendar date; measured figures reported with both clocks apart and never summed | Met | No size, rate or date anywhere in the plan or this document; the one measured actual is iteration 1's, and this iteration's own figures are in the table below, each clock apart |
-
-**What this iteration measured, and the decision each measurement enables.** The figures below are the iteration's recorded facts, not a velocity and not a baseline. No rate is derived from any of them, and none is projected onto iteration 3.
-
-| Measurement | Value | Decision it enables |
-|---|---|---|
-| Agent work — token spend | 30 715 328 tokens | This iteration's actual. Read against iteration 1's 19 480 197 it shows what a slice costs when it re-reads the accumulated surface: this iteration read 16 areas of a larger system but carried a 236 000-character artifact surface into every role, where iteration 1 carried 128 000. The decision it enables is where the next phase's cost sits — re-reading, not emission — and that is why the plan declares no phase spend before one closes |
-| Agent work — measured elapsed time | 0:48:19.7330924 | Read beside the token figure, both clocks on agent work and apart from the gate. It is 11 minutes longer than iteration 1's 0:36:59.0766494 on a slice of comparable area count, and the difference is the surface the roles re-read. The decision: whether the cut should take fewer, larger areas per iteration or more, smaller ones — asked at each iteration close, never projected |
-| Human gate — queue time | 0:00:00 measured; the end-of-iteration approval gate is excluded from the measurement | The gate cost nothing in queue time here. It does not lower `R002`'s 14-day ceiling: that ceiling is a bound on a gate, and the next one's queue is measured when it opens |
-| Artifacts in the increment | 6 | The six the Development Case sanctions this phase iteration: Development Case, System Inventory, Iteration Plan, Risk List, Review Record, Iteration Assessment. The Glossary and Deployment Model are FIRED for later phases and their absence here is correct |
-| Artifact sizes, in characters | Development Case 28 911; Iteration Plan 39 760; Risk List 44 072; System Inventory 121 936; Review Record 88 547; Iteration Assessment 26 636 | Names where this iteration's spend and the next phase's re-reading cost sit. The System Inventory at 121 936 is the largest and grew 55 551 characters on one slice: it is the artifact every later phase and both lenses re-read in full, so Excavation's cost is set by this surface, not by the code it will emit. The decision it enables: the inventory's growth per slice is the figure the cut's remaining three iterations are read against when the question of a further iteration arises under `R001` |
-| Stakeholder interactions | 11 | Confirms the iteration resolved its questions in one round rather than by attrition; no question was asked this iteration that the Development Case had already settled. A rising count in a later iteration means a scope question is being deferred, not answered |
-| Areas of the slice reached | 16 assigned, 15 reached; `pkg/diagnostics/` unread in full | Whether an area is read at the depth its priority needs, or skimmed — and where short, whether that depth belongs to Excavation. This iteration's answer: it does, by the Priorities order |
-| Component categories the plane accounts for | 13 of 15 located; `workflow` and `workflowbackend` unlocated | Whether the component view can be taken from `pkg/components/` alone. It cannot, and `R029` carries the consequence until Survey i3 reads the two subtrees that hold the registration |
-
-Two figures in the table are quoted from the system's own measurement of this iteration — token spend and elapsed agent time. The remaining rows are counts of files, areas, artifacts and interactions read from the increment itself. Neither group is a rate, and the gate's queue time is reported apart from both and never added to either.
 
 ## Test Results
 No test was designed, executed or reported in Survey iteration 2. No Test discipline runs in this phase: the Test Manager's first stage is the Inception Test Plan, and the Test Designer, Tester and Test Analyst first work in Elaboration.
