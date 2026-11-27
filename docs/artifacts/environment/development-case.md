@@ -341,74 +341,16 @@ GUIDE --> LINT : conventions taken as written
   if its trigger fires.
 
 ## Guidelines and Procedures
-
-### The contribution guide
-
 `docs/CONTRIBUTING.md` is the project's contract for whoever contributes — a person or an agent role: how a change is
 requested and with which labels, where branching and deployment rules live, which conventions the code follows, and
 what a review checks. The Process Engineer publishes it and keeps it.
 
 The repository also carries the owner's `CONTRIBUTING.md` at its root, describing the upstream open-source workflow
-(DCO sign-off, issue types, proposal process, slash commands, Prettier and `make lint`). That file is kept as the
-owner wrote it. Where a rule of it differs from how this project works — issue labelling, review handoff, the
-`ready-for-review` and `cr:*` states — `docs/CONTRIBUTING.md` holds.
+(DCO sign-off, issue types, proposal process, slash commands, Prettier and `make lint`). The stakeholder was asked
+whether one line could be added at its top pointing to the project's contract, and answered: **"Yes"**. The line is
+there, the owner's text below it is unchanged, and the file remains the owner's.
 
-### Conventions in force
+The split between the two files is therefore fixed: the root file stays the authority on the Developer Certificate of
+Origin, the code of conduct, third-party licensing and the upstream issue forms; `docs/CONTRIBUTING.md` holds on how a
+change is requested, labelled and reviewed in this project, where the two differ.
 
-The code and test conventions are those the kept code already follows. They are taken as written from these files,
-which the roles read directly:
-
-| Convention area | File | What the roles take from it |
-|---|---|---|
-| Go lint and formatting | `.golangci.yml` | Linter set and formatter set (gofmt, gofumpt, goimports with `github.com/dapr/` local prefix); banned imports (for example `github.com/Sirupsen/logrus` → `github.com/dapr/kit/logger`, `github.com/pkg/errors` → standard `errors`, `gopkg.in/yaml.v2` → `gopkg.in/yaml.v3`); generated-code exclusions |
-| JS/JSON formatting | `.prettierrc.json` | Trailing comma `es5`, tab width 4, no semicolons, single quotes |
-| Build, test and codegen targets | `Makefile`, `tests/dapr_tests.mk`, `docker/docker.mk`, `tools/codegen.mk` | The targets a change is verified with before handoff |
-| Proto generation | `tools/proto/generate.sh`, `dapr/proto/**/*.proto` | How the 44 proto definitions produce `pkg/proto/**` |
-| Development environment | `docs/development/setup-dapr-development-env.md`, `.devcontainer/devcontainer.json`, `docker/Dockerfile-dev` | How a contributor gets a working build |
-| Test layout and writing | `tests/docs/writing-integration-test.md`, `tests/docs/writing-e2e-test.md`, `tests/docs/writing-perf-test.md` | Where a test belongs and how it is structured |
-| Preview features | `docs/development/preview-features.md` | How a feature is gated |
-
-### Branching, deployment and release
-
-Branch and release procedure is the owner's and sits in `RELEASE.md`, `.github/workflows/create-release.yaml`,
-`.github/workflows/backport.yaml` and `.github/scripts/create-release.sh`. The roles read those files for the
-procedure; the Development Case does not restate it. The branching rules the roles themselves follow — including the
-branch names the Configuration Manager validates — are stated in `docs/CONTRIBUTING.md`.
-
-### Measurement policy
-
-IARI measures two quantities, and this project states what it does with each — a metric whose decision cannot be
-named here does not get tracked.
-
-| Quantity | Decision it enables | Who reads it |
-|---|---|---|
-| Tokens consumed per iteration | Whether an iteration's cost is proportionate to the artifact surface it touched. A rise across iterations that touches the same surface means the process is re-reading what it already knows — the Development Case then narrows scope or references an existing artifact instead of re-deriving it. | Process Engineer, Project Manager |
-| Elapsed time, split into agent time and time waiting for a human | Where work actually waits. Agent time rising with no artifact growth points at a discipline whose stages are retried; human queue time rising points at a gate that needs a decision. The two clocks are read apart and never summed. | Process Engineer, Project Manager, Review Coordinator |
-
-Human gates are bounded as a risk, not forecast as a schedule: a gate ceiling is 14 days, after which the process
-suspends rather than filling the gap. The Project Manager owns that bound in the Risk List.
-
-### Version policy
-
-The stakeholder's declared framework target and any pinned library or LTS rule are formalised by the Process Engineer
-into the process service's version policy, from the Vision and Constraints as declared. The Software Architect
-anchors the policy in the Software Architecture Document, and it governs over a registry's "latest". The Process
-Engineer neither resolves nor verifies a version against a registry.
-
-The tree already fixes the toolchain in `go.mod` (`go 1.26.11`) and pins its `dapr/*` module dependencies to exact
-pseudo-versions. That is the system as it stands, and it is read as evidence; the declared policy, once formalised,
-governs for anything new.
-
-### Process support
-
-Environment is a continuous discipline, not a one-time configuration. Each iteration opens with the same checkpoint
-— is this Development Case current for the iteration about to run? — and each closes with the Iteration Assessment,
-whose findings feed the next revision. A process question that blocks a role is escalated in the round it arises; it
-does not wait for the milestone.
-
-### What this project does not do
-
-- No Architecture Review Board, no Change Control Board beyond the Change Control Manager's ledger, no formal
-  training programme: the roster and the CR ledger are the mechanism.
-- No Glossary entry without a definition taken from the system's own vocabulary and confirmed by the stakeholder.
-- No process artifact outside the CORE catalog, the six OPTIONAL artifacts and the sprint zero's System Inventory.
