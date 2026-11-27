@@ -1151,176 +1151,175 @@ end note
 ```
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Iteration Acceptance — the phase iterates. The SBC milestone is not judged and no phase is closed.**
+**Iteration Accepted — the phase iterates. The SBC milestone is not judged and no phase is closed.**
 
-No Critical finding is open: both executing lenses recorded zero, so nothing escalates to the stakeholder and `REQUIRES_USER_INPUT` is not raised. The verdict below asks them nothing and seeks no sanction.
+No Critical finding is open. Both executing lenses recorded zero, so nothing escalates to the stakeholder, `REQUIRES_USER_INPUT` is not raised, and this record asks them nothing. An Iteration Acceptance seeks no phase sanction; only an unresolved Critical finding goes to them.
 
-Four Major findings stand open — `System Inventory#F1`, `System Inventory#F2`, `Iteration Plan#F1`, `Iteration Plan#F2` — and two Minor. The Major set is why the milestone is not judged in this record: the SBC review's entry criterion requires every Major of the phase to have its rework in the baseline, and none of the four does yet.
+#### Lenses convened, and the one that did not evaluate
 
-#### Review effectiveness — current metrics only
+| Lens | Participant | Outcome |
+|---|---|---|
+| Technical | Reviewer | EXECUTED — 2 findings recorded (1 Major, 1 Minor), 3 closed, disposition Approved with Changes |
+| Management | Management Reviewer | EXECUTED — 2 findings recorded (1 Major, 1 Minor), 3 closed, disposition Conditional Go on the iteration |
+| Business | Business Reviewer | **INACTIVE — did not evaluate this review** |
 
-This is the project's first review event. No prior iteration and no prior cycle exists to compare against, so no trend is computed and none is inferred; the trend column of the effectiveness report stays empty until a second review has actually occurred.
+The Business Reviewer recorded no verdict of any kind and none is attributed to it. It does not work in this project: Business Modeling is INACTIVE in every phase by the Development Case, so the role is withheld by the tailoring rather than absent from this event. The decision below rests only on the two lenses that executed.
+
+#### Review effectiveness — current metrics, and the one comparison two events allow
 
 ```plantuml
 @startuml
-title Review effectiveness - Survey iteration 1, current metrics only. No trend is drawn.
+title Review effectiveness - Survey iteration 2, with the one comparison a second review event makes possible
 hide empty members
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 320
-skinparam nodesep 24
-skinparam ranksep 38
+skinparam wrapWidth 330
+skinparam ranksep 40
+skinparam nodesep 22
 
-package "Coverage of the increment" {
-  class "Development Case" as DC <<Environment>> {
-    in increment : yes
-    formally reviewed : yes, both lenses
-    findings : 0
-    coverage : 100 percent
+package "Coverage of this iteration's increment" {
+  class "System Inventory" as SI <<Discovery, Critical>> {
+    reviewed : yes, both executing lenses
+    recorded : 1 Major (F4) - F1, F2, F3 closed here
   }
-  class "System Inventory" as SI <<Discovery>> {
-    in increment : yes
-    formally reviewed : yes, both lenses
-    findings : 3 - 2 Major, 1 Minor
-    coverage : 100 percent
+  class "Development Case" as DC <<Environment, High>> {
+    reviewed : yes, both executing lenses
+    recorded : 1 Minor (F1), no new Major
   }
-  class "Iteration Plan" as IP <<Project Management>> {
-    in increment : yes
-    formally reviewed : yes, both lenses
-    findings : 2 - 2 Major
-    coverage : 100 percent
+  class "Iteration Plan" as IP <<Project Management, Medium>> {
+    reviewed : yes, both executing lenses
+    recorded : 1 Major (F3) - F1, F2 closed here
   }
-  class "Risk List" as RL <<Project Management>> {
-    in increment : yes
-    formally reviewed : yes, both lenses
-    findings : 1 - 1 Minor
-    coverage : 100 percent
+  class "Risk List" as RL <<Project Management, Medium>> {
+    reviewed : yes, both executing lenses
+    recorded : 0 - F1 closed here
+  }
+  class "Iteration Assessment" as IA <<Project Management>> {
+    reviewed : read, not assessed as evidence
+    reason : it records iteration 1 and says so; the PM writes i2 after this verdict
   }
 }
 
-class "Assigned slice" as SLICE <<scope>> {
-  areas assigned : 13
-  areas reached : 13
-  areas not reached : 0
-  files opened : 48 of 622 in the slice, plus 10 outside it
-  depth left in a read area : Excavation's, by the Priorities order
+class "Assigned slice" as SLICE <<scope of record>> {
+  areas assigned : 16, in the order the Work Order names
+  areas reached : 15
+  declared not reached : pkg/diagnostics - unread in full, reason stated
+  files opened : 28 distinct this iteration; 88 across the phase
 }
 
 class "Findings by severity" as SEV <<this review>> {
   Critical : 0
-  Major : 4
+  Major : 2
   Minor : 2
   Info : 0
-  total : 6
+  recorded : 4
+  closed : 6
+  net open at close : 4
 }
 
-class "Per-artifact finding count" as DENS <<current, not a rate>> {
-  System Inventory : 3
-  Iteration Plan : 2
-  Risk List : 1
-  Development Case : 0
-  basis : count per artifact, never per KLOC
-}
-
-class "Not measurable this review" as NM <<no figure invented>> {
-  defect density per KLOC : no size measure exists in Survey
-  defect removal efficiency : no Test discipline runs in Survey
-  rework effort : no token or elapsed-time reading taken at this gate
-  trend : one review has occurred, so there is no second reading
+class "Two review events compared" as TREND <<i1 and i2, both occurred>> {
+  review events in the phase : 2
+  findings recorded : 6 then 4
+  Major recorded : 4 then 2
+  Critical recorded : 0 then 0
+  closed by the later review : 6 of the 6 the earlier left open
+  reading : not a rate, not a velocity, no forecast
 }
 
 class "Anchor audit - technical lens" as AUDIT <<sampled>> {
-  anchors re-opened independently : 12
-  anchors that held : 11
-  anchors that failed : 1 - System Inventory#F1
+  i1 : 12 re-opened, 11 held, 1 failed
+  i2 : 13 re-opened, 10 held, 3 failed
   basis : the Reviewer opened each file rather than trusting the artifact
 }
 
+class "Not measurable at this gate" as NM <<no figure invented>> {
+  defect density per KLOC : Survey holds no size measure
+  defect removal efficiency : no Test discipline runs in Survey
+  rework effort : no token or elapsed reading taken at the gate
+}
+
 SLICE --> SEV
-DC --> SEV
 SI --> SEV
+DC --> SEV
 IP --> SEV
 RL --> SEV
-SEV --> DENS
+IA --> SEV
+SEV --> TREND
+AUDIT --> TREND
 SEV --> NM
-AUDIT --> SEV
 
-note bottom of NM
-  Each of these is a measurement this phase cannot produce,
-  not a zero. A defect-density figure per KLOC would need a
-  size measure Survey does not hold; a removal efficiency
-  would need a test stage Survey does not run; a rework effort
-  would need a token or elapsed-time reading no role has taken
-  at the gate. The trend column is empty because this is the
-  project's first review - no prior iteration or cycle exists
-  to compare against, and none is invented.
+note bottom of TREND
+  Two events occurred, so they are comparable - they are the only two
+  readings this phase holds. Fewer findings at the later event is not
+  evidence of a better process: the slices differ in size and in what
+  they made legible, and no per-iteration figure is a velocity.
 end note
-note bottom of DENS
-  The Iteration Plan carries two Major findings; the System
-  Inventory carries two Major and one Minor. Density across
-  artifacts of different type and size is not comparable, so
-  no cross-artifact rate is stated.
+note bottom of AUDIT
+  Six of twenty-five anchors re-opened across the two reviews did not
+  hold. All three failures of this event sit in two rows of two artifacts
+  and in a cited path - narrow defects in an otherwise verified reading.
 end note
 @enduml
 ```
 
 | Effectiveness indicator | Value at this review | What it means here |
 |---|---|---|
-| Review coverage of planned artifacts | 4 of 4 — 100 percent | Every artifact the Development Case sanctions for Survey iteration 1 was reviewed by both executing lenses |
-| Review coverage of the assigned slice | 13 of 13 areas reached, 100 percent | No area of the assignment went unjudged; depth inside a reached area is Excavation's by the Priorities order |
-| Findings recorded | 6 | 4 Major, 2 Minor, 0 Critical, 0 Info |
-| Findings per artifact | System Inventory 3, Iteration Plan 2, Risk List 1, Development Case 0 | A bare count, not a density: the artifacts differ in type and size, and no size measure exists to normalise by |
+| Review coverage of planned artifacts | 4 of 4 — 100 percent | Every artifact the Development Case sanctions for this iteration was reviewed by both executing lenses |
+| Review coverage of the assigned slice | 15 of 16 reached; 1 declared unread with its reason | No area of the assignment went unjudged or silently dropped: `pkg/diagnostics` is declared, and the next iteration's cut carries it |
+| Findings recorded | 4 | 2 Major, 2 Minor, 0 Critical, 0 Info |
+| Findings closed | 6 | All six that earlier reviews left open, each by its recording lens, each verified against the corrected content |
+| Findings per artifact | System Inventory 2, Iteration Plan 1, Development Case 1, Risk List 0 | A bare count, not a density: the artifacts differ in type and size and Survey holds no measure to normalise by |
 | Defect density per size | Not measurable | Survey holds no size measure. A per-KLOC figure would be `[ASSUMPTION — requires validation]` and is not stated |
-| Defect removal efficiency | Not measurable | No Test discipline runs in Survey, so there is no test-found defect population to compare review-found defects against |
-| Rework effort | Not measurable | No token or elapsed-time reading was taken at this gate. Both clocks are the Development Case's measurement policy and neither has a value for this review |
-| Anchor audit hit rate | 11 of 12 independently re-opened anchors held | The technical lens verified anchors rather than accepting them; one failed, which is the origin of `System Inventory#F1` |
-| Overdue findings | 0 | This is the first review; no deadline has yet passed and nothing is escalated |
-| Trend across iterations or cycles | None drawn | One review has occurred. Comparison begins when a second has |
+| Defect removal efficiency | Not measurable | No Test discipline runs in Survey, so there is no test-found population to compare review-found defects against. It becomes measurable in Construction |
+| Rework effort | Not measurable at this gate | No token or elapsed-time reading is taken when the review closes; both clocks are the Development Case's measurement policy and the gate is not instrumented |
+| Anchor audit hit rate | 10 of 13 independently re-opened anchors held | The technical lens verified anchors rather than accepting them; the three that failed are the substance of F4 and the path in F1 of the Development Case |
+| Open Major findings | 2 | Both hold the SBC milestone; neither holds this iteration's acceptance |
+| Overdue findings | 0 | No deadline has passed since this review closed. The phase holds two review events and no finding is past its action |
+| Trend across review events | 6 findings then 4; 0 Critical both times; 6 of 6 closures verified | Two events occurred, so this comparison is real. It is a count against a count, not a rate, and it says nothing about phase length |
 
-The four "not measurable" entries are the correct reading, not missing data. Each names the measurement the phase cannot produce and why; filling one with a figure would be the failure `Iteration Plan#F1` records.
+The three "not measurable" entries are the correct reading, not missing data. Each names the measurement the phase cannot produce and why; filling one with a figure would be the failure the Development Case's measurement policy and `R006` exist to prevent. No trend is drawn beyond the two events that occurred, and no prior iteration or cycle is invented to manufacture one.
 
 #### Verdict
 
-**Iteration Accepted — the phase iterates.** The iteration's four objectives were met on the increment's own evidence, thirteen of thirteen assigned areas were reached, and both executing lenses accepted the work with changes. The four Major findings are corrections to how the work is accounted for, not reasons to re-read an area, so the cut's own next slice — the request path and the component plane, `pkg/api/` read whole, with `go.sum` and `img` carried — stands unchanged.
+**Iteration Accepted — the phase iterates.** The iteration read fifteen of its sixteen assigned areas and declared the sixteenth, met its objectives on the increment's own evidence, and both executing lenses accepted the work with changes. The four open findings are corrections to how the work is accounted for, not reasons to re-read an area, so the cut's next slice — the eleven areas of Survey i3 — stands unchanged.
 
-The SBC milestone is not judged here and is not sanctioned. Its review opens once Survey's cut holds no unread area and every Major finding of the phase has its rework in the baseline. Neither condition is met: four Major findings are open and four of the cut's five iterations are unread.
+The SBC milestone is not judged here and is not sanctioned. Its review opens once Survey's cut holds no unread area and every Major finding of the phase has its rework in the baseline. Neither condition is met: two Major findings are open from this review and forty-one areas of the cut remain across three iterations.
 
 ```plantuml
 @startuml
-title Survey iteration 1 - the verdict and what carries into iteration 2
+title Survey iteration 2 - the verdict and what carries into iteration 3
 hide empty members
 skinparam classAttributeIconSize 0
 skinparam wrapWidth 330
 skinparam nodesep 30
 skinparam ranksep 44
 
-package "Iteration 1 - what it returned" {
-  class "Objectives" as OBJ <<4 of 4 met>> {
-    O1 perimeter fixed : 16 entry points, 26 components, 15 external systems
-    O2 self-declaration recorded : 23 records, 147 release notes, go.mod
-    O3 anomalies and priorities : 20 anomalies, 13 ranked
-    O4 phase cut into iterations : 70 areas, each in one iteration
+package "Iteration 2 - what it returned" {
+  class "Objectives" as OBJ <<O1 to O5 met>> {
+    O1 request path fixed : EP-003, EP-013, the allowlist, the route families
+    O2 component plane : met with rework - F4 on the registry count
+    O3 cross-cutting surfaces : six anchored, diagnostics declared unread
+    O4 figures reconcile : every Coverage row reproduces from its enumeration
+    O5 remainder cut : recorded with the process service
   }
   class "Slice" as SL <<reached>> {
-    assigned : 13 areas
-    reached : 13 areas
-    carried to i2 : go.sum, img - i2's own areas, not i1 misses
+    assigned : 16 areas, in the Work Order's order
+    reached : 15
+    declared not reached : pkg/diagnostics, unread in full, reason stated
   }
 }
 
 package "Findings open at the close of this review" {
-  class "Major - 4" as MAJ <<holds the SBC gate>> {
-    System Inventory F1 : anchor names an undeclared symbol
-    System Inventory F2 : read-counts not reproducible
-    Iteration Plan F1 : phase length forecast from one iteration
-    Iteration Plan F2 : slice booked 13 of 15 against 13 assigned
+  class "Major - 2" as MAJ <<holds the SBC gate>> {
+    System Inventory#F4 : 15 categories against 13 anchored registries
+    Iteration Plan#F3 : two risks placed on areas the plan declares unread
   }
   class "Minor - 2" as MIN <<owner's next turn>> {
-    System Inventory F3 : stated counts disagree with own tables
-    Risk List F1 : one role named owner of every risk
+    System Inventory#F1 : twenty-four counted against twenty-three rows
+    Development Case#F1 : pkg/config/modes/ does not resolve
   }
   class "Critical - 0" as CRIT <<nothing escalates>> {
     stakeholder : asked nothing at an Iteration Acceptance
@@ -1328,52 +1327,49 @@ package "Findings open at the close of this review" {
   }
 }
 
-package "What iteration 2 inherits" {
+package "What iteration 3 inherits" {
   class "The cut's own slice" as NEXT <<unchanged>> {
-    areas : go.sum, img, pkg/api/ whole, pkg/messaging, pkg/channel,
-            pkg/components, pkg/resiliency, pkg/middleware, pkg/config,
-            pkg/diagnostics, pkg/metrics, pkg/healthz, pkg/ports,
-            pkg/modes, pkg/apphealth, pkg/cors
-    note : no finding of this review changes it
+    areas : pkg/actors, pkg/runtime, pkg/placement, pkg/scheduler,
+            pkg/sentry, pkg/security, pkg/operator, pkg/injector,
+            pkg/acl, pkg/apis, pkg/client
+    carried : pkg/diagnostics, unread in full this iteration
+    note : no finding of this review adds or removes an area
   }
-  class "Risks" as RISK <<unchanged>> {
-    High : R011, R016, R023 - none retired, none due yet
-    Significant : 13 - carried whole
-    grant needed : none, all on avoid
+  class "Work owed before the gate" as WORK <<corrections, not re-reads>> {
+    action 1 and 3 : the registry count and the risk it carries
+    action 2 : the risk placement and the count drawn from it
+    action 4, 5 : one stated figure, one cited path
   }
 }
 
 OBJ --> MAJ
 SL --> NEXT
-MAJ --> NEXT : corrections owed before the slice is sized
+MAJ --> WORK
 MAJ --> CRIT
-MIN --> NEXT
-NEXT --> RISK
+MIN --> WORK
+WORK --> NEXT
 
 note bottom of CRIT
-  An Iteration Acceptance asks the stakeholder nothing.
-  Only an unresolved Critical finding goes to them, and
-  both executing lenses recorded none.
+  An Iteration Acceptance asks the stakeholder nothing. Only an unresolved
+  Critical finding goes to them, and both executing lenses recorded none.
 end note
 note bottom of NEXT
-  Iteration 2's slice is what the cut already assigns. The
-  two Major findings on the plan are corrections to how
-  iteration 1 is accounted for, not a reason to re-read an
-  area, so no area is added and none is removed.
+  Iteration 3's slice is what the cut already assigns, and pkg/runtime/
+  lands there because the control planes iteration 3 reads are what its
+  hot-reload, compstore, authorizer, scheduler and wfengine subtrees bind.
 end note
 @enduml
 ```
 
-#### Lenses that did not execute
-
-The Business Reviewer is recorded as **INACTIVE — did not evaluate this review**. No verdict is attributed to that lens in this record or anywhere in it, and the decision above rests only on the technical and management lenses, which both executed. Business Modeling is INACTIVE in every phase by the Development Case, so this is the tailoring working as configured, not a review event that failed to convene.
-
 #### What the next iteration must show this office
 
-| Check at the close of Survey i2 | Standard |
+| Check at the close of Survey i3 | Standard |
 |---|---|
-| Actions 1 to 5 of the prioritized list | Each closed by its recording lens, verified against the corrected content, not against a note saying it was done |
+| Actions 1 to 5 | Each closed by its recording lens, verified against the corrected content, not against a note saying it was done |
+| The two Major findings | Reworked before a role consumes the failing content: the registry set before Excavation's component recovery, the risk placement before the SBC gate reads it |
 | The two Minor findings | Fixed in their owner's next turn, or re-recorded under their existing keys with a reason |
-| Any finding that persists into i2 | Re-recorded under its existing key — never as a new finding, so review debt stays countable |
+| Any finding that persists into i3 | Re-recorded under its existing key — never as a new finding, so review debt stays countable |
 | Review debt | No finding past its deadline without a written escalation to the Project Manager |
-| New findings against i2's artifacts | Recorded with owner, severity and deadline before the iteration closes |
+| `pkg/diagnostics` | Read, or declared unread again with a reason — it is carried, not closed |
+| New findings against i3's artifacts | Recorded with owner, severity and criterion before the iteration closes |
+| The next review event | The Iteration Acceptance at the close of Survey i3, on the same boundary rule: the iteration's close triggers it, no date does |
