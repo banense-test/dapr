@@ -18,6 +18,10 @@ Survey iteration 1 establishes the perimeter of the existing system and records 
 O1–O3 are the Software Archaeologist's; O4 is this iteration's act of initiation and is complete when the cut is declared.
 
 ## Plan and Milestones
+Every area of the tree sits in exactly one iteration: i1 read 13, i2 takes its 14 and the 2 i1 did not reach, i3 11, i4 17, i5 13 — 70 areas, the count the cut declared, with nothing dropped and nothing counted twice. A further iteration takes exactly what the SBC review leaves open — the Review Record's findings and the actions it sets — and nothing else. The phase iterates while the cut holds an area or the record holds a finding open; it does not iterate because a calendar says so.
+
+The iteration count of the sprint zero is set by the cut of the existing system, not by the rubber profile: that profile distributes the iterations of the RUP phases and is not applied to the reading of a 6 629-entry repository.
+
 ### Coarse roadmap — the milestone sequence of the project
 
 | Milestone | Closes | What the milestone asserts | Reviewers, in order |
@@ -104,10 +108,10 @@ The iteration count of the sprint zero is set by the cut of the existing system,
 | W2 | Read what the system says it is | Software Archaeologist | `README.md`, `docs/decision_records/`, `docs/release_notes/`, `docs/development/`, `docs/CONTRIBUTING.md`, `go.mod`, `RELEASE.md`, `SECURITY.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, `CODEOWNERS` | System Inventory — Documentation | Every claim carries `Source: <path>`; the 23 decision records are reported as evidence and are not renumbered into the project's identifier families |
 | W3 | Fix the perimeter and enumerate the entry points | Software Archaeologist | `cmd/`, `dapr/proto/`, `.github/` | System Inventory — Perimeter | Every executable, every API surface and every protocol contract is enumerated and labelled `EP-NNN`, each with its `Source:` anchor |
 | W4 | Record the anomalies and order what remains | Software Archaeologist | W2, W3 outputs | System Inventory — Anomalies and Priorities | Each anomaly is labelled `AN-NNN` with its anchor; the areas still to read are ordered |
-| W5 | Score the risks the reading exposed and evolve this plan | Project Manager | System Inventory, this plan | Risk List; evolved Iteration Plan | Every risk carries probability, impact, magnitude, strategy and owner |
+| W5 | Score the risks the reading exposed and evolve this plan | Project Manager | System Inventory, this plan | Risk List; evolved Iteration Plan | Every risk carries probability, impact, magnitude, strategy and owner; every anomaly carries at least one |
 | W6 | Review the iteration against the SBC criteria | Reviewer, Management Reviewer, Review Coordinator | Iteration increments | Review Record; milestone verdict | The verdict is issued; a Critical finding escalates to the stakeholder and the milestone does not close |
 
-No work item is given a size. Nothing in this project has been measured — no phase has closed — so there is no actual to size against, and no unit of person-duration exists in this system to express one in. What iteration 1 read is counted above in files and areas, which is what this phase measures; it is not a rate to project, and no iteration forecast is derived from it.
+No work item is given a size. Nothing in this project has been measured — no phase has closed — so there is no actual to size against, and no unit of person-duration exists in this system to express one in. What iteration 1 read is counted above in files and areas: that is what this phase measures, it is not a rate to project, and no iteration forecast is derived from it.
 
 ```plantuml
 @startuml
