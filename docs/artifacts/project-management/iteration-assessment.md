@@ -25,18 +25,6 @@ Survey iteration 3 is assessed against the six objectives its Iteration Plan com
 
 Six committed objectives: four met, one not met as committed and reworked to its second admissible outcome, one met with the counts it carried corrected. The two Major findings sit on the plan that stated the claims — not on what the iteration read, which the Technical lens anchored nine times and found holding nine times.
 
-### What this iteration measured, and what each measurement decided
-
-| Measurement goal | Metric | This iteration's primitive measure | Decision it drove |
-|---|---|---|---|
-| Know whether an area was read to the depth its priority needs, or skimmed | Areas reached of areas assigned, and at what depth | 12 assigned, 11 read to a stated depth, 1 opened at 1 file of 35 and carried | Moved `pkg/diagnostics/` out of the Survey cut into Excavation and took it out of the reached count. The same check found `pkg/runtime/` and `pkg/actors/` short of their file counts at a depth Excavation owns — recorded in Coverage, not reclassified |
-| Know whether facts keep resolving outside the slice, which would mean the cut is drawn in the wrong place | Files opened inside the slice against files opened outside it | 27 in-slice, 3 outside, 30 distinct, 3 re-opened; the twelve assigned areas hold 901 files | No re-cut of the remaining two iterations: three outside files against twenty-seven inside is the same shape iterations 1 and 2 produced, so the perimeter of the slice holds |
-| Know whether the reading finds the system's incoherences or only describes it | Anomalies recorded, and the new ones this slice added | 4 new — `AN-024` to `AN-027` — against 23 carried forward | Each became a scored risk (`R029` restated, `R030` to `R032`) rather than a note. A slice yielding no anomaly would have meant the reading was describing |
-| Know whether the cut is ordered by risk at all, or only by convenience of location | Risks placed on an iteration whose area that iteration opens | 9 placed on this iteration, every one naming an area it opened; the aggregate check found 2 of 27 placed on iterations that read nothing of them | Moved `R013` and `R021` to carried past the phase, restated the count as 25 / 5 / 2, and took `.github` out of iteration 4's justification |
-| Report the iteration's cost in the currency this system measures | Token spend and measured elapsed time, the human gate apart | 23 846 406 tokens; 0:41:34.844933 of agent time; 0:00:00 measured queue time at the gate; 11 agent invocations across 6 artifacts | None yet. No phase has closed, so there is no phase-level actual and no rate; the figure is reported as this iteration's own fact and is projected onto nothing |
-
-The gate's queue time above excludes the end-of-iteration approval gate, which is not measured — the figure is reported as measured, not as complete.
-
 ```plantuml
 @startuml
 title Survey iteration 3 - from the iteration's facts to what iteration 4 takes
