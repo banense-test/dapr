@@ -1,6 +1,6 @@
 ## Document Control
 Phase: Survey
-Status: Draft — iteration 2. Perimeter closed against the code: 16 entry points, 26 components, 15 external systems, each counted from its own table below and stated nowhere else. Documentation graded in full against the tree. Anomalies (22), Priorities (13). Coverage counts iteration 1's read of 13 areas and iteration 2's read of the 16 areas of its slice, each count reproducible from the files enumerated on its own row.
+Status: Draft — iteration 2. Perimeter closed against the code: 16 entry points, 33 components, 15 external systems, each counted from its own table below and stated nowhere else. Documentation graded in full against the tree. Anomalies (22), Priorities (13). Coverage counts iteration 1's read of 13 areas and iteration 2's read of the 16 areas of its slice, each count reproducible from the files enumerated on its own row.
 Milestone Target: end-of-Survey (SBC) — not achieved
 
 ## Perimeter
