@@ -261,14 +261,62 @@ Six OPTIONAL artifacts exist in the baseline. Each is decided below on its §5.2
 real facts. The record is re-evaluated every iteration — a trigger that does not fire now may fire when declared
 scope changes.
 
+```plantuml
+@startuml
+title OPTIONAL artifact trigger evaluation - DAPR Core, Survey
+skinparam wrapWidth 320
+
+start
+:Read the six OPTIONAL artifacts of the baseline;
+:Evaluate each §5.2 condition against the facts of this repository;
+fork
+  :Glossary -
+  specialist vocabulary whose definitions are load-bearing;
+  :FIRED
+  pkg/acl/, pkg/actors/, pkg/runtime/, dapr/proto/;
+fork again
+  :Architectural Proof-of-Concept -
+  Elaboration reached AND a technical risk needing empirical validation;
+  :NOT FIRED at Survey
+  the phase is not reached;
+fork again
+  :Data Model -
+  data-centric OR more than 10 entities OR data migration in scope;
+  :NOT FIRED at Survey
+  the entity count is recovered in Excavation;
+fork again
+  :Deployment Model -
+  distributed or multi-node topology, or non-trivial multi-environment;
+  :FIRED
+  charts/dapr/ 7 subcharts, docker/ 8 Dockerfiles,
+  cmd/ 6 binaries, pkg/modes/modes.go two modes;
+fork again
+  :User-Interface Prototype -
+  UX-critical OR UI complexity needing stakeholder validation;
+  :NOT FIRED
+  the API surface is validated by the API decision records;
+fork again
+  :Test Plan -
+  formal delivery, regulatory audit, contractual test reporting;
+  :NOT FIRED
+  the Iteration Plan defines per-iteration test scope;
+end fork
+:Record the two FIRED names with the process service;
+stop
+@enduml
+```
+
 | Optional artifact | §5.2 condition | Verdict for this project | Evidence |
 |---|---|---|---|
 | Glossary | Domain uses specialist vocabulary needing stakeholder-validated definitions | **FIRED** | The codebase's own vocabulary is specialist and load-bearing: actor, reminder, timer, placement table, dissemination round, sidecar, sentry, trust domain, SVID, SPIFFE, resiliency policy, component, subscription, workflow, activity, orchestration, state store, binding, pub/sub, bulk subscribe, outbox, hot reload, workflow access policy, MCP server, conversation. `pkg/acl/`, `pkg/actors/`, `pkg/runtime/`, `dapr/proto/` establish these terms. A reader cannot follow a recovered use case without agreed definitions, and the definitions must be the stakeholder's, not the reader's. |
 | Architectural Proof-of-Concept | Elaboration phase + at least one technical risk requiring empirical validation | **NOT FIRED at Survey** | The condition includes the Elaboration phase; Survey has not reached it. No risk has been scored yet — the Risk List does not exist until the Project Manager produces it. Re-evaluated in Elaboration against the scored Risk List. |
 | Data Model | Data-centric system, OR >10 entities, OR data migration in scope | **NOT FIRED at Survey** | The runtime is not data-centric: it is a stateless data plane that persists through externally configured state stores and an actor state store (`pkg/runtime/compstore/`, `pkg/actors/state/`). The persistent entity count and any migration scope are counted in Excavation from the recovered anchors; the trigger is re-evaluated then, not on an uncounted guess. |
-| Deployment Model | Distributed / multi-node topology, OR multi-environment non-trivial | **FIRED** | The system is distributed by construction and ships multi-environment. `charts/dapr/` carries seven subcharts (operator, placement, scheduler, sentry, sidecar injector, RBAC, config) each with a StatefulSet or Deployment, PDB and Service; `docker/` carries eight Dockerfiles covering Linux, Windows, debug and dev; `cmd/` carries six binaries (`daprd`, operator, placement, scheduler, sentry, injector) plus the CLI in `.build-tools/`. mTLS via Sentry, and placement and scheduler are separate control planes with leadership. Standalone and Kubernetes modes are both first-class (`pkg/config/modes/`). |
+| Deployment Model | Distributed / multi-node topology, OR multi-environment non-trivial | **FIRED** | The system is distributed by construction and ships multi-environment. `charts/dapr/` carries seven subcharts (`dapr_operator`, `dapr_placement`, `dapr_scheduler`, `dapr_sentry`, `dapr_sidecar_injector`, `dapr_rbac`, `dapr_config`) each with a StatefulSet or Deployment, PDB and Service; `docker/` carries eight Dockerfiles covering Linux, Windows, debug and dev; `cmd/` carries six binaries (`daprd`, `operator`, `placement`, `scheduler`, `sentry`, `injector`) plus the CLI in `.build-tools/`. mTLS via Sentry, and placement and scheduler are separate control planes with leadership. Standalone and Kubernetes are both first-class runtime modes: `pkg/modes/modes.go` declares `type DaprMode string` with `KubernetesMode = "kubernetes"` and `StandaloneMode = "standalone"`, and `pkg/config/modes/kubernetes_config.go` and `pkg/config/modes/standalone_config.go` carry each mode's own configuration. |
 | User-Interface Prototype | UX-critical, OR UI complexity requiring stakeholder validation before implementation | **NOT FIRED** | No end-user graphical interface exists or is declared. The interfaces are an HTTP/gRPC API surface (`pkg/api/http/`, `pkg/api/grpc/`, `swagger/swagger.json`) and a command-line tool. API shape is validated by the API decision records, not by a UI prototype. |
 | Test Plan | Formal delivery, regulatory audit, or contractual test reporting | **NOT FIRED** | No regulatory or contractual test-reporting obligation is declared. Testing scope per iteration is defined by the Iteration Plan, and the repository's own layered suites (unit `unit` build tag, `tests/integration/suite/` with 2,073 files, `tests/e2e/`, `tests/perf/`) are the execution substrate. If a delivery obligation is declared later, the trigger is re-evaluated. |
+
+Every path cited in the table above resolves in the repository tree of this iteration; a path in the Evidence column
+is a file this project holds, and the count stated beside it is the count that directory holds.
 
 The two FIRED artifacts are recorded with the process service so the optional-generator roles read the same decision.
 
