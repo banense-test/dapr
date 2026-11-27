@@ -98,40 +98,6 @@ Counted once, the areas sum to 70 — the count the cut declared, with nothing d
 
 The iteration count of the sprint zero is set by the cut of the existing system, not by the rubber profile: that profile distributes the iterations of the RUP phases and is not applied to the reading of a 6 631-entry repository.
 
-### What this iteration inherits as rework, and where each item is worked
-
-| Item | Finding | Worked in | State |
-|---|---|---|---|
-| Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-the-slice total and the `docs` categories | `System Inventory#F2` | This iteration, W2 | Closed by its recording lens on hand re-added figures |
-| Derive the component and external-system counts from the tables; restate the proto breakdown against `AN-002` and `AN-013` | `System Inventory#F3` | This iteration, W2 | Closed by its recording lens |
-| Re-quote the reconciled figures in the slice table, the cut tables and the Evaluation Criteria | `System Inventory#F2` at its consuming end | This iteration, W7 | Applied — 28 files this iteration and 88 for the phase, each quoted from the row that reproduces it |
-| Add an accountable-role column distinct from the register's custodian | `Risk List#F1` | This iteration, W6 | Closed by its recording lens |
-| Delete the phase-length quotient and state the remainder as the counts the cut holds | `Iteration Plan#F1` | This document | Closed by its recording lens |
-| Restate iteration 1's row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only | `Iteration Plan#F2` | This document | Closed by its recording lens |
-| Restate the risk-driven sequencing row so every placement names an area its iteration opens; keep the placed count truthful | `Iteration Plan#F3` | This document | Rework applied; closure is the Management Reviewer's |
-| Carry the two unlocated component categories as a scored risk | `System Inventory#F4` at its consuming end | Risk List, W6 | Applied — `R029`, 4 × 3, Significant, avoided, confronted in Survey i3 |
-| Anchor the actor-state start-up requirement on code that enforces it | `System Inventory#F1` (Reviewer) | Survey i3, W3 there | Carried — the enforcing code is in `pkg/runtime/`, which iteration 3 reads |
-| Name the file that registers each of the fifteen component categories, or state the two unlocated; move the unopened paths out of the anchor column | `System Inventory#F4` | Survey i3 | Owed by its owner; the registration of `workflow` and `workflowbackend` is in `pkg/runtime/wfengine/` and `pkg/actors/` |
-| State the never-assigned count as twenty-three, or derive it from the rows at the foot of the Coverage table | `System Inventory#F1` (Management Reviewer) | Owner's next turn | Owed; Minor, holds no gate |
-| Correct the Deployment Model evidence path to `pkg/modes/modes.go` | `Development Case#F5` | Owner's next turn | Owed; Minor, holds no gate |
-
-### Fine plan — Survey iteration 2
-
-| # | Work item | Owner | Input | Output | Exit condition |
-|---|---|---|---|---|---|
-| W0 | Tailor the process for the phase: Development Case, and the Contribution Guide the owner carries in-tree | Process Engineer | The IARI baseline; the project's declared facts; the owner's `CONTRIBUTING.md` | Development Case | The Environment stage of the inherited process is satisfied before the reading opens; every §5.2 optional is recorded fired or not fired with its reason |
-| W1 | Declare the cut of this iteration and of the remainder | Project Manager | This plan; the repository tree | Cut recorded with the process service | The cut is recorded and no other role of the iteration works before it |
-| W2 | Reconcile the Coverage counts and derive the stated counts from the tables | Software Archaeologist | System Inventory — its Coverage table, its Components and External actors tables, `AN-002`, `AN-013` | System Inventory — corrected Coverage, Document Control status line, Proto contracts row | Every Coverage row's stated count equals the files enumerated on it, the outside-the-slice total equals the rows listed, the `docs` categories reconcile; each stated count is derived from its table and stated once; the proto breakdown matches `AN-002` and `AN-013` |
-| W3 | Read what the system says it is: the component registries as declarations | Software Archaeologist | `pkg/components/` | System Inventory — Documentation | Each registry is stated as the set of component kinds it admits, with the `Source:` anchor that declares the kind list, and the set is stated only to the count that holds — the fifteen `Category` constants of `category.go` against the files that register them, with any category whose registration is not located named as unlocated. The category constants, the versioning and WASM gates and the pluggable host are recorded as declarations, not as behaviour |
-| W4 | Fix the perimeter of the request path and enumerate the entry points it adds | Software Archaeologist | `go.sum`, `img`, `pkg/api/`'s servers, routes, internal invocation server and allowlist, `pkg/messaging/`, `pkg/channel/` | System Inventory — Perimeter | Every entry point the slice adds is enumerated and labelled `EP-NNN` with its `Source:` anchor; the hand-maintained gRPC allowlist map, the HTTP route families, the two gRPC servers, the public listener and the app-channel boundary are each stated with file and lines. `pkg/api/universal/` is not part of this read — it states what an operation does, which the perimeter does not need and Excavation does |
-| W5 | Record what the request path and the plane do not hold together, and re-order what remains | Software Archaeologist | W2, W3, W4 outputs | System Inventory — Anomalies and Priorities | Each new anomaly is labelled `AN-NNN` with its anchor; the areas still to read are re-ordered against what this slice exposed |
-| W6 | Score the risks this slice exposed, and name the role accountable for retiring each entry | Project Manager | System Inventory, the Risk List | Risk List | Every risk carries probability, impact, magnitude, strategy and an accountable role distinct from the register's custodian; every anomaly newly recorded here carries at least one risk; no risk is on `accept` at Significant or High magnitude without the stakeholder's granting answer |
-| W7 | Re-quote the reconciled figures and restate the cut against what was read | Project Manager | W2's corrected counts; W4, W5 outputs; this plan | Iteration Plan | The measurement table carries the reconciled totals and nothing earlier; the cut matches the recorded cut area for area and in order; whether the cut still holds is answered from this iteration's reading |
-| W8 | Review the iteration against the SBC criteria | Reviewer, Management Reviewer, Review Coordinator | Iteration increments | Review Record; milestone verdict | The verdict is issued; a Critical finding escalates to the stakeholder and the milestone does not close |
-| W9 | Record the Iteration Assessment given the verdict | Project Manager | Review Record; this iteration's objectives and evaluation criteria | Iteration Assessment | Every objective is stated met or missed, with the scope or plan adjustment the next iteration takes |
-
-No work item is given a size. Two phase iterations have closed and each spend is recorded as that iteration's own measured fact — iteration 1 at 19 480 197 tokens and 0:36:59.0766494 of agent time, iteration 2 at 30 715 328 tokens and 0:48:19.7330924 — each with its gate queue time measured apart at 0:00:00. Neither is a rate: two iterations of a sprint zero whose reading is dominated by documents and manifests are not a velocity, and nothing is projected from them onto the slices that follow. W2 exists because the phase's evidence that its reading happened must reproduce from the enumeration printed beside it.
-
 ### The critical chain of this iteration
 
 ```plantuml
