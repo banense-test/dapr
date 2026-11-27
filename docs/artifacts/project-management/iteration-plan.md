@@ -17,92 +17,20 @@ O1–O4 are the Software Archaeologist's reading and reconciliation, excepting t
 
 `pkg/api/` was named "read whole" in this objective when the iteration opened and was not read whole: Coverage records 6 of its 124 files, and `universal/` — the 29 files where each operation is implemented — is unread. The objective is restated on that fact rather than the fact on the objective. What the six files close is the perimeter: the entry points, the two gRPC servers, the public listener and the allowlist map. What they do not close is what an operation does, which is why the System Inventory ranks `pkg/api/` fourth for Excavation and the cut does not re-open the area.
 ## Plan and Milestones
-| # | Work item | Owner | Input | Output | Exit condition |
-|---|---|---|---|---|---|
-| W0 | Tailor the process for the phase: Development Case, and the Contribution Guide the owner carries in-tree | Process Engineer | The IARI baseline; the project's declared facts; the owner's `CONTRIBUTING.md` | Development Case | The Environment stage of the inherited process is satisfied before the reading opens; every §5.2 optional is recorded fired or not fired with its reason |
-| W1 | Declare the cut of this iteration and of the remainder | Project Manager | This plan; the repository tree | Cut recorded with the process service | The cut is recorded and no other role of the iteration works before it |
-| W2 | Reconcile the Coverage counts and derive the stated counts from the tables | Software Archaeologist | System Inventory — its Coverage table, its Components and External actors tables, `AN-002`, `AN-013` | System Inventory — corrected Coverage, Document Control status line, Proto contracts row | Every Coverage row's stated count equals the files enumerated on it, the outside-the-slice total equals the rows listed, the `docs` categories reconcile; each stated count is derived from its table and stated once; the proto breakdown matches `AN-002` and `AN-013` |
-| W3 | Read what the system says it is: the component registries as declarations | Software Archaeologist | `pkg/components/` | System Inventory — Documentation | Each registry is stated as the set of component kinds it admits, with the `Source:` anchor that declares the kind list; the fourteen category constants, the versioning and WASM gates and the pluggable host are recorded as declarations, not as behaviour |
-| W4 | Fix the perimeter of the request path and enumerate the entry points it adds | Software Archaeologist | `go.sum`, `img`, `pkg/api/`'s servers, routes, internal invocation server and allowlist, `pkg/messaging/`, `pkg/channel/` | System Inventory — Perimeter | Every entry point the slice adds is enumerated and labelled `EP-NNN` with its `Source:` anchor; the hand-maintained gRPC allowlist map, the HTTP route families, the two gRPC servers, the public listener and the app-channel boundary are each stated with file and lines. `pkg/api/universal/` is not part of this read — it states what an operation does, which the perimeter does not need and Excavation does |
-| W5 | Record what the request path and the plane do not hold together, and re-order what remains | Software Archaeologist | W2, W3, W4 outputs | System Inventory — Anomalies and Priorities | Each new anomaly is labelled `AN-NNN` with its anchor; the areas still to read are re-ordered against what this slice exposed |
-| W6 | Score the risks this slice exposed, and name the role accountable for retiring each entry | Project Manager | System Inventory, the Risk List | Risk List | Every risk carries probability, impact, magnitude, strategy and an accountable role distinct from the register's custodian; every anomaly newly recorded here carries at least one risk; no risk is on `accept` at Significant or High magnitude without the stakeholder's granting answer |
-| W7 | Re-quote the reconciled figures and restate the cut against what was read | Project Manager | W2's corrected counts; W4, W5 outputs; this plan | Iteration Plan | The measurement table carries the reconciled totals and nothing earlier; the cut matches the recorded cut area for area and in order; whether the cut still holds is answered from this iteration's reading |
-| W8 | Review the iteration against the SBC criteria | Reviewer, Management Reviewer, Review Coordinator | Iteration increments | Review Record; milestone verdict | The verdict is issued; a Critical finding escalates to the stakeholder and the milestone does not close |
-| W9 | Record the Iteration Assessment given the verdict | Project Manager | Review Record; this iteration's objectives and evaluation criteria | Iteration Assessment | Every objective is stated met or missed, with the scope or plan adjustment the next iteration takes |
+**The remainder, counted.** Of the 70 areas the cut holds, 13 were read in iteration 1 and 16 are this iteration's, so **41 remain across the three iterations that follow**: 11 in iteration 3, 17 in iteration 4, 13 in iteration 5. These are counts of areas, not of files read and not a rate: whether the cut still holds is asked and answered at the close of each iteration from what that iteration read, and it is not projected from any earlier iteration. Should an iteration overrun, the remedy is R001's — one more iteration, never less scope, and never more agent roles in parallel.
 
-No work item is given a size. One phase iteration has closed and its spend is recorded as that iteration's own measured fact — 19 480 197 tokens and 0:36:59.0766494 of agent time, with 0:00:00 of measured gate queue time — and it is not a rate: it is one iteration of a sprint zero whose reading is dominated by documents and manifests, so nothing is projected from it onto a slice that holds `pkg/api/` and the component plane. W2 exists because the phase's evidence that its reading happened must reproduce from the enumeration printed beside it.
+The entry counts in the table below are the repository tree's, reproducible from the tree call, and they say how large each area is. They are **not** a measurement of this phase. What this phase has read is the System Inventory's Coverage, and its rows reproduce from the files enumerated on each: iteration 1 opened 60 distinct files of the 620 its 13 areas hold, iteration 2 opened 28 it had not opened before, and the phase stands at 88 distinct files of the tree's 6 631 entries. This plan quotes those totals and derives nothing from them.
 
-### The critical chain of this iteration
+| Iteration | Areas the iteration takes, in the order to take them | Entries the tree reports | What the iteration establishes | Basis of the split |
+|---|---|---|---|---|
+| **Survey i2** — this iteration — 16 areas | `go.sum`, `img`, `pkg/api/`, `pkg/messaging/`, `pkg/channel/`, `pkg/components/`, `pkg/resiliency/`, `pkg/middleware/`, `pkg/config/`, `pkg/diagnostics/`, `pkg/metrics/`, `pkg/healthz/`, `pkg/ports/`, `pkg/modes/`, `pkg/apphealth/`, `pkg/cors/` | 317 | The sidecar's request path and component plane: how an application's call becomes a component operation, and what it dispatches into | The request path is the primary entry surface and the component registries are what it dispatches into; the two are read together or neither is legible. `go.sum` takes its turn at the head of the slice because it is read against `go.mod`'s pins; `img` because it is what `README.md` embeds |
+| **Survey i3** — 11 areas | `pkg/actors/`, `pkg/runtime/`, `pkg/placement/`, `pkg/scheduler/`, `pkg/sentry/`, `pkg/security/`, `pkg/operator/`, `pkg/injector/`, `pkg/acl/`, `apis/`, `client/` | 866 | The control planes and the stateful abstractions: actor placement and reminders, job scheduling, the trust domain, resource reconciliation, the workflow engine and the access-control layer | Each is a separate process with its own leadership, contracts and failure modes, so they are read as one slice. `pkg/runtime/` lands here rather than in this iteration because its hot-reload, compstore, authorizer, scheduler and wfengine subtrees are what these control planes bind together — the request path in this iteration reaches only its processor subtree |
+| **Survey i4** — 17 areas | `charts/`, `docker/`, `tests/`, `grafana/`, `swagger/`, `platforms/`, `tools/`, `pkg/testing/`, `Makefile`, `.golangci.yml`, `.prettierrc.json`, `.codecov.yaml`, `.devcontainer/`, `.build-tools/`, `.gitattributes`, `.gitignore`, `.prettierignore` | 3 496 | The delivery surface and the test substrate: how the six binaries are deployed, how the layered suites execute, and which conventions the kept code follows | Deployment is a first-class concern of this system and the suites are the only empirical statement of its behaviour; both are read once the systems under test are known. This is the largest slice — 2 073 integration suite files and 631 perf files under `tests/` — and its overrun is R001 |
+| **Survey i5** — 13 areas | `internal/`, `utils/`, `pkg/backoff/`, `pkg/buildinfo/`, `pkg/encryption/`, `pkg/expr/`, `pkg/messages/`, `pkg/outbox/`, `pkg/responsewriter/`, `pkg/retry/`, `pkg/scopes/`, `pkg/sse/`, `pkg/validation/` | 68 | The shared helper layer the request path and the control planes both draw on | These packages expose no entry point of their own; they are read last, once the callers that justify them are known |
 
-```plantuml
-@startuml
-title Survey iteration 2 - the critical chain from tailoring to gate
-skinparam wrapWidth 250
+Counted once, the areas sum to 70 — the count the cut declared, with nothing dropped and nothing read twice: 13 read in iteration 1, 16 assigned to iteration 2, and the 11, 17 and 13 the three remaining iterations hold. A further iteration takes exactly what the SBC review leaves open — the Review Record's findings and the actions it sets — and nothing else. The phase iterates while the cut holds an area or the record holds a finding open; it does not iterate because a calendar says so.
 
-|Process Engineer|
-start
-:Tailor the process for the phase\nDevelopment Case, Contribution Guide;
-note right
-  W0 is an explicit work item this
-  iteration: an artifact of the
-  increment is never absent from
-  the plan that reports on it.
-end note
-
-|Project Manager|
-:Declare the cut of this iteration\nrecord_iteration_cut - 16 areas;
-note right
-  No other role of the iteration
-  works before the cut is recorded.
-end note
-
-|Software Archaeologist|
-:Reconcile the Coverage counts and derive\nthe stated counts from the tables;
-note right
-  Closes the counts at their source;
-  a count that does not reproduce from
-  its enumeration is counted again,
-  not restated.
-end note
-:Documentation - the component registries\nread as declarations;
-:Perimeter - go.sum, img, the request-path\nservers, routes, allowlist, plus\npkg/messaging/ and pkg/channel/;\nenumerate the entry points the slice adds;
-note right
-  pkg/api/universal/ is not opened: what an
-  operation does is Excavation's, and the
-  perimeter does not need it. The public
-  listener's middleware subset is visible
-  from the server file read here.
-end note
-:Anomalies and Priorities - what the request\npath and the plane do not hold together;\nre-order what Excavation reads first;
-
-|Project Manager|
-:Risk List - score what the slice exposed,\nname the accountable role of each entry;
-:Iteration Plan - re-quote the reconciled\ntotals, restate the cut against what was read;
-
-|Reviewer|
-:Review the iteration against the SBC criteria;
-
-|Management Reviewer|
-:Assess the investment the phase implies;
-
-|Review Coordinator|
-:Issue the milestone verdict;
-note right
-  A gate is queue time, not work: bounded
-  at 14 days under R002, measured when it
-  opens. No stage carries a spend figure -
-  one iteration's actual is not a rate.
-end note
-
-|Project Manager|
-:Record the Iteration Assessment\ngiven the verdict;
-
-stop
-@enduml
-```
-
-The chain above is the whole of Survey iteration 2's work: eight agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — bounded in the Risk List and measured when they open, never forecast here.
-
+The iteration count of the sprint zero is set by the cut of the existing system, not by the rubber profile: that profile distributes the iterations of the RUP phases and is not applied to the reading of a 6 631-entry repository.
 ## Resources
 | Role | Discipline | Stages this iteration | What it produces |
 |---|---|---|---|
