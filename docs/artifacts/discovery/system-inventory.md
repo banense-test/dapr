@@ -985,7 +985,7 @@ none of them assigned to a slice, are declared unread there.
 | `charts` — outside a slice at i2 and i3, assigned at i4 | 67 | 3 — `dapr/README.md` (i2), `dapr/crds/subscription.yaml` (i3), `dapr/Chart.yaml` (i4) | 64 unread: the 7 subcharts' templates (51 files), the other 6 CRDs, the four files under `templates/` and `values.yaml`. The reason at i2 was not a slice: the README is the document for the area priority 11 carries. At i3 `crds/subscription.yaml`, because `AN-027` turns on which version the cluster serves and stores. At i4, in its slice and for the documentation question: `Chart.yaml` is the file that settles AN-022 — it declares all seven subcharts as `file://` dependencies while the README's chart-details list names six, so the omission is the README's and not the chart's. `values.yaml` and the templates are priority 11. |
 
 ## Counts
- 
+
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
