@@ -151,8 +151,8 @@ title Risk List after Survey iteration 2 - 28 risks, by magnitude and strategy
 **** R015 one shim disabled by renaming - 6
 **** R018 two proto packages carry no README - 8
 **** R024 one test file for 156 registrations - 8
-**** R026 workflow engine README describes an older engine - 8
-**** R027 two indices omit the entries they index - 8
+**** R026 workflow engine README describes an older engine - 6
+**** R027 two indices omit the entries they index - 6
 ** Minor 3 to 4 - none
 ** Low 1 to 2 - none
 @endmindmap
