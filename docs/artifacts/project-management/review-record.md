@@ -855,20 +855,108 @@ No conflict required a lens to withdraw a finding. Neither lens claimed a findin
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-No prior finding of this lens exists: this is iteration 1 of the phase and the first review. The reconciliation state therefore had nothing to close, and nothing was closed.
+<!-- review: Survey I2 -->
 
-Open actions, in the order they should be worked:
+#### Findings closed this review
 
-| # | Action | Owner | Closes | Gate |
+Each was closed by `resolve_artifact_finding` from this lens, after I verified the corrected content against the file it cites — not against a note saying it was done.
+
+| Finding | Severity | How the defect was fixed | Evidence I verified |
+|---|---|---|---|
+| `System Inventory#F1` | Major | The actor-state claim is re-anchored on code that enforces the rule. The note and the table row now state that the runtime neither chooses nor requires an actor state store at start-up, name `actorStateStoreBindings` as the reporting function, and cite `Configuration.validate()` → `ActorsSpec.Validate()` for the five binding faults it rejects. Both files are in the read set. | I opened `pkg/config/configuration.go`: `validate()` ends `return c.Spec.ActorsSpec.Validate()`, and the function's `if a == nil { return nil }` makes it nil-safe exactly as the note now says. `pkg/runtime/actorstatestores.go` is 22 lines with one function and no error return. |
+| `System Inventory#F2` | Major | Every Coverage row's stated count now reconciles with the files enumerated on the same row, and the Iteration Plan re-quotes only the reconciled totals. | I re-added every enumeration. i1: 3+1+1+1+1+1+1+1+12+13+9+1+3 = 48; outside the slice 2+1+5+1+1+1+1 = 12; 48+12 = 60. i2: 1+3+1+2+1+1+1+1+1+0+1+1+1+1+1+1 = 18, plus the 2 extended areas = 20, plus 8 outside = 28. Phase 60+28 = 88. `docs` row in Technology and Size: 2+24+13+153+6 = 198. |
+| `System Inventory#F3` | Minor | The three row counts are derived from the tables and stated once, with the status line pointing at that single statement; the proto breakdown is restated consistently with AN-002 and AN-013. | I counted the tables: 42 components, 19 external actors and systems, 16 entry points — which is what the introducing paragraph states. Proto: 37 `.proto` + 7 package READMEs + `dapr/README.md` = 45. |
+
+`System Inventory#F4` is the same class of defect as F2 and F3 — a stated count that does not reconcile with what the row itself prints — appearing in a row the earlier corrections did not reach. That is the reason the finding is recorded rather than folded into one of them: the closing of F2 and F3 did close those rows, and did not close this one.
+
+#### Actions this review sets
+
+| # | Action | Owner | Closes | Holds the SBC gate |
 |---|---|---|---|---|
-| 1 | Reconcile every Coverage row's stated count with the files it enumerates; correct the outside-the-slice total and the `docs` categories | Software Archaeologist | F2 | Before the next cut uses the figures |
-| 2 | Re-quote the corrected in-slice and outside-slice totals in the measurement table, Evaluation Criteria and cut tables | Project Manager | F2 (consuming end) | After action 1 |
-| 3 | Anchor the actor-state start-up requirement on code that enforces it, or restate the claim as what `actorStateStoreBindings` does; move the anchor out of the unread set | Software Archaeologist | F1 | In the iteration that reads `pkg/runtime/` |
-| 4 | Derive the component and external-system counts from the tables; restate the proto file breakdown | Software Archaeologist | F3 | Owner's next turn; does not hold the milestone |
+| 1 | For each of the fifteen category constants, name the file that registers it; locate the registration of `workflow` and `workflowbackend`, or state that it is not located; take the unopened `registry.go` paths out of the anchor column, or open them; restate the Components table row to match | Software Archaeologist | `System Inventory#F4` | Yes — O2's exit criterion asks for the registry set by name, and Excavation's component recovery builds on it |
+| 2 | Carry the two unlocated categories as a risk, scored on the register's own scale | Project Manager | `System Inventory#F4` at its consuming end | Yes |
+| 3 | Correct the Deployment Model evidence path to `pkg/modes/modes.go`; check the other rows of the same table for paths that do not resolve | Process Engineer | `Development Case#F5` | No — owner's next turn |
 
-Finding closure is this lens' act alone: each of F1, F2 and F3 is closed by a `resolve_artifact_finding` call from the Reviewer once the corrected content is in the artifact. A defect that persists into the next iteration is re-recorded under its existing key, not as a new one.
+Action 1 is one act of correction in one artifact and is worked as a whole: a row that names thirteen of fifteen categories and anchors thirteen paths must be fixed in the count and in the anchors together, or the reader is left with a corrected number over uncorrected evidence.
+
+#### What this lens does not close
+
+`Iteration Plan#F1` and `Iteration Plan#F2` are open under the Management Reviewer's lens and are not mine to close. I read the plan to judge whether its figures reproduce, and they do: the quotient the earlier finding named is absent, "The remainder, counted" states 41 areas across three iterations with R001's remedy and no rate, and the i1 row reads 13 assigned and 13 reached. That observation is recorded; the closure is the recording lens' act.
+
+`Risk List#F1`, also the Management Reviewer's, is outside this lens' judgment.
+
+#### Pull requests
+
+`scm_list_pull_requests` returns no pull request in any state, so there is nothing to approve, request changes on, or defer. That is correct for Survey: no role of this phase produces code, and the Implementation Model does not exist yet.
+
+#### Defect distribution
+
+```plantuml
+@startuml
+title Defect distribution - Survey iteration 2, technical lens
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 300
+skinparam nodesep 30
+skinparam ranksep 40
+
+class "System Inventory" as SI {
+  Critical : 0
+  Major : 1  (F4)
+  Minor : 0
+  Info : 0
+  closed this review : F1, F2, F3 - all Resolved
+}
+
+class "Development Case" as DC {
+  Critical : 0
+  Major : 0
+  Minor : 1  (F5)
+  Info : 0
+}
+
+class "Iteration Plan" as IP {
+  Critical : 0
+  Major : 0
+  Minor : 0
+  Info : 0
+  note : approved from this lens - its two Major
+         findings are the Management Reviewer's
+}
+
+class "Risk List" as RL {
+  Critical : 0
+  Major : 0
+  Minor : 0
+  Info : 0
+  note : approved from this lens
+}
+
+class "This review, in totals" as TOT <<current, not a rate>> {
+  findings recorded : 2
+  Major : 1
+  Minor : 1
+  Critical : 0
+  Info : 0
+  findings closed : 3
+  net open against this lens : 2
+}
+
+SI --> TOT
+DC --> TOT
+IP --> TOT
+RL --> TOT
+
+note bottom of TOT
+  Counts per artifact, never per KLOC: Survey holds no
+  size measure to normalise by. Three findings closed
+  and two opened is not a trend - a trend needs the same
+  measure twice, and these are different defects.
+end note
+@enduml
+```
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
