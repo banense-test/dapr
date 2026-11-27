@@ -1,3 +1,5 @@
+> For how a change is requested, labelled and reviewed in this project, see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
 # Contribution Guidelines
 
 Thank you for your interest in Dapr!
