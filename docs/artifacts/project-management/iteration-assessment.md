@@ -4,48 +4,55 @@ Status: Draft — iteration 2 assessment, recorded after the Review Coordinator'
 Milestone Target: end-of-Survey milestone (SBC) — not achieved
 
 ## Iteration Objectives Reached
-Survey iteration 1 is assessed against the four objectives its Iteration Plan committed to and the phase's three intended objectives. The Review Coordinator's verdict is recorded here as given: **SBC — iteration REQUIRED**. This document records that verdict; it does not issue a milestone.
+Survey iteration 2 is assessed against the five objectives its Iteration Plan committed to and against the phase's three intended objectives. The Review Coordinator's verdict is recorded here as given: **SBC — iteration REQUIRED**. This document records that verdict; it does not issue a milestone.
 
 | # | Objective committed in the Iteration Plan | Owner | Outcome | Evidence, and what qualifies it |
 |---|---|---|---|---|
-| O1 | The perimeter of the existing system is fixed: every executable, API surface, protocol contract and control plane enumerated with the path it was read from | Software Archaeologist | **Met** | System Inventory — Perimeter: `EP-001` to `EP-016`, each anchored; 26 components and 15 external systems named entry by entry. Qualified by `System Inventory#F1`: one Persistent Data anchor names a symbol its cited file does not declare, and the file sits in the artifact's own unread set |
-| O2 | What the system declares about itself is recorded — decision records, release history, contribution and release procedure, toolchain | Software Archaeologist | **Met** | 23 decision records graded against the tree, 147 release notes, the template and the newest note, `go.mod` (`go 1.26.11`, `dapr/*` on exact pseudo-versions). Both lenses accepted this content; nothing is recorded against it |
-| O3 | What does not hold together in the reading is written down and ordered | Software Archaeologist | **Met** | 20 anomalies `AN-001` to `AN-020`, each with its anchor; 13 ranked priorities, cited as Excavation's reading order rather than as a Survey work item. Qualified by `System Inventory#F2`: the read-counts printed beside the enumeration are not reproducible from it |
-| O4 | The work left in the phase is cut into iterations, each area in exactly one iteration | Project Manager | **Met** | 70 areas, each in exactly one iteration, nothing read twice; all 25 risks name the iteration that confronts them. Qualified by `Iteration Plan#F1` (a phase-length quotient no measurement produced) and `Iteration Plan#F2` (the slice booked as 13 of 15 against an assignment of 13) — both corrected in the plan this turn, each awaiting its recording lens' closure |
+| O1 | The request path is fixed: how an application's call becomes a call into a component, read from the code that does the dispatch | Software Archaeologist | **Met** | System Inventory — Perimeter and Coverage: `go.sum` and `img` recorded for what they are, `EP-003` and `EP-013` anchored on `pkg/api/http/server.go`, the allowlist read from `pkg/api/grpc/endpoints.go`, `pkg/messaging/v1/messaging.go` and `pkg/channel/channel.go` read. `pkg/diagnostics/` declared unread in full with its reason, not counted as reached. No finding is recorded against this content by either executing lens |
+| O2 | The component plane is recorded: what the request path dispatches into and under what policy | Software Archaeologist | **Met, with rework owed** | `pkg/components/`, `pkg/resiliency/`, `pkg/middleware/` and `pkg/config/` were read and each anchor holds — the Technical lens opened `state/`, `lock/` and `conversation/registry.go` and all three follow the pattern the row describes. Qualified by `System Inventory#F4`, Major: fifteen `Category` constants against thirteen anchored registry paths, with `workflow` and `workflowbackend` resolving to nothing. The Review Coordinator's C1 resolved the cross-lens question — the management lens passed O2 on the artifact's statement, the technical lens opened the tree, and the opened file governs. The registry set is therefore recorded as thirteen located and two unlocated, carried as `R029` |
+| O3 | The cross-cutting surfaces the request path carries are anchored | Software Archaeologist | **Met** | `pkg/metrics/exporter.go` (`EP-012`), `pkg/healthz/healthz.go` (`EP-011`), `pkg/ports/ports.go`, `pkg/modes/modes.go`, `pkg/apphealth/health.go`, `pkg/cors/cors.go` — each read and each stated with its anchor. The Technical lens opened `healthz.go`, `modes.go` and `cors.go` and all three hold. `pkg/diagnostics/` (35 files) declared unread in full and not counted as reached |
+| O4 | The phase's own account of itself is reconciled, so its figures can be reproduced from what it prints | Software Archaeologist, and this role for the re-quote | **Met, one count open** | `System Inventory#F2` and `#F3` closed this review by their recording lens on verified evidence — every Coverage row re-added by hand, 60 + 28 = 88 for the phase, 42 / 19 / 16 derived from the tables. This plan re-quotes only those reconciled figures. Qualified by `System Inventory#F1` under the Management Reviewer's lens, Minor: "twenty-four areas never assigned" against twenty-three rows at the foot of the Coverage table. No objective fails on it and no quoted total changes |
+| O5 | The remainder of the phase is cut and declared before any other role of the iteration reads | Project Manager | **Met** | The cut is recorded with the process service: 16 areas of this iteration, 41 across the three that follow (11 + 17 + 13), 70 areas each in exactly one iteration. No area is in two iterations, and `go.sum` and `img` appear in this iteration's row only |
 
 | Phase objective this iteration serves | Served? | Where it stands after the verdict |
 |---|---|---|
-| Confirm the System Boundary | Partly — one of the phase's five cut iterations is read | The boundary is enumerated and anchored over 13 of 70 areas; four iterations of the cut are unread, so it is not yet confirmed |
-| Tailor Development Process | Yes, and closed for this iteration | Development Case delivered before the iteration opened, no finding from either lens: Business Modeling INACTIVE, Capsule Designer withheld, Glossary and Deployment Model triggered, four optionals not fired with reasons, the stakeholder's pointer line applied |
-| Identify Critical Risks | Yes, for what was read | 25 risks, every one of the 20 anomalies carried, three High and thirteen Significant all on `avoid`. None is retired and none is due to be: iteration 1 is the register's first measurement |
+| Confirm the System Boundary | Partly — two of the phase's five cut iterations are read | The boundary is enumerated and anchored over 29 of 70 areas; three iterations of the cut are unread, so it is not yet confirmed. `pkg/api/universal/` — the 29 files where each operation is implemented — is deliberately outside this read and is ranked fourth for Excavation |
+| Tailor Development Process | Not an objective of this iteration; stands as delivered | The Development Case was carried as W0 and delivered before the reading opened. It carries `Development Case#F5` (Minor) from the Technical lens — one evidence path, `pkg/config/modes/` against the actual `pkg/modes/modes.go` — which does not touch the Deployment Model verdict: FIRED rests on seven subcharts, eight Dockerfiles, six executables, two runtime modes, placement and scheduler as separate control planes, and mTLS through Sentry |
+| Identify Critical Risks | Yes, for what was read | 29 risks, every one of the 23 anomalies carried, three High and fifteen Significant all on `avoid`, three accepted at Moderate. Four entries were added this iteration: `R026`, `R027`, `R028` from this slice's anomalies and `R029` as this role's consuming end of `System Inventory#F4`. None is retired and none is due to: the phase has no closed iteration behind it that produced a second reading |
 
-Four committed objectives, four met. Two of the four carry a defect in the artifact's account of its own work; neither defect touches what the iteration read.
+Five committed objectives: three met, two met with rework owed inside an artifact. No objective was missed, and no defect touches what the iteration read.
 
 ```plantuml
 @startuml
-title Survey iteration 1 - the close of the iteration, from the facts to the next plan
+title Survey iteration 2 - the close of the iteration, from the facts to what iteration 3 takes
 skinparam wrapWidth 240
 
 |Facts of the iteration|
 start
-:Thirteen areas assigned, thirteen reached;\nfive opened short, that depth ordered to Excavation;
-:Sixteen entry points, twenty anomalies, twenty-five risks scored;
-:The Development Case tailored before the iteration opened;
+:Sixteen areas assigned, fifteen reached;\npkg/diagnostics declared unread in full;
+:Twenty-eight distinct files opened that\niteration 1 had not; three re-opened;
+:Three anomalies added - AN-021, AN-022, AN-023;
 |Review lenses|
-:Technical lens executed - findings against the System Inventory;
-:Management lens executed - findings against the plan and the register;
+:Technical lens executed;\nF4 Major on the component plane,\nF5 Minor on the Development Case;
+:Management lens executed;\nF3 Major on risk placement,\nF1 Minor on a Coverage count;
 :Business lens INACTIVE - no verdict attributed to it;
+note right
+  Business Modeling is inactive for this
+  project, so no business verdict exists
+  and none is reported.
+end note
 |Review Coordinator|
 :Milestone verdict - SBC: iteration REQUIRED;
 note right
-  Recorded here, not decided here. The milestone is
-  not judged: four of the phase's five cut iterations
-  are unread, and the phase's Major findings have no
-  rework in the baseline yet.
+  Recorded here, not decided here. Two Major
+  findings stand open and the cut still holds
+  three unread iterations.
 end note
 |Project Manager|
-:Assess the phase's three objectives against that record;
-:Record each variance with the adjustment it forces;
+:Resolve this role's own end of the record:\nrestate the sequencing row, the criteria\nand the placed count;
+:Add R029 - the two component categories\nno read has located;
+:Assess the phase's three objectives and\nthe nine criteria the plan carried;
+:Record each variance with the correction\nit forces in iteration 3;
 :Iteration Assessment - this artifact;
 stop
 @enduml
