@@ -455,13 +455,13 @@ No prior finding of this lens exists: this is the phase's first review, so the r
 
 | # | Action | Owner | Closes | Holds the SBC gate |
 |---|---|---|---|---|
-| 1 | Delete the 57 ÷ 13 quotient and the conclusion drawn from it; state the remainder as the counts the cut holds, with R001 as the remedy | Project Manager | M-F1 | Yes — the gate would otherwise decide the cut is sufficient on an invented forecast |
-| 2 | Restate iteration 1's row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only; correct the "Unread areas declared" criterion | Project Manager | M-F2 | Yes — the gate reads the slice's account as its evidence |
-| 3 | Add an accountable-role column to the register and name the role that retires each risk | Project Manager | M-F3 | No — the owner's next turn |
+| 1 | Delete the 57 ÷ 13 quotient and the conclusion drawn from it; state the remainder as the counts the cut holds, with R001 as the remedy | Project Manager | `Iteration Plan#F1` | Yes — the gate would otherwise decide the cut is sufficient on an invented forecast |
+| 2 | Restate iteration 1's row as 13 assigned and 13 reached; list `go.sum` and `img` in iteration 2's row only; correct the "Unread areas declared" criterion | Project Manager | `Iteration Plan#F2` | Yes — the gate reads the slice's account as its evidence |
+| 3 | Add an accountable-role column to the register and name the role that retires each risk | Project Manager | `Risk List#F1` | No — the owner's next turn |
 
 Actions 1 and 2 are one act of correction in one artifact and should be done together; they are separate findings because one is a figure no measurement produced and the other is a false account of the slice, and a correction of either alone leaves the other standing.
 
-The Reviewer's actions on the System Inventory (its actions 1 to 3) are owed independently. This lens adds no action to them and does not close them.
+The Reviewer's actions on the System Inventory (`System Inventory#F1`, `#F2`, `#F3`) are owed independently. This lens adds no action to them and does not close them.
 
 ## Disposition
 ### Reviewer lens
