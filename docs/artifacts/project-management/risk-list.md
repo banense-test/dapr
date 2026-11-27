@@ -76,7 +76,7 @@ class "Anomaly" as ANOM <<System Inventory>> {
 RISK "1" --> "1" MAG : magnitude is the band\nits exposure falls in
 RISK "1" --> "1" STRAT : chosen per risk
 RISK "1" --> "0..1" GRANT : required only when the\nmagnitude is Significant or High\nand the strategy is accept
-ANOM "0..1" --> "0..*" RISK : a scored risk refines\nthe anomaly that exposed it
+ANOM "1" --> "0..*" RISK : a scored risk refines\nthe anomaly that exposed it
 
 note right of MAG
   The scale is the IARI Development
@@ -102,16 +102,14 @@ note bottom of RISK
 end note
 
 note bottom of ANOM
-  Three provenances, one shape. A risk about
-  the system refines an anomaly the reading
-  recorded. A risk of the phase's own shape has
-  no anomaly and cites a Development Case section
-  or a repository path instead. A risk this
-  iteration's slice exposed refines the anomaly
-  that slice recorded, which is why AN-021 to
-  AN-023 carry a risk each. R029 has no anomaly
-  yet: its anomaly is the one the next reading of
-  pkg/components/ records.
+  Two provenances, one shape. A risk about the
+  system refines an anomaly the reading recorded.
+  A risk of the phase's own shape has no anomaly
+  and cites a Development Case section instead.
+  Every anomaly of the System Inventory carries
+  exactly one risk: AN-021 to AN-025 were recorded
+  in iteration 3 and R026 and R029 to R032 carry
+  them.
 end note
 @enduml
 ```
@@ -120,13 +118,13 @@ end note
 
 ```plantuml
 @startmindmap
-title Risk List after Survey iteration 2 - 29 risks, by magnitude and strategy
-* Risk List - 29 risks
+title Risk List after Survey iteration 3 - 32 risks, by magnitude and strategy
+* Risk List - 32 risks
 ** High 15 to 25 - 3, all avoided
 *** R011 architecture statement dormant since 2023 - 16
 *** R016 no in-tree account of executable behaviour - 16
 *** R023 one scheduler process, two authorities - 16
-** Significant 9 to 12 - 15, all avoided
+** Significant 9 to 12 - 17, all avoided
 *** R001 unequal cut, tests holds 3335 entries - 12
 *** R005 repository files read as orders - 9
 *** R006 an empty size filled with a unit nothing measures - 9
@@ -136,18 +134,20 @@ title Risk List after Survey iteration 2 - 29 risks, by magnitude and strategy
 *** R013 70 version-skew patches must keep applying - 12
 *** R014 two workflow suites disabled by renaming - 9
 *** R017 gRPC allowlist is a hand-maintained duplicate - 12
-*** R019 failure-policy family with no proto behind it - 12
+*** R019 three failure-policy families, one with a source - 12
 *** R020 committed bindings name two protoc versions - 12
 *** R021 licence scan reports and cannot fail - 12
 *** R022 hand-written Go inside the generated tree - 12
 *** R028 public listener applies three of the eight middlewares - 12
-*** R029 two of fifteen categories with no registry found - 12
-** Moderate 5 to 8 - 11
+*** R029 fifteen categories, thirteen registries, two never looked up - 12
+*** R030 eleven read areas hold no document at all - 12
+*** R032 Subscription conversion drops the routing rules - 9
+** Moderate 5 to 8 - 12
 *** accepted, mitigation and contingency written - 3
 **** R002 SBC gate at the 14-day queue ceiling - 8
 **** R003 versions read as policy rather than evidence - 6
 **** R025 test setup parses an error message for CIDRs - 8
-*** avoided - 8
+*** avoided - 9
 **** R004 decision records renumbered into project families - 6
 **** R007 index links a record the tree does not hold - 8
 **** R008 proto overview omits two packages - 8
@@ -156,12 +156,13 @@ title Risk List after Survey iteration 2 - 29 risks, by magnitude and strategy
 **** R024 one test file for 156 registrations - 8
 **** R026 workflow engine README describes an older engine - 6
 **** R027 two indices omit the entries they index - 6
+**** R031 the clientset covers three of seven resource kinds - 8
 ** Minor 3 to 4 - none
 ** Low 1 to 2 - none
 @endmindmap
 ```
 
-The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three, and for the fifteen Significant risks beside them: each is avoided by the shape of the reading the next phase is given, not by a promise made to the stakeholder.
+The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three, and for the seventeen Significant risks beside them. Iteration 3 sharpened the same point: the four Significant risks it adds or restates — R019, R029, R030, R032 — are each a place where a reader who trusts the declaration instead of the file describes something the code does not do.
 
 No risk in this register is Accepted at Significant or High magnitude, so no stakeholder grant is outstanding and none is requested. The three accepted entries — R002, R003, R025 — are Moderate, where acceptance with a written mitigation and contingency is this role's decision and no one else's to approve.
 
@@ -169,7 +170,9 @@ No risk in this register is Accepted at Significant or High magnitude, so no sta
 
 Probability is the chance the consequence happens **to the reading this project is doing**, not the chance the defect exists. A defect the tree shows plainly has already happened; what is uncertain is whether it misleads a later role. That is why R015 and R026 — a disabled shim, a stale README — sit at probability 3 even though the anomalies they rest on are certain: neither is likely to be reached before the code it misstates is read.
 
-R029 is scored on the same rule and lands differently. The defect is certain — the two categories have no registry file at the path the other thirteen follow — and probability 4, not 3, because the consequence is not about reaching an anchor but about a count: a reader taking the fifteen constants as fifteen registries is reading the artifact as it is written, which one review lens did before the files were opened, and every later component view starts from that count. Impact is 3: the retirement lies inside the phase the cut already plans, in `pkg/runtime/wfengine/` and `pkg/actors/`, so an objective slips to a later iteration the phase plans rather than the milestone slipping. Exposure 12, Significant. Avoided by locating the registration in Survey i3 and by every artifact stating fifteen categories of which thirteen have a registry file and two are unlocated.
+R029 was scored on that rule at iteration 2 and is rescored now that the answer is in. The fifteen constants read as fifteen registries only misleads a reader who is deciding what the component plane is — a component view, a count, a registry list — and `AN-024` now states the split in the artifact's own words. Probability 4 is kept because the count is the first thing every later component artifact takes, and impact stays 3 because the retirement lies inside the phase the cut already plans.
+
+R030 is probability 4 on the same test: the absence is certain, and the inventory's own reading demonstrated that a role reaching for a document in these areas finds none and re-derives the contract from code. R031 is probability 4 with impact 2 — the clientset's three groups mislead only a role that takes the generated client for the resource set, and `pkg/apis/` sits beside it declaring seven. R032 is probability 3: the conversion loss is certain, but no Subscription in the tree or the charts routes by `Routes.Rules`, so whether the consequence reaches a declared behaviour is open.
 
 R028 keeps the probability band the certainty of its code would raise. The public listener's narrower middleware set is in the code and is not in doubt; whether it is a defect depends on a deployment decision this project has not seen made. A public port is opt-in, no Configuration in the tree sets one, and the repository holds no deployment that turns it on. So the probability that the consequence reaches a declared constraint is 3 — medium, 31 % to 50 % — and not 4. Its impact is 4, and that is the band that matters: if a deployment does set a public port, an access-control constraint the operator configured is no longer met as declared, and the failure is silent — the surface is served, so nothing announces that the body ceiling, the CORS policy, the API-token check and the component middleware are absent.
 
