@@ -1,8 +1,7 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — iteration 1; Documentation read in full, Perimeter at surface breadth, remaining sections recorded to the depth this iteration's slice allowed
-Milestone Target: end-of-Survey milestone (SBC) — not achieved
+Status: Draft — iteration 1; Perimeter closed against the code (every declared gRPC service read, 16 entry points, 28 components, 16 external systems); Documentation read in full; Technology and Size, Persistent Data, Anomalies and Coverage at the depth this iteration's slice allowed
+Milestone Target: end-of-Survey (SBC) — not achieved
 
 ## Perimeter
 The boundary is drawn by what the code reaches for. Six Go executables run from `cmd/` and share one library;
