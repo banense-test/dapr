@@ -4,7 +4,7 @@ Status: Draft — iteration 1. Twenty-five risks: every one of the System Invent
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Risk Classification
-Every risk is scored on the IARI risk scale (Development Case §9.10 / baseline). This Risk List defines no scale of its own: probability is 1–5, impact is 1–5, exposure is their product, and the magnitude is the band that exposure falls in — never a band chosen for it.
+Every risk is scored on the IARI risk scale carried by the IARI Development Process baseline. This Risk List defines no scale of its own: probability is 1–5, impact is 1–5, exposure is their product, and the magnitude is the band that exposure falls in — never a band chosen for it. The project Development Case tailors the process by deltas and adds nothing to this scale; what it adds is the 14-day bound on the human gate, carried under R002.
 
 | Probability | Level | Means |
 |---|---|---|
@@ -79,9 +79,9 @@ RISK "1" --> "0..1" GRANT : required only when the\nmagnitude is Significant or 
 ANOM "0..*" --> "0..1" RISK : a scored risk refines\nthe anomaly that exposed it
 
 note right of MAG
-  The scale is the Development Case's
-  (IARI baseline section 9.10). This
-  Risk List defines no scale of its own.
+  The scale is the IARI Development
+  Process baseline's. This Risk List
+  defines no scale of its own.
 end note
 
 note bottom of GRANT
