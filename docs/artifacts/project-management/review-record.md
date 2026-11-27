@@ -963,13 +963,15 @@ No action asks any role to re-read an area. Actions 1, 2, 4 and 5 are correction
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
+
+<!-- review: Survey I3 -->
 
 **Approved with Changes.** No Critical finding: nothing in this iteration needs a decision only the stakeholder can make, and no `REQUIRES_USER_INPUT` is raised.
 
-One Major finding (`System Inventory#F4`) and one Minor (`Development Case#F5`). Under the severity contract the artifact is reworked before any role consumes the failing content again, and the SBC milestone is not sanctioned while a Major stands. Three prior findings of this lens — `System Inventory#F1`, `#F2`, `#F3` — are closed, each verified against the file its correction cites.
+One Major finding (`Iteration Plan#F1`) and one Minor (`System Inventory#F5`). Under the severity contract the artifact is reworked before any role consumes the failing content again, though the plan does not hold this iteration's acceptance: a Major holds the SBC milestone, and the phase iterates either way. Two prior findings of this lens — `Development Case#F1` and `System Inventory#F4` — are closed, each verified against the files its correction cites.
 
-The iteration met its slice. Fifteen of sixteen assigned areas were reached and `pkg/diagnostics` was declared unread with its reason, which is a declaration and not a skip. Ten of the thirteen anchors I opened independently say what the artifact claims; the three that do not produced F4 and F5. That proportion is why the findings are narrow: this reading is well anchored where it was checked, and what fails is a count in one row and a path in another.
+The iteration met its reading. Twelve of twelve assigned areas were accounted for, eleven of them read to a stated depth with the remainder declared into the cut. Thirty distinct files were opened — twenty-seven in-slice and three outside it with the reason stated for each — bringing the phase to 118 of the tree's 6 631 entries. All nine anchors I opened independently say what the artifacts claim. That proportion is why the findings are narrow: this reading is well anchored where it was checked, and what fails is a cut that loses an area and two counts that do not reproduce.
 
 This disposition is the technical lens' judgment of the iteration's completion. It is not the SBC verdict — that is the Review Coordinator's, taken after the Management Reviewer.
 
@@ -977,34 +979,32 @@ This disposition is the technical lens' judgment of the iteration's completion. 
 
 | Recipient | What it inherits | What it must not do |
 |---|---|---|
-| Management Reviewer | `System Inventory#F4` open from this lens; its own `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1` still open. I read the plan and observed that the quotient is gone and that its figures reproduce from the Coverage rows they name — recorded, not closed, because closure is that lens' act | Re-record F4 under its own key. It is a technical defect and this lens owns it |
-| Review Coordinator | Zero open Critical from this lens; one open Major from this lens, two from the management lens; two Minor. The SBC gate is not sanctioned while a Major stands | Issue the SBC verdict on this review. This is an Iteration Acceptance and the milestone's exit criteria are not judged here |
+| Management Reviewer | `Iteration Plan#F1` and `System Inventory#F5` open from this lens; its own `System Inventory#F1` still open. I read the Coverage introduction and observed that it now derives its statement from the rows rather than asserting a number — recorded, not closed, because closure is that lens' act | Re-record F1 or F5 under its own key. Both are technical defects and this lens owns them |
+| Review Coordinator | Zero open Critical from this lens; one open Major from this lens; its own `System Inventory#F1` if it remains open. The SBC gate is not sanctioned while a Major stands | Issue the SBC verdict on this review. This is an Iteration Acceptance and the milestone's exit criteria are not judged here |
 
-The two Minor findings — `Development Case#F5` and `Risk List#F1` — do not hold the gate. Under the severity contract their owners fix them in their next turn, after the Critical and Major work.
+The Minor finding does not hold the gate. Under the severity contract its owner fixes it in its next turn, after the Critical and Major work.
 
 ```plantuml
 @startuml
-title Survey iteration 2, technical lens - the disposition and what it hands on
+title Survey iteration 3, technical lens - the disposition and what it hands on
 hide empty members
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 320
+skinparam wrapWidth 330
 skinparam nodesep 30
 skinparam ranksep 42
 
 package "What this lens found" {
-  class "Reconciled" as REC <<3 of 3 closed>> {
-    System Inventory#F1 : actor-state anchor
-    System Inventory#F2 : read-counts
-    System Inventory#F3 : stated counts
-    verified : each against the file it cites
+  class "Reconciled" as REC <<2 of 2 closed>> {
+    Development Case#F1 : the cited path now resolves
+    System Inventory#F4 : the plane stated from the files
+    verified : each against files opened for this review
   }
   class "New - Major, 1" as NEWM <<holds the gate>> {
-    System Inventory#F4 : 15 categories, 13 anchored registries
-    built on by : Excavation component recovery
-    built on by : O2's exit criterion
+    Iteration Plan#F1 : pkg/diagnostics re-cut here, then deferred out of the cut
+    built on by : the SBC condition that no area is unread
   }
   class "New - Minor, 1" as NEWN <<owner's next turn>> {
-    Development Case#F5 : pkg/config/modes/ does not resolve
+    System Inventory#F5 : two rows whose counts their enumeration does not yield
   }
   class "Critical, 0" as CRIT <<nothing escalates>> {
     stakeholder : asked nothing at an Iteration Acceptance
@@ -1014,9 +1014,10 @@ package "What this lens found" {
 
 package "Disposition" {
   class "Approved with Changes" as VERD <<technical lens>> {
-    basis : 15 of 16 areas reached, 1 declared unread with reason
-    basis : 13 sampled anchors opened, 10 hold
-    condition : F4 reworked before a role consumes the registry set
+    basis : 12 of 12 areas accounted for at a stated depth
+    basis : 9 anchors opened independently, 9 held
+    basis : 27 in-slice + 3 outside = 30; 118 for the phase, all reproducing
+    condition : F1 worked before the SBC gate reads the reached count
     condition : F5 fixed in the owner's next turn
     not the SBC verdict : the Review Coordinator's
   }
@@ -1024,16 +1025,14 @@ package "Disposition" {
 
 package "What this lens hands on" {
   class "To the Management Reviewer" as NEXT <<next lens>> {
-    open : Iteration Plan#F1, Iteration Plan#F2
-    open : Risk List#F1
-    observed : the quotient is gone; i1 reads 13 and 13
-    observed : its figures reproduce from the Coverage they quote
+    open : Iteration Plan#F1 from this lens, Major
+    open : System Inventory#F5 from this lens, Minor
+    own : System Inventory#F1 under its own key, untouched here
   }
   class "To the Review Coordinator" as COORD <<the verdict>> {
     open Critical : 0 - nothing escalates
-    open Major : System Inventory#F4 from this lens
-    open Major : Iteration Plan#F1, #F2 from the management lens
-    open Minor : Development Case#F5, Risk List#F1
+    open Major : Iteration Plan#F1 from this lens
+    open Minor : System Inventory#F5 from this lens
     gate : not sanctioned while a Major stands
   }
 }
@@ -1046,15 +1045,14 @@ VERD --> NEXT
 VERD --> COORD
 
 note bottom of NEWM
-  F4 is the one finding of this review that changes what
-  another role may build on. The other fourteen categories'
-  registries exist; it is the count and the anchor column
-  that must be corrected before the set is relied upon.
+  Narrow and self-contained. Every other area of the slice is
+  read to a stated depth and its remainder declared into the
+  cut; this one area's remainder has no iteration to land in.
 end note
 note bottom of CRIT
-  An Iteration Acceptance asks the stakeholder nothing.
-  Only an unresolved Critical finding goes to them, and
-  this lens recorded none this iteration or the last.
+  An Iteration Acceptance asks the stakeholder nothing. Only
+  an unresolved Critical finding goes to them, and this lens
+  recorded none this iteration or the two before it.
 end note
 @enduml
 ```
