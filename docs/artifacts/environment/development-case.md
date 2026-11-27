@@ -83,9 +83,10 @@ stop
 5. **The tree's conventions are taken as written, never restated.** `.golangci.yml`, `.prettierrc.json` and the
    `Makefile` targets are what the kept code follows. The Development Case references them by path; it does not
    paraphrase a linter setting, because a paraphrase drifts and the file does not.
-6. **The owner's `CONTRIBUTING.md` is kept as its author wrote it, with one pointer added at the top, in the
-   stakeholder's words: "Yes" to adding the line to `docs/CONTRIBUTING.md`.** What each of the two files governs is
-   stated once, under "Guidelines and Procedures".
+6. **The owner's `CONTRIBUTING.md` stays the owner's.** It was read as evidence of how the upstream project takes
+   contributions. The stakeholder was asked whether one line could be added at its top pointing to this project's
+   contract, and answered "Yes"; the line is there, the owner's text below it is unchanged. What each of the two files
+   governs is stated once, under "Guidelines and Procedures".
 
 ## Disciplines and Intensity
 
