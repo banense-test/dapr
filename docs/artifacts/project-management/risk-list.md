@@ -76,7 +76,7 @@ class "Anomaly" as ANOM <<System Inventory>> {
 RISK "1" --> "1" MAG : magnitude is the band\nits exposure falls in
 RISK "1" --> "1" STRAT : chosen per risk
 RISK "1" --> "0..1" GRANT : required only when the\nmagnitude is Significant or High\nand the strategy is accept
-ANOM "0..*" --> "0..1" RISK : a scored risk refines\nthe anomaly that exposed it
+ANOM "0..1" --> "0..*" RISK : a scored risk refines\nthe anomaly that exposed it
 
 note right of MAG
   The scale is the IARI Development
@@ -102,11 +102,14 @@ note bottom of RISK
 end note
 
 note bottom of ANOM
-  In Survey every risk about the system
-  comes from an anomaly the reading recorded.
-  A risk of the phase's own shape has no
-  AN-NNN and cites a Development Case
-  section or a repository path instead.
+  Three provenances, one shape. A risk about
+  the system refines an anomaly the reading
+  recorded. A risk of the phase's own shape has
+  no anomaly and cites a Development Case section
+  or a repository path instead. A risk this
+  iteration's slice exposed refines the anomaly
+  that slice recorded, which is why AN-021 to
+  AN-023 carry a risk each.
 end note
 @enduml
 ```
@@ -115,13 +118,13 @@ end note
 
 ```plantuml
 @startmindmap
-title Risk List after Survey iteration 1 - 25 risks, by magnitude and strategy
-* Risk List - 25 risks
+title Risk List after Survey iteration 2 - 28 risks, by magnitude and strategy
+* Risk List - 28 risks
 ** High 15 to 25 - 3, all avoided
 *** R011 architecture statement dormant since 2023 - 16
 *** R016 no in-tree account of executable behaviour - 16
 *** R023 one scheduler process, two authorities - 16
-** Significant 9 to 12 - 13, all avoided
+** Significant 9 to 12 - 14, all avoided
 *** R001 unequal cut, tests holds 3335 entries - 12
 *** R005 repository files read as orders - 9
 *** R006 an empty size filled with a unit nothing measures - 9
@@ -135,26 +138,37 @@ title Risk List after Survey iteration 1 - 25 risks, by magnitude and strategy
 *** R020 committed bindings name two protoc versions - 12
 *** R021 licence scan reports and cannot fail - 12
 *** R022 hand-written Go inside the generated tree - 12
-** Moderate 5 to 8 - 9
+*** R028 public listener applies three of the eight middlewares - 12
+** Moderate 5 to 8 - 11
 *** accepted, mitigation and contingency written - 3
 **** R002 SBC gate at the 14-day queue ceiling - 8
 **** R003 versions read as policy rather than evidence - 6
 **** R025 test setup parses an error message for CIDRs - 8
-*** avoided - 6
+*** avoided - 8
 **** R004 decision records renumbered into project families - 6
 **** R007 index links a record the tree does not hold - 8
 **** R008 proto overview omits two packages - 8
 **** R015 one shim disabled by renaming - 6
 **** R018 two proto packages carry no README - 8
 **** R024 one test file for 156 registrations - 8
+**** R026 workflow engine README describes an older engine - 8
+**** R027 two indices omit the entries they index - 8
 ** Minor 3 to 4 - none
 ** Low 1 to 2 - none
 @endmindmap
 ```
 
-The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three, and for the thirteen Significant risks beside them: each is avoided by the shape of the reading the next phase is given, not by a promise made to the stakeholder.
+The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three, and for the fourteen Significant risks beside them: each is avoided by the shape of the reading the next phase is given, not by a promise made to the stakeholder.
 
 No risk in this register is Accepted at Significant or High magnitude, so no stakeholder grant is outstanding and none is requested. The three accepted entries — R002, R003, R025 — are Moderate, where acceptance with a written mitigation and contingency is this role's decision and no one else's to approve.
+
+### How a magnitude is fixed, and why two rows are scored at `possible`
+
+Probability is the chance the consequence happens **to the reading this project is doing**, not the chance the defect exists. A defect the tree shows plainly has already happened; what is uncertain is whether it misleads a later role. That is why R015 and R026 — a disabled shim, a stale README — sit at probability 3 while the anomalies they rest on are certain: neither is likely to be reached before the code it misstates is read.
+
+AN-023 is the one new anomaly scored at a probability below `likely`. The public listener's narrower middleware set is in the code, and it is scored `possible` rather than `likely` because whether it is a defect at all depends on a deployment decision — a public port is opt-in, and no Configuration in the tree sets one. Its impact is 4: an unauthenticated GET surface is a declared constraint that can no longer be met as declared, if a deployment turns it on. That is exposure 12, Significant, and the avoidance is the same reading that produces the finding, not a change to the code.
+
+No risk in this register is scored on a scale of its own, and no magnitude is chosen: each is the band its exposure falls in.
 
 ## Risk Register
 Twenty-five risks. Twenty refine an anomaly the Software Archaeologist recorded; five are risks of the phase's own shape with no anomaly behind them. The `Source` cell cites the anomaly id and the anchor it was read from; the trace edge is in `## Traceability`.
