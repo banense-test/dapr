@@ -31,6 +31,78 @@ O1–O4 are the Software Archaeologist's reading and reconciliation, excepting t
 | W9 | Record the Iteration Assessment given the verdict | Project Manager | Review Record; this iteration's objectives and evaluation criteria | Iteration Assessment | Every objective is stated met or missed, with the scope or plan adjustment the next iteration takes |
 
 No work item is given a size. One phase iteration has closed and its spend is recorded as that iteration's own measured fact — 19 480 197 tokens and 0:36:59.0766494 of agent time, with 0:00:00 of measured gate queue time — and it is not a rate: it is one iteration of a sprint zero whose reading is dominated by documents and manifests, so nothing is projected from it onto a slice that holds `pkg/api/` and the component plane. W2 exists because the phase's evidence that its reading happened must reproduce from the enumeration printed beside it.
+
+### The critical chain of this iteration
+
+```plantuml
+@startuml
+title Survey iteration 2 - the critical chain from tailoring to gate
+skinparam wrapWidth 250
+
+|Process Engineer|
+start
+:Tailor the process for the phase\nDevelopment Case, Contribution Guide;
+note right
+  W0 is an explicit work item this
+  iteration: an artifact of the
+  increment is never absent from
+  the plan that reports on it.
+end note
+
+|Project Manager|
+:Declare the cut of this iteration\nrecord_iteration_cut - 16 areas;
+note right
+  No other role of the iteration
+  works before the cut is recorded.
+end note
+
+|Software Archaeologist|
+:Reconcile the Coverage counts and derive\nthe stated counts from the tables;
+note right
+  Closes the counts at their source;
+  a count that does not reproduce from
+  its enumeration is counted again,
+  not restated.
+end note
+:Documentation - the component registries\nread as declarations;
+:Perimeter - go.sum, img, the request-path\nservers, routes, allowlist, plus\npkg/messaging/ and pkg/channel/;\nenumerate the entry points the slice adds;
+note right
+  pkg/api/universal/ is not opened: what an
+  operation does is Excavation's, and the
+  perimeter does not need it. The public
+  listener's middleware subset is visible
+  from the server file read here.
+end note
+:Anomalies and Priorities - what the request\npath and the plane do not hold together;\nre-order what Excavation reads first;
+
+|Project Manager|
+:Risk List - score what the slice exposed,\nname the accountable role of each entry;
+:Iteration Plan - re-quote the reconciled\ntotals, restate the cut against what was read;
+
+|Reviewer|
+:Review the iteration against the SBC criteria;
+
+|Management Reviewer|
+:Assess the investment the phase implies;
+
+|Review Coordinator|
+:Issue the milestone verdict;
+note right
+  A gate is queue time, not work: bounded
+  at 14 days under R002, measured when it
+  opens. No stage carries a spend figure -
+  one iteration's actual is not a rate.
+end note
+
+|Project Manager|
+:Record the Iteration Assessment\ngiven the verdict;
+
+stop
+@enduml
+```
+
+The chain above is the whole of Survey iteration 2's work: eight agent stretches in sequence, with the gate at the end. The three review and verdict states are a human gate, not agent work — bounded in the Risk List and measured when they open, never forecast here.
+
 ## Resources
 | Role | Discipline | Stages this iteration | What it produces |
 |---|---|---|---|
