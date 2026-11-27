@@ -5,7 +5,6 @@ Status: Draft — iteration 1; Documentation read in full, Perimeter at surface 
 Milestone Target: end-of-Survey milestone (SBC) — not achieved
 
 ## Perimeter
-
 The system under reading is `dapr/dapr`: six Go executables that share one library, one set of protocol
 contracts and one delivery surface. Its boundary is drawn by what the code reaches for, not by what a document
 claims: the attached application, the Kubernetes API server, an embedded etcd, the configured component
@@ -38,7 +37,7 @@ package "DAPR Core (the delivered system)" {
 
   package "Delivery surface" {
     [charts/dapr - 7 subcharts, 7 CRDs] as CHARTS
-    [docker/ - 9 Dockerfiles] as DOCKER
+    [docker/ - 8 Dockerfiles] as DOCKER
   }
 }
 
@@ -107,11 +106,11 @@ end note
 | Scheduler | Component | Durable job and actor-reminder scheduling on an embedded etcd; also serves placement during the cutover | `cmd/scheduler/`, `pkg/scheduler/` (76 files) |
 | Sentry | Component | Certificate authority: workload SVID issuance, trust bundles, OIDC/JWKS validation | `cmd/sentry/`, `pkg/sentry/` (36 files) |
 | Sidecar injector | Component | Kubernetes admission webhook that patches a pod to carry the daprd container | `cmd/injector/`, `pkg/injector/` (29 files) |
-| Proto contracts | Layer | The proto3 definitions that declare every service and message of the system | `dapr/proto/` (45 files) |
+| Proto contracts | Layer | The proto3 definitions that declare every service and message of the system: 37 files in 8 packages | `dapr/proto/` (45 files) |
 | Generated Go bindings | Layer | Committed protoc output: messages, gRPC stubs and Connect handlers | `pkg/proto/` (66 files) |
 | CRD type definitions | Layer | Go types for the seven Dapr custom resources | `apis/` (46 files) |
-| Helm charts | Component | Deployment of the components, RBAC and default configuration | `charts/dapr/` (67 files, 7 subcharts) |
-| Container images | Component | Nine Dockerfiles covering Linux, Windows, debug and dev | `docker/` (22 files) |
+| Helm charts | Component | Deployment of the components, RBAC and default configuration: 7 subcharts, 7 CRDs | `charts/dapr/` (67 files) |
+| Container images | Component | Eight Dockerfiles covering Linux, Windows, debug and dev | `docker/` (22 files; `Dockerfile` plus the `-debug`, `-dev`, `-mariner` and four `-windows*` variants) |
 | Shared library | Layer | Everything the six binaries link: api, actors, components, config, diagnostics, messaging, resiliency, security | `pkg/` (1 330 files) |
 | Build and test tooling | Component | Lint, e2e and perf driver binaries that live beside the production executables | `cmd/check-lint-version.go`, `cmd/e2e.go`, `cmd/perf.go`, `cmd/root.go`, `cmd/zz-e2e-perf.go` |
 
