@@ -9,15 +9,13 @@ Status: Draft — iteration 3 review, technical lens. Two prior findings of this
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+Phase: Survey — iteration 3, cycle 1
 
-Phase: Survey — iteration 2 of the phase, cycle 1
-Review type: Iteration Acceptance, management lens. The System Boundary Confirmed milestone is not judged and no phase is closed
-Date: 2026-11-27
-Reviewer: Management Reviewer
-Disposition: Conditional Go on the iteration — see Disposition
+Status: Draft — management lens, Iteration Acceptance review of Survey iteration 3. One Major finding re-recorded under its existing key and one Minor recorded. `System Inventory#F1` resolved. No Critical finding, so nothing escalates to the stakeholder.
+
+Milestone Target: end-of-Survey milestone (SBC) — not judged by this review, not yet achieved
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
