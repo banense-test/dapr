@@ -275,20 +275,21 @@ No change request was opened or decided: the Change Control Manager does not wor
 The stakeholder is asked nothing by this assessment. The verdict escalates only an unresolved Critical finding, and both executing lenses recorded zero. No risk of the register is on `accept` at Significant or High magnitude, so no grant is outstanding and none is requested. The three accepted entries — `R002`, `R003`, `R025` — are Moderate, where acceptance with a written mitigation and contingency is this role's decision rather than the stakeholder's.
 
 ## Rework Required
-Two Major and two Minor findings stand open at the close of the review, and none of the four is Critical. This role's own end of the record — `Iteration Plan#F3` and the consuming end of `System Inventory#F4` — has its rework applied this turn. What remains is the Software Archaeologist's `F4` and `F1`, the Process Engineer's `F5`, and the four closures, each of which belongs to the lens that recorded it.
+Four findings stand open at the close of the review — two Major and two Minor, none Critical. Three of the four sit on this role's Iteration Plan and have their remedies applied in the plan as this document is recorded; what remains for them is each recording lens' closure, which is not this role's act. The fourth is a Minor inside the System Inventory.
+
+No Critical finding was recorded by either executing lens, so nothing escalates to the stakeholder and no decision is asked of them.
 
 ```plantuml
 @startgantt
 title What Survey owes before the SBC gate is asked - order only, no duration claimed
 hide footbox
 
-[SI#F4 - name the fifteen registrations - Software Archaeologist] lasts 1 day
-[R029 - restated at its consuming end - Project Manager] starts at [SI#F4 - name the fifteen registrations - Software Archaeologist]'s end
-[SI#F1 - state the count at twenty-three - Software Archaeologist] starts at [R029 - restated at its consuming end - Project Manager]'s end
-[DC#F5 - resolve the cited path - Process Engineer] starts at [SI#F1 - state the count at twenty-three - Software Archaeologist]'s end
-[Lens closures - the recording lens verifies each] starts at [DC#F5 - resolve the cited path - Process Engineer]'s end
-[Survey i3 - control planes, actors and workflow] starts at [Lens closures - the recording lens verifies each]'s end
-[Survey i4 - delivery surface and test substrate] starts at [Survey i3 - control planes, actors and workflow]'s end
+[IP#F1 - carry pkg/diagnostics to Excavation - Project Manager] lasts 1 day
+[IP#F3 - 25 placed / 5 whole / 2 carried past - Project Manager] starts at [IP#F1 - carry pkg/diagnostics to Excavation - Project Manager]'s end
+[IP#F4 - state the iteration decision only - Project Manager] starts at [IP#F3 - 25 placed / 5 whole / 2 carried past - Project Manager]'s end
+[SI#F5 - reconcile two stated counts - Software Archaeologist] starts at [IP#F4 - state the iteration decision only - Project Manager]'s end
+[Lens closures - each recording lens verifies its own] starts at [SI#F5 - reconcile two stated counts - Software Archaeologist]'s end
+[Survey i4 - delivery surface and test substrate] starts at [Lens closures - each recording lens verifies its own]'s end
 [Survey i5 - cross-cutting helper layer] starts at [Survey i4 - delivery surface and test substrate]'s end
 [SBC gate - not open] starts at [Survey i5 - cross-cutting helper layer]'s end
 
@@ -296,25 +297,24 @@ hide footbox
 
 note bottom
   Every bar is drawn the same length: no duration has been measured and no
-  phase has closed, so no bar length and no date is claimed. The orange bar
-  is queue time, bounded at 14 days in the Risk List under R002 and measured
-  when it opens - never forecast, never added to agent time. The gate opens
-  only once every area of the cut is read and every Major finding of the
-  phase has its rework in the baseline. Iteration Plan#F3 is absent from this
-  list because its rework is already in the plan; only its closure is owed.
+  phase has closed, so no bar length and no date is claimed. The orange bar is
+  queue time, bounded at 14 days in the Risk List under R002 and measured when
+  it opens - never forecast, never added to agent time. The gate opens only once
+  every area of the cut is read and every Major finding has its rework in the
+  baseline. The three IP items have their remedies already in the plan; only
+  their closure is owed, and closure belongs to the lens that recorded each.
 end note
 @endgantt
 ```
 
 | # | Rework | Owner | Closes | Holds the SBC gate | State |
 |---|---|---|---|---|---|
-| 1 | Restate the sequencing row: R028 on `pkg/api/http/server.go`, R017 on the allowlist map itself with no claim about `universal/`, R019 moved to i3 where `pkg/scheduler/` is read; restate the placed count and the criterion it evidences | Project Manager | `Iteration Plan#F3` | Yes | Applied this turn; closure is the Management Reviewer's |
-| 2 | Carry the two unlocated component categories as a scored risk, naming the accountable role whose reading locates them | Project Manager | `System Inventory#F4` at its consuming end | Yes | Applied this turn — `R029`, 4 × 3, Significant, avoided, confronted in Survey i3 |
-| 3 | Name the file that registers each of the fifteen categories; locate `workflow` and `workflowbackend` in `pkg/runtime/wfengine/` and `pkg/actors/`, or state them unlocated; move the unopened `registry.go` paths into a not-yet-opened column; restate the Components table row to match | Software Archaeologist | `System Inventory#F4` | Yes | Owed — before Excavation's component recovery consumes the registry set |
-| 4 | State the never-assigned count as twenty-three, or derive it from the rows at the foot of the Coverage table | Software Archaeologist | `System Inventory#F1` (Management Reviewer) | No | Owed — owner's next turn |
-| 5 | Correct the Deployment Model evidence path to `pkg/modes/modes.go`; check the other rows of that table for paths that do not resolve | Process Engineer | `Development Case#F5` | No | Owed — owner's next turn |
+| 1 | Take one of the two admissible outcomes for `pkg/diagnostics`: read the thirteen modules against the operations this phase read, or declare the area carried to Excavation and drop it from the reached count; make the Coverage row and the plan's reached count agree, and restate the 70-area arithmetic | Project Manager | `Iteration Plan#F1` — Reviewer, Major | Yes | Applied this turn — the second outcome taken: the area is carried to Excavation, this iteration reaches 11 of 12, and the cut holds 69 areas plus 1 carried. Closure is the Reviewer's |
+| 2 | Restate the placed count truthfully: either carry `R013` and `R021` past Survey, or name the iteration-4 area that holds each retirement and what that iteration reads of it; correct Document Control, the sequencing table, the Evaluation Criteria and the measurement row to one figure; take `.github` out of the i4 justification | Project Manager | `Iteration Plan#F3` — Management Reviewer, Major, occurrence 2 | Yes | Applied this turn — 25 placed, 5 carried by the reading as a whole, 2 carried past the phase; both risks in a carried-past row; one figure in all four places. Closure is the Management Reviewer's |
+| 3 | Restate Document Control's opening sentence to what the iteration close decided, and let the closing sentence carry the only statement about the milestone | Project Manager | `Iteration Plan#F4` — Management Reviewer, Minor | No | Applied this turn. Closure is the Management Reviewer's |
+| 4 | Name `docs/development/README.md` in the `docs/development` row so its enumeration yields the 13 it states; reconcile the `docker` row with its enumeration — either the Windows set is four against the eight named Dockerfiles, or the row is nine and says which ninth file it means — then account for the remaining files of the 22; re-check the rest of the table the same way | Software Archaeologist | `System Inventory#F5` — Reviewer, Minor | No | Owed — owner's next turn. No plan figure is derived from either count |
 
-Items 1 and 2 are this role's and are closed for this iteration; items 3 and 4 are the Software Archaeologist's at the same consuming end as item 2, and item 3 is why the SBC review's entry criterion is still unmet. Item 3's remedy sits inside the phase the cut already plans — `pkg/runtime/wfengine/` and `pkg/actors/` are Survey i3's areas — so it is worked where the registration is, not re-opened inside a slice the cut has closed.
+Items 1 to 3 are this role's and their remedies are in the baseline as this assessment is recorded; the findings stay open until the lens that recorded each verifies and closes it, and this document claims no closure. Item 4 is a Minor inside the System Inventory: no role builds on either figure, no objective of this iteration turns on it, and it does not hold the gate.
 
 ### What iteration 3 takes
 
@@ -327,4 +327,14 @@ The cut's next slice, unchanged by this review: `pkg/actors/`, `pkg/runtime/`, `
 It carries all eighteen Significant and High risks, unretired and not yet due, and it carries the Environment stage as its first work item. Its High risk is `R023`, which is why `pkg/scheduler/` is read before the placement service it supersedes. `pkg/diagnostics/` is not in the slice: it is carried to Excavation's Priorities order at priority 4, and re-opening it inside the Survey cut would put one area in two iterations.
 
 The phase iterates because the cut holds three unread iterations and because two Major findings stand open. It does not iterate because a calendar says so, and no further iteration is added to it on account of this review: nothing here displaces an area or cuts declared scope.
+
+### What the SBC gate still waits on
+
+Three conditions, and none is met by this assessment:
+
+- **The cut holds an unread area.** Two iterations remain — iteration 4's 17 areas and iteration 5's 13, 30 areas and 3 564 files — and `pkg/diagnostics/` is carried to Excavation rather than to a Survey iteration, so the Survey boundary will be asserted over the 69 areas the cut holds and never over a count that includes the carried area.
+- **Two Major findings stand open**, both on the plan that stated the claims the gate reads. Their remedies are in the baseline; their closures are the recording lenses'.
+- **The perimeter is not yet confirmed by the stakeholder.** Survey's SBC exit criterion is that the perimeter of the existing system is confirmed and its priorities ordered. The System Inventory enumerates it over 39 of 69 areas; the priority order exists and has been acted on at every iteration close, including this one, where it moved an area out of the phase.
+
+No milestone is declared here. The SBC gate is issued once, by the Review Coordinator, when those conditions hold; this document records that they do not yet.
 
