@@ -556,76 +556,6 @@ show being added or taken out — never from how the code looks today.
 | `pkg/proto` | Commits not read | — | Not read — generated code; its history is `dapr/proto`'s history | — |
 
 ## Anomalies
-Twenty-three anomalies, each cited to the file it was read from. Nothing here is a judgement of quality: each row states what does not hold together, the anchor that shows it, and the risk it carries for whoever reads the system next.
-
-```plantuml
-@startuml
-title Anomalies recorded through Survey iteration 2 - by area, by kind
-skinparam componentStyle rectangle
-skinparam wrapWidth 230
-
-package "What the system declares about itself" {
-  [AN-001 decision-record index\nlinks a record the tree does not hold] as A1
-  [AN-002 dapr/README.md omits\n2 of the 9 proto packages] as A2
-  [AN-005 decision records dormant\nsince 2023-09-11] as A5
-  [AN-006 RELEASE.md and SECURITY.md\nare one-line pointers out of the tree] as A6
-  [AN-011 no in-tree document states\nhow any of the six executables behaves] as A11
-  [AN-013 2 of the 9 proto packages\ncarry no README] as A13
-  [AN-021 the workflow engine README\ndescribes an older engine] as A21
-  [AN-022 two index documents omit\nthe entries they index] as A22
-}
-
-package "The proto contracts and the generated path" {
-  [AN-003 four documents state four\nprotoc versions, none of them the one that ran] as A3
-  [AN-004 generate.sh reads proto inputs\nthe tree does not hold] as A4
-  [AN-014 scheduler failure-policy types\nwith no .proto behind them] as A14
-  [AN-015 the committed output names two\nprotoc versions, one of them not a release line] as A15
-  [AN-017 hand-written Go committed\ninside the generated tree] as A17
-}
-
-package "The request path" {
-  [AN-012 gRPC allowlist is a hand-maintained\nduplicate of the contracts] as A12
-  [AN-023 the public listener gets a fresh\nrouter and 5 of the 8 middlewares] as A23
-}
-
-package "The component plane and the control planes" {
-  [AN-008 two workflow suites\ndisabled by renaming] as A8
-  [AN-009 one component shim\ndisabled by renaming] as A9
-  [AN-018 one scheduler process, two authorities,\nsettled by per-host capability flags] as A18
-  [AN-019 one test file for 156\ncomponent registrations] as A19
-}
-
-package "The delivery surface and the pipeline" {
-  [AN-007 70 version-skew patches keep\nolder release lines green] as A7
-  [AN-010 tests/ is 2.5x pkg/\nand still unread] as A10
-  [AN-016 the licence scan can report\nbut cannot fail the pipeline] as A16
-  [AN-020 test setup reads cluster CIDRs\nout of an error message] as A20
-}
-
-note right of A18
-  Three anomalies sit on an entry point:
-  AN-012 on EP-002, AN-018 on EP-006,
-  AN-023 on EP-003. The rest sit on a
-  document, a generated file or a test
-  artefact.
-end note
-note bottom of A23
-  The public listener is a second HTTP router
-  over the same handler functions, and it is
-  wired with a subset of the pipeline the
-  primary listener gets. Its endpoint set is
-  narrowed to the GET-only public list; its
-  middleware is not.
-end note
-note bottom of A21
-  The workflow engine's README is the one
-  in-tree document describing a pkg/ area,
-  and both of its stale claims are
-  contradicted by directories in the same tree.
-end note
-@enduml
-```
-
 | ID | Anomaly | Kind | Evidence | Likelihood | Impact |
 |---|---|---|---|---|---|
 | AN-001 | The decision-record index links a record the delivery does not hold: `ARC-004-http-server.md` is listed under Architecture, and `docs/decision_records/architecture/` holds three records. The index offers 24 links; the folder holds 23 records. A reader following the index reaches a 404. | Missing from the delivery | `docs/decision_records/decision_records.md`, § Dapr decision record organization and index (Architecture list, fourth entry) against `docs/decision_records/architecture/` (3 files: ARC-001, ARC-002, ARC-003) | likely | moderate |
@@ -648,7 +578,7 @@ end note
 | AN-018 | One scheduler process serves two authorities, and the split between them is negotiated at runtime rather than fixed by deployment. With `--placement-enabled` it answers `ReportActorTypes` as the actor-placement leader in addition to holding the durable job and reminder store; every host advertises `supports_pull_slots`, `scheduler_placement_enabled`, `leader` and `supports_scheduler_placement` on the stream, and a mixed-version cluster is kept on a single placement authority by withholding the advertisement while any connected sidecar or any probed placement service lacks the capability. Two behaviour sets, one process, one etcd store, and the authority in force is a property of what the connected peers report — not of the configuration alone. | Exceptional entity | `dapr/proto/scheduler/v1/scheduler.proto`, § `service Scheduler` (`ReportActorTypes`), § `message Host` (`leader`, `scheduler_placement_enabled`, `supports_pull_slots`), § `message WatchJobsRequestInitial` (`supports_scheduler_placement`, `placement_addresses`, `pull_slots`, `inflight_reminders`); `cmd/scheduler/options/options.go`; `pkg/scheduler/server/` (72 files) | likely | moderate |
 | AN-019 | One test file covers 156 component registrations. `cmd/daprd/components/` holds 156 files that register every in-tree component implementation, and exactly one of them is a test: `pubsub_pulsar_test.go`. No unit test in the directory states that a registration compiles into the registry, so the build tags the package depends on (`allcomponents`, `stablecomponents`, `zz_notag.go` panicking otherwise) are exercised only when a whole binary is built. Whether the behaviour of a component is covered at all is stated in `tests/integration/`, which no iteration of this phase has read yet. | Missing from the delivery | `cmd/daprd/components/` (156 files; `pubsub_pulsar_test.go` the only `_test.go`); `cmd/daprd/components/zz_notag.go`; `cmd/daprd/app/app.go` (registry chaining) | likely | moderate |
 | AN-020 | Test harness setup derives the cluster's service CIDR by reading an error message. `tests/setup_tailscale.sh` applies a Service with `clusterIP: 1.1.1.1` and extracts the real CIDR by `sed 's/.*valid IPs is //'` from whatever `kubectl` prints back, and derives the pod CIDR by grepping `kubectl cluster-info dump` for `cluster-cidr`. Both are free-text parses of another tool's output: a change in either message breaks the setup silently or with an unreadable failure. | Suspicious coding style | `tests/setup_tailscale.sh`, § the `POD_CIDR` and `SERVICE_CIDR` assignments | likely | low |
-| AN-021 | The workflow engine's README describes an engine that no longer exists, in the two places a reader would rely on most. It states that "there is no automatic purging of state for completed workflows", and that "there are no end-to-end tests that directly target the Dapr Workflows engine yet". The tree holds the retention half of that answer — `pkg/runtime/wfengine/state/retentioner/`, and the `stateRetentionPolicy` block of the workflow spec (`AnyTerminal`, `Completed`, `Failed`, `Terminated`) which `validateWorkflowSpec` parses — and 836 integration files under `tests/integration/suite/daprd/workflow/` plus `tests/e2e/workflows/`. A maintainer following this README purges state by hand and concludes the engine has no test coverage. | Document contradicted by the code | `pkg/runtime/wfengine/README.md`, § State storage ("IMPORTANT") and § Manual testing; against `pkg/runtime/wfengine/state/retentioner/` (2 files); `pkg/config/configuration.go` (`WorkflowStateRetentionPolicy`, `validateWorkflowSpec`); `tests/integration/suite/daprd/workflow/` (836 files); `tests/e2e/workflows/` (8 files) | likely | moderate |
+| AN-021 | The workflow engine's README describes an engine that no longer exists, in the two places a reader would rely on most. It states that "there is no automatic purging of state for completed workflows", and that "there are no end-to-end tests that directly target the Dapr Workflows engine yet". The tree holds the retention half of that answer — `pkg/actors/targets/workflow/retentioner/` (2 files: `factory.go`, `retentioner.go`), and the `stateRetentionPolicy` block of the workflow spec (`AnyTerminal`, `Completed`, `Failed`, `Terminated`) which `validateWorkflowSpec` parses — and 836 integration files under `tests/integration/suite/daprd/workflow/` plus `tests/e2e/workflows/`. A maintainer following this README purges state by hand and concludes the engine has no test coverage. | Document contradicted by the code | `pkg/runtime/wfengine/README.md`, § State storage ("IMPORTANT") and § Manual testing; against `pkg/actors/targets/workflow/retentioner/` (2 files); `pkg/config/configuration.go` (`WorkflowStateRetentionPolicy`, `validateWorkflowSpec`); `tests/integration/suite/daprd/workflow/` (836 files); `tests/e2e/workflows/` (8 files) | likely | moderate |
 | AN-022 | Two index documents omit the entries they exist to index. `docs/development/README.md` links five guides while its own directory holds six — `preview-features.md`, the only in-tree statement of how a feature flag is declared, toggled and removed at GA, is absent. `charts/dapr/README.md` introduces the chart as installing the CRDs, the operator, the sidecar injector, Sentry, Placement and the Scheduler — six items — while `charts/dapr/charts/` holds seven subcharts, the seventh being `dapr_config`, whose single template renders the default Configuration resource the sidecar reads. In both cases the missing entry is the one a reader would not otherwise know to look for. | Document contradicted by the code | `docs/development/README.md` (5 links) against `docs/development/` (six guides); `charts/dapr/README.md`, § Chart Details against `charts/dapr/charts/dapr_config/templates/dapr_default_config.yaml` | likely | low |
 | AN-023 | The public API listener is a second HTTP router over the same handler functions, and it is wired with a strict subset of the pipeline the primary listener gets. `StartNonBlocking` builds the primary router and applies to it `useMaxBodySize`, `useContextSetup`, `useTracing`, `useMetrics`, `useCors`, `useAPIAuthentication`, `useComponents` and `useAPILogging`; for the public port it builds a fresh router and applies only `useContextSetup`, `useTracing`, `useMetrics` and the routes. The endpoint list is narrowed to `PublicEndpoints()`, so the surface is smaller — but a request on the public port reaches those handlers with no request-body ceiling, no CORS policy, no API-token check and no component middleware. A deployment that sets a public port to expose the GET surface therefore exposes it without the body limit and the token check the operator configured for the main port. | Suspicious coding style | `pkg/api/http/server.go`, § `StartNonBlocking` — the primary block applying all eight middlewares against the `if s.config.PublicPort != nil` block applying three; `pkg/api/http/endpoints/endpoint.go` (`PublicEndpoints`) | possible | high |
 
