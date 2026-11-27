@@ -201,202 +201,198 @@ The event is keyed to the iteration boundary, not to a date: a slipped iteration
 
 ## Findings
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-Two findings this iteration: one Major on the System Inventory, one Minor on the Development Case. Nothing is recorded against the Iteration Plan or the Risk List from this lens — silence is the approval — and their two open Major findings remain the Management Reviewer's to close, not mine.
+<!-- review: Survey I3 -->
+
+Two findings this iteration: one Major against the Iteration Plan, one Minor against the System Inventory. Nothing is recorded against the Risk List or the Development Case from this lens — silence is the approval.
+
+#### Iteration Plan
+
+**F1 — Major — criterion `consumed-defect`.** `pkg/diagnostics` was re-cut into this iteration to be read here, and after one file of thirty-five it is deferred out of the cut entirely.
+
+The plan's own Objective O5 states the reasoning: "`pkg/diagnostics/` is read — the area iteration 2 assigned and declared unread in full — and each module is stated against the operation this phase has read. A module that instruments an operation no iteration of this phase read is declared so rather than counted as reached." Iteration 2 deferred the area because a monitoring module is legible only against the operation it instruments; the re-cut into i3 exists to put it where the code it instruments is read.
+
+The Coverage row then reads one file of thirty-five — `metrics.go`, the seven default meters — and sends the rest to "priority 4": "the thirteen monitoring and tracing modules, their helpers and their tests. ... The modules themselves are read with the request path they instrument (priority 4)." Priority 4 is the System Inventory's reading order for Excavation, not a Survey iteration.
+
+Neither remaining iteration carries the area. Iteration 4's seventeen areas and iteration 5's thirteen do not list `pkg/diagnostics`, and the cut's seventy-area sum counts it once, here. So an area the gate reads as reached in this iteration has thirty-four of its thirty-five files leaving the phase with no iteration to land in.
+
+The defect is the plan's, not the reading's. Reading one file and declaring the rest is the rule this phase follows and every other area of this slice follows it correctly. What fails is that this area's declared remainder names an order that is not part of the cut, which makes the deferral invisible to the SBC condition "the cut holds no unread area". This is the same failure class `Iteration Plan#F3` recorded last iteration — a placement resting on an area whose reading does not actually happen — recurring at the cut's arithmetic rather than in a risk row.
+
+O5's exit criterion is not met on its own terms. No module is stated against an operation this phase read, and no module is declared as instrumenting an operation no iteration read — which O5 admits as the alternative outcome and would have been satisfied by.
+
+*Remediation.* Two admissible outcomes, and the plan must state one of them explicitly. Either read the thirteen modules in this iteration against the operations W2–W4 recovered — the scheduler's eight operations, the placement leader gate, the Sentry validators, the actor table's suspension and the internal server's five handlers are all read now, so a module instrumenting any of them can be stated against it and one instrumenting none can be declared so — or state in the cut that `pkg/diagnostics` is carried to Excavation: name it in iteration 5's row or in a carried-to-Excavation line beside the cut, and drop it from this iteration's reached count so the SBC condition is not answered by a number that is short thirty-four files. Whichever is chosen, the Coverage row and the plan's reached count must agree.
 
 #### System Inventory
 
-**F4 — Major — criterion `consumed-defect`.** The component plane is stated as the category list alone can support, and the count it draws does not hold.
+**F5 — Minor — criterion `contained-defect`.** Two rows of Technology and Size state a file count that the enumeration printed on the same row does not yield.
 
-`pkg/components/category.go` declares fifteen `Category` constants: `bindings`, `pubsub`, `secretstores`, `state`, `workflow`, `workflowbackend`, `middleware`, `configuration`, `crypto`, `lock`, `nameresolution`, `conversation`, `search`, `vector`, `binarystore`. The Technology and Size row and the Components table both derive "one registry per category" from that file and anchor thirteen `registry.go` paths. Two of the fifteen have no registry at the path the pattern implies: `pkg/components/workflow/registry.go` and `pkg/components/workflowbackend/registry.go` both resolve to nothing in the tree.
+The `docs/development` row reads "Six guides — setup, setup in VS Code, CI, developing, metrics, preview features — plus five screenshots and an image of the debug flow | 13". Its own enumeration is 6 + 5 + 1 = 12 against the 13 it states; the file that makes 13 is `docs/development/README.md`, which this same artifact's Documentation table records as read. The enumeration is short one rather than the count being wrong.
 
-Thirteen of the fifteen do hold. `state/registry.go`, `lock/registry.go` and `conversation/registry.go` were opened for this review and each declares `Registry`, `RegisterComponent`, `Create`, `getStore` and `wrapFn` — the pattern the row describes. So the row is true for thirteen and silent about two, and the two it is silent about are the ones the workflow engine and its actor backend depend on.
+The `docker` row reads "Eight Dockerfiles — the runtime image, a debug image, a dev image, Mariner and five Windows base images — plus `docker.mk` and `library-scripts/` of five Debian provisioning scripts | 22". The prose names nine Dockerfiles against the eight it states — runtime, debug, dev, Mariner and five Windows — and 8 + 1 + 5 = 14 leaves eight of the stated 22 unaccounted.
 
-The same row declares 52 of the area's 53 files unread and states "a registry is read with the processor that calls it", so all thirteen registry paths are cited as anchors for files the artifact says it never opened. That is the failure mode `System Inventory#F1` recorded, in a new place — and `#F1` was closed this same review, so the pattern is being corrected one instance at a time rather than at its rule.
+Nothing another role builds on turns on either row. The Deployment Model trigger rests on the seven subcharts, the eight Dockerfiles, the six executables and the two runtime modes, and all of those hold: the Development Case names exactly eight Dockerfiles, four of them Windows. No objective of this iteration turns on either row and the cut is stated in areas, not in these counts. It is recorded because the Coverage introduction states that every count the artifact prints reproduces from the enumeration on its own row, and this is the same class `System Inventory#F2` closed in Coverage and `#F4` closed in the component row — corrected instance by instance rather than at the rule.
 
-This is what O2 of this iteration's plan asks the read to close: "each registry is stated as the set of component kinds it admits, with the `Source:` anchor that declares the kind list". Excavation's component recovery and the Software Architect's component view both build on the registry set being complete.
-
-*Remediation.* State the plane from the files that hold it. For each of the fifteen constants name the file that registers it — the thirteen the row already names, and for `workflow` and `workflowbackend` the file that actually holds them, which is not a `registry.go` in a category directory and must be located in the iteration that reads `pkg/runtime/wfengine/` or `pkg/actors/`. Until those two are located, state the count as it is: fifteen categories, thirteen with a registry file under `pkg/components/<category>/`, two whose registration this inventory has not found. Take the thirteen unopened paths out of the anchor column into a "not yet opened" column, or open them. Restate the Components table row the same way, and have the Project Manager carry the two unlocated categories as a risk.
-
-#### Development Case
-
-**F5 — Minor — criterion `contained-defect`.** The Deployment Model trigger's evidence cites a path the tree does not hold.
-
-The row anchors part of its FIRED verdict on "`pkg/config/modes/`" as the package where standalone and Kubernetes modes are both first-class. No such directory exists. The package is `pkg/modes/modes.go`, declaring `type DaprMode string` with `KubernetesMode = "kubernetes"` and `StandaloneMode = "standalone"` — one of this iteration's own sixteen areas, and read as such.
-
-The verdict is unaffected: FIRED rests on seven subcharts, eight Dockerfiles, six executables, placement and scheduler as separate control planes, and mTLS through Sentry, all correctly cited. It stays inside the artifact, which is why it is Minor. It is recorded because a reader checking the verdict follows that path, finds nothing, and cannot tell whether the package moved or the citation was written from its name.
-
-*Remediation.* Correct the path to `pkg/modes/modes.go` and cite the file. Check the other rows of the same table for the same failure — a path cited as evidence must resolve in the tree.
+*Remediation.* Name `docs/development/README.md` among the files of the `docs/development` row so its enumeration yields the 13 it states. For `docker`, reconcile the statement with the enumeration: either the Windows set is four, which is what the eight named Dockerfiles give and what the Development Case's list implies, or the row is nine and must say which ninth file it means; then account for the remaining files of the 22 — the eight Dockerfiles, `docker.mk` and the five library scripts are 14, so seven more must be named. Then re-check the rest of the table the same way.
 
 #### Compliance matrix
 
 ```plantuml
 @startuml
-title Compliance matrix - Survey iteration 2, technical lens
+title Compliance matrix - Survey iteration 3, technical lens
 hide empty members
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 300
+skinparam wrapWidth 320
 skinparam nodesep 26
 skinparam ranksep 34
 
 class "System Inventory\n(Discovery, Critical)" as SI {
-  P  every area of the i2 slice described, or declared not reached in Coverage
-  P  every stated read-count reproduces from the enumeration on its own row
-  P  the three stated row counts equal the rows the three tables hold
-  P  the proto breakdown is consistent with AN-002 and AN-013
-  P  the actor-state claim is anchored on code that enforces it
-  P  sampled anchors say what the artifact claims: server.go, configuration.go, healthz.go, category.go
-  F  fifteen category constants against thirteen anchored registry paths (F4)
-  P  every anomaly labelled AN-NNN with the file it was read from
-  P  every anomaly carried by at least one scored risk
-  P  Traceability table present, one row per declared EP-NNN and AN-NNN
-  P  the three DependsOn edges match the RTM exactly
-  P  no invented figure: no spend, no size, no forecast, no date
+  P  all 12 areas of the i3 slice described, or declared at their read depth
+  P  every Coverage row's stated count reproduces from its enumeration
+  P  2+2+9+2+1+1+2+4+1+0+2+1 = 27 in-slice, plus 3 outside = 30; 60+28+30 = 118
+  P  the scheduler's authority stated from api.go, not from a flag name
+  P  ReportActorTypes read as the one-line forward to the placement subsystem
+  P  component plane stated from registry.go, manager.go and category.go
+  P  actor table read: Types vs ReminderTypes, drains, suspension
+  P  Subscription conversion read: ConvertTo drops Routes.Rules
+  P  clientset read: three group clients against seven served kinds
+  P  every anchor names a file the inventory opened, or says in place it did not
+  P  Traceability: 16 EP rows, 27 AN rows, 3 DependsOn, no copied edge
+  P  every anomaly carries the file it was read from
+  F  two Technology and Size rows state a count their enumeration does not yield (F5)
 }
 
 class "Iteration Plan\n(Project Management, Medium)" as IP {
-  P  the sixteen areas of the slice named in the order taken
-  P  no quotient, no rate, no phase-length forecast
-  P  i1 restated as 13 assigned and 13 reached
-  P  quoted totals reproduce from the Coverage rows they name
-  P  every risk of the register names the iteration that confronts it
-  P  no work item carries a size, and the plan says why
-  P  no use case enters a Survey plan
+  P  12 areas named in the order taken, the Work Order's order
+  P  no work-item size, no rate, no phase-length forecast, no calendar date
+  P  i1 and i2 restated at what they read, every area in exactly one iteration
+  P  70 areas sum: 13 + 15 + 12 + 17 + 13
+  P  32 risks: 27 placed, 5 carried by the reading as a whole
+  P  every i3 placement names an area this iteration opens
+  P  R017 and R019 restated, Iteration Plan#F3 answered at the plan's own end
+  P  rework table names the iteration and work item that closes each finding
 }
 
 class "Risk List\n(Project Management, Medium)" as RL {
   P  scale is the baseline's, none invented
-  P  every anomaly of the 23 carried as a scored risk
-  P  no risk on accept at Significant or High without a grant
-  P  accountable role distinct from the register custodian
+  P  every anomaly of the 27 carried by at least one scored risk
+  P  accountable role named per row, distinct from the custodian
+  P  no Significant or High risk on accept without a stakeholder grant
 }
 
 class "Development Case\n(Environment, High)" as DC {
   P  roster intact: 26 roles, none merged, none reassigned
   P  Business Modeling INACTIVE with its trigger condition stated
   P  no CORE artifact omitted, no ownership changed
-  P  no artifact outside the CORE + OPTIONAL universe
-  P  Glossary FIRED: specialist vocabulary, definitions load-bearing
-  P  Deployment Model FIRED: 6 executables, 7 subcharts, two modes
-  P  four optionals NOT FIRED, each on its own condition
-  P  stakeholder answer applied to the root CONTRIBUTING.md
-  F  Deployment Model evidence cites pkg/config/modes/, a path the tree does not hold (F5)
+  P  Glossary and Deployment Model FIRED, four NOT FIRED, each on its own condition
+  P  every Evidence-column path now resolves in the tree
+  P  measurement policy: two quantities, both clocks apart
 }
 
 class "Legend" as L {
   P = pass
   F = fail, with the finding key
+  scope = this iteration's 12 areas, in the order taken
 }
 
 note bottom of SI
-  F4 is Major: Excavation's component recovery and the
-  Software Architect's component view build on the registry
-  set, and O2's exit criterion asks for it by name.
+  Two findings, one Major: pkg/diagnostics was re-cut into
+  this iteration to be read against the operations and 34 of
+  its 35 files are deferred back to priority 4 (F4). The
+  count defect is F5, Minor.
 end note
 note bottom of DC
-  F5 is Minor: the trigger verdict stands on the other
-  evidence it cites. Only the path is wrong.
+  The two prior findings of this lens are closed on files
+  opened for this review: pkg/config/modes/ resolves, and
+  registry.go holds thirteen fields.
 end note
 @enduml
 ```
 
 #### Anchors opened for this review
 
-I do not accept an anchor on the artifact's word. These were read directly and compared against what the System Inventory and the Development Case say they show:
+I do not accept an anchor on the artifact's word. These nine were read directly and compared against what the System Inventory, the Iteration Plan and the Development Case say they show:
 
 | Anchor | What the artifact claims it shows | Outcome |
 |---|---|---|
-| `pkg/config/configuration.go` | `Configuration.validate()` calls `ActorsSpec.Validate()`, which rejects five binding faults and is nil-safe | Holds — both functions present, the five faults are the ones named, `a == nil` returns nil |
-| `pkg/runtime/actorstatestores.go` | one function, `actorStateStoreBindings`, returns a per-type map, returns no error | Holds — a 22-line file, no other declaration |
-| `pkg/api/http/server.go` | the primary router gets eight middlewares, the public port three | Holds — `useMaxBodySize` through `useAPILogging` against `useContextSetup`, `useTracing`, `useMetrics` only |
-| `pkg/healthz/healthz.go` | `IsReady` is false when no target is registered | Holds — `h.targets > 0 && len(h.unhealthy) == 0` |
-| `pkg/cors/cors.go` | two constants and nothing else | Holds — `DefaultAllowedOrigins` and `AllowAllOrigins` |
-| `pkg/modes/modes.go` | two constants, `kubernetes` and `standalone` | Holds — the whole package |
-| `pkg/middleware/middleware.go` | the `HTTP` type is the whole contract | Holds — `HTTP func(http.Handler) http.Handler` and a one-method interface |
-| `pkg/components/state/registry.go` | a registry with `RegisterComponent`, versions and `Create` | Holds — and confirms the pattern `category.go`'s fifteen constants imply |
-| `pkg/components/lock/registry.go` | the same pattern for the lock category | Holds |
-| `pkg/components/conversation/registry.go` | the same pattern for the conversation category | Holds |
-| `pkg/messaging/v1/messaging.go` | the direct-messaging interface | Holds — one `Invoke` method |
-| `pkg/components/workflow/registry.go` | one of the fifteen category registries | **Fails — F4**: the path does not resolve |
-| `pkg/components/workflowbackend/registry.go` | one of the fifteen category registries | **Fails — F4**: the path does not resolve |
-| `pkg/config/modes/modes.go` | the two first-class runtime modes | **Fails — F5**: the path does not resolve |
+| `pkg/runtime/registry/registry.go` | thirteen registry fields, `nameresolution` among them, and no workflow field | Holds — thirteen typed fields plus `componentCb` and `reporter`; no `workflow` or `workflowbackend` |
+| `pkg/runtime/processor/manager.go` | the twelve categories `category()` dispatches on | Holds — bindings, configuration, cryptoProvider, lock, middleware, pubsub, secretStore, stateStore, conversation, search, vector, binaryStore |
+| `pkg/actors/table/table.go` | `Types()` advertised to placement against `ReminderTypes()` to the scheduler; suspension without a state store | Holds — both methods present; `Options.StartSuspended`, `SuspendHosting`, `ResumeHosting`, and `GetOrCreate` refusing while suspended |
+| `pkg/apis/subscriptions/v2alpha1/conversion.go` | `ConvertTo` writes `Routes.Default` into `Route` and never reads `Routes.Rules` | Holds — `dst.Spec.Route = s.Spec.Routes.Default`; no read of `Rules` in either direction |
+| `charts/dapr/crds/subscription.yaml` | both versions served, `v2alpha1` storage, conversion by webhook | Holds — `v1alpha1` `storage: false`, `v2alpha1` `storage: true`, `strategy: Webhook` |
+| `pkg/client/clientset/versioned/clientset.go` | three group clients against the seven kinds the operator serves | Holds — `ComponentsV1alpha1`, `ConfigurationV1alpha1`, `MCPServerV1alpha1` only |
+| `pkg/runtime/wfengine/README.md` | states no automatic purge and no workflow e2e tests, both contradicted by code read this iteration | Holds — both sentences present verbatim, so AN-021 is correctly recorded as a live contradiction |
+| `pkg/config/modes/kubernetes_config.go`, `standalone_config.go` | the two per-mode configuration files the Development Case cites | Holds — `KubernetesConfig{ControlPlaneAddress}` and `StandaloneConfig{ResourcesPath}`, both in package config |
+| `pkg/modes/modes.go` | the two first-class runtime modes | Holds — the whole package, as the earlier finding recorded |
 
-Ten hold, three do not, and two of the three are the substance of F4. The reading is well anchored where it was checked; what fails is a count in one row and a path in another, which is why the findings are narrow.
+Nine hold, none fails. That is why the two findings are narrow: this iteration's reading is well anchored where it was checked, and what fails is a cut that loses an area and two counts that do not reproduce.
 
 #### Findings, at a glance
 
 ```plantuml
 @startuml
-title Findings of Survey iteration 2, technical lens - where each sits and who builds on it
+title Findings of Survey iteration 3, technical lens - where each sits and who builds on it
 hide empty members
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 320
+skinparam wrapWidth 330
 skinparam nodesep 28
 skinparam ranksep 38
 
-package "System Inventory (Discovery, Critical)" {
-  class "F4 - Major, consumed-defect" as F4 {
-    where : Technology and Size, pkg/components row; Components table; Coverage row
-    defect : 15 category constants, 13 anchored registry paths
-    absent : pkg/components/workflow/registry.go
-    absent : pkg/components/workflowbackend/registry.go
-    also : 13 paths cited for files the row says are unread
-    built on by : Excavation component recovery
-    built on by : the Software Architect's component view
-    rework : yes - O2 asks for it by name
+package "Iteration Plan (Project Management, Medium)" {
+  class "F1 - Major, consumed-defect" as IPF1 {
+    where : Objective O5; the cut tables; Coverage row for pkg/diagnostics
+    defect : the area was re-cut into i3 to be read here
+    defect : 34 of its 35 files are deferred to Excavation priority 4
+    absent : no row of i4 or i5 carries pkg/diagnostics
+    consequence : the 70-area sum counts it as reached here
+    built on by : the SBC gate condition "no area unread"
+    built on by : the Iteration Assessment that scores O5
+    rework : yes
   }
 }
 
-package "Development Case (Environment, High)" {
-  class "F5 - Minor, contained-defect" as F5 {
-    where : Optional Artifact Triggers, Deployment Model row
-    defect : cites pkg/config/modes/, a path the tree does not hold
-    actual : pkg/modes/modes.go
-    verdict : FIRED stands on the other evidence cited
-    built on by : nothing
+package "System Inventory (Discovery, Critical)" {
+  class "F5 - Minor, contained-defect" as SIF5 {
+    where : Technology and Size, docs/development row and docker row
+    defect : stated 13, enumerates 6+5+1 = 12, README omitted
+    defect : stated 22, enumerates 8+1+5 = 14, and prose says 5 Windows against 8 named
+    verdict : no role builds on either figure
     rework : owner's next turn, does not hold the milestone
   }
 }
 
 package "Closed this iteration - Reviewer lens" {
-  class "System Inventory#F1" as F1 <<Resolved>> {
-    was : actor-state claim on an undeclared symbol
-    now : re-anchored on ActorsSpec.Validate via Configuration.validate
-    verified : configuration.go opened, five rules and nil-safety confirmed
+  class "Development Case#F1" as DCCL <<Resolved, was Minor>> {
+    was : Deployment Model row cited pkg/config/modes/ for the two modes
+    now : pkg/modes/modes.go for the modes, pkg/config/modes/ for what it holds
+    verified : all three files opened, both halves true
   }
-  class "System Inventory#F2" as F2 <<Resolved>> {
-    was : read-counts not reproducible from their enumeration
-    now : 3+1+1+1+1+1+1+1+12+13+9+1+3 = 48; 48+12 = 60; 18+2+8 = 28; 60+28 = 88
-    now : docs row 2+24+13+153+6 = 198
-    verified : every row re-added by hand
-  }
-  class "System Inventory#F3" as F3 <<Resolved>> {
-    was : stated counts disagreeing with the artifact's own tables
-    now : 42 components, 19 external systems, 16 entry points, stated once
-    now : proto 37 .proto + 7 package READMEs + dapr/README.md = 45
-    verified : tables and anchor counted directly
+  class "System Inventory#F4" as SIF4 <<Resolved, was Major>> {
+    was : 15 constants against 13 anchored registries, none opened
+    now : plane stated from registry.go, manager.go and category.go
+    verified : 13 fields and 12 dispatched categories counted in the files
   }
 }
 
-class "Iteration Plan#F1, #F2" as IPF <<other lens>> {
-  status : Management Reviewer's - not closed from here
-  observed : the quotient is gone, the i1 row reads 13 and 13
+package "Not this lens" as O {
+  class "other lenses" as OTHER {
+    Management Reviewer : records its own findings at this review
+    System Inventory#F1 (management) : an open Minor, not mine to close
+    Status : not re-recorded here
+  }
 }
 
-F1 ..> F4 : same failure mode, new place
-F2 ..> F4 : the same row-against-enumeration test
-F3 ..> F4 : the same row-against-table test
+DCCL ..> IPF1 : the same test - a stated figure or placement against the tree
+SIF4 ..> SIF5 : the same class F2 and F4 closed, a third place
+IPF1 --> OTHER
+SIF5 --> OTHER
 
-note bottom of F4
-  Thirteen of the fifteen categories do have a registry.go at the
-  path the pattern implies - state, lock and conversation were
-  opened and all three follow RegisterComponent / Create / wrapFn.
-  The two that do not are the two the workflow engine depends on.
-end note
-note bottom of IPF
-  Recorded here only because the same iteration's plan was read.
-  Its findings belong to another lens and no closure is attempted.
+note bottom of IPF1
+  The distinction the finding turns on: reading one file of
+  thirty-five and declaring the rest is the rule this phase
+  follows. Declaring the rest to an order that no iteration of
+  the cut carries is not, because the area is then counted as
+  reached by the gate that asks whether any area is unread.
 end note
 @enduml
 ```
