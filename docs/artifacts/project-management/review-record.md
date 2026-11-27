@@ -26,130 +26,63 @@ Milestone Target: end-of-Survey milestone (SBC) — not achieved, not judged by 
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-Iteration Acceptance review of Survey iteration 1 from the technical lens. The review point is COMPLETION, not the milestone's exit criteria: the question is what each role did with the areas the Project Manager cut for this iteration, not whether Survey may close. The SBC verdict belongs to the Review Coordinator and is not stated here.
+<!-- review: Survey I2 -->
+
+Iteration Acceptance review of Survey iteration 2 from the technical lens. The review point is COMPLETION, not the milestone's exit criteria: the question is what each role did with the sixteen areas the Project Manager cut for this iteration. The SBC verdict belongs to the Review Coordinator and is not stated here.
 
 #### Artifacts reviewed
 
 | Artifact | Owner | Discipline | Reviewed against |
 |---|---|---|---|
-| System Inventory | Software Archaeologist | Discovery | The anchors it cites, opened independently; its own Coverage table; the slice |
-| Development Case | Process Engineer | Environment | The IARI baseline and the §5.2 optional-trigger conditions |
-| Iteration Plan | Project Manager | Project Management | Its own cut, its risk-sequencing table, the Risk List, its measurement claims |
-| Risk List | Project Manager | Project Management | The IARI risk scale, arithmetic on all 25 rows, the System Inventory's 20 anomalies |
+| System Inventory | Software Archaeologist | Discovery | The anchors it cites, opened independently; its own Coverage, Components and External actors tables; the i2 slice |
+| Development Case | Process Engineer | Environment | The IARI baseline; the §5.2 optional-trigger conditions against the project's real facts |
+| Iteration Plan | Project Manager | Project Management | Its own cut, its measurement claims, whether every figure reproduces |
+| Risk List | Project Manager | Project Management | The baseline risk scale, arithmetic on all rows, whether the 23 anomalies are all carried |
+
+No pull request exists to dispose of; the SCM holds none in any state.
 
 #### The slice this review judges
 
-The Project Manager assigned thirteen areas in order: `.github`, `CODEOWNERS`, `CONTRIBUTING.md`, `GOVERNANCE.md`, `LICENSE`, `README.md`, `RELEASE.md`, `SECURITY.md`, `cmd`, `dapr`, `docs`, `go.mod`, `pkg/proto`. The Iteration Plan declares `go.sum` and `img` not reached and carries them into iteration 2. That declaration is correct and is not a finding: an area not reached is declared, not skipped, and the next cut carries it.
+The Project Manager assigned sixteen areas in order: `go.sum`, `img`, `pkg/api`, `pkg/messaging`, `pkg/channel`, `pkg/components`, `pkg/resiliency`, `pkg/middleware`, `pkg/config`, `pkg/diagnostics`, `pkg/metrics`, `pkg/healthz`, `pkg/ports`, `pkg/modes`, `pkg/apphealth`, `pkg/cors`.
 
-Every area of the slice appears in the System Inventory's Coverage table, either with files opened and a reason, or with an explicit unread statement. That check passes. Depth left inside a read area — `.github` 3 of 120, `cmd` 12 of 183 — is ordered by the Priorities section as Excavation's reading, and is not a Survey remainder.
+Fifteen yielded a file. `pkg/diagnostics` is declared unread in full, with its reason — a monitoring module is legible only against the operation it instruments — and is not counted as reached. That declaration is correct and is not a finding: an area not reached is declared, and the next iteration's slice carries it.
 
-#### Anchors opened for this review
+Every area of the slice appears in the System Inventory's Coverage table, either with files opened and a reason or with an explicit unread statement. Depth left inside a read area — `pkg/api` 6 of 124, `pkg/resiliency` 1 of 13, `pkg/components` 1 of 53 — is ordered by the Priorities section as Excavation's reading, and is not a Survey remainder. `pkg/components` is the one place that ordering fails: O2 of this iteration's plan asks the registry set to be closed here, not deferred, which is why F4 is a finding and not a declared remainder.
 
-I do not accept an anchor on the artifact's word. These files were read directly and compared against what the System Inventory says they show:
+#### Criteria applied, and what each decided
 
-| Anchor | What the inventory claims it shows | Outcome |
+| Criterion | Standard for this artifact type | Outcome |
 |---|---|---|
-| `.github/workflows/fossa.yml` | licence scan whose acting step is commented out, key in plain text | Holds — `run-tests: true` is commented out with the quoted note; the key is inline |
-| `dapr/README.md` | 7-row package table against 9 packages; protoc v25.4 | Holds |
-| `tools/proto/generate.sh` | pins 3.10.0; reads `pkg/proto/dapr/dapr.proto` and `daprclient/daprclient.proto` | Holds |
-| `dapr/proto/runtime/v1/README.md` | protoc v4.25.4 | Holds |
-| `.github/copilot-instructions.md` | protoc v34.1 | Holds — and its build, test and lint guidance matches the tree |
-| `go.mod` | `go 1.26.11`, exact pseudo-versions for the `dapr/*` modules | Holds |
-| `pkg/proto/scheduler/v1/failurepolicy.pb.go` | protoc v5.29.3, source `dapr/proto/scheduler/v1/failurepolicy.proto` | Holds — the `.proto` is absent from the tree; the file is orphaned |
-| `cmd/scheduler/options/options.go` | `--placement-enabled`, embedded etcd by default, `--override-broadcast-host-port` for the CLI | Holds |
-| `docs/decision_records/decision_records.md` | 24 links against 23 files; `ARC-004-http-server.md` listed, absent from the tree | Holds |
-| `README.md` | the twelve APIs it lists; the repository family | Holds |
-| `CONTRIBUTING.md` (root) | the owner's text carried, one pointer line added at its top | Holds — the stakeholder's "Yes" is applied, the owner's text below is unchanged |
-| `pkg/runtime/actorstatestores.go` | resolves the actor state store at start-up and fails the runtime if none is declared | **Fails — F1** |
+| Evidence | Every fact about the existing system rests on a file that says what the artifact claims | One row fails — F4. Thirteen sampled anchors hold. |
+| Count reproducibility | A stated count equals the enumeration printed beside it | Holds. Every Coverage row and the `docs` row of Technology and Size reconcile; this is what F2 closed. |
+| Row counts derived from tables | A summary count is derived from the table and stated once | Holds. 42 / 19 / 16, stated once; this is what F3 closed. |
+| Slice coverage | Every area of the assignment described, or declared not reached in Coverage | Holds. Fifteen reached, one declared unread with its reason. |
+| Traceability | Every declared `EP-NNN` and `AN-NNN` has a row; `Traces To` is only `DependsOn` | Holds against the RTM: 26 links, of which 23 `Refines` from an `AN-NNN` to an `R\u200bNNN` and 3 `DependsOn` from an `AN-NNN` to an `EP-NNN`. No copied edge, no invented label. |
+| No invented figure | No spend, size, velocity, density or projected date | Holds. One iteration's measured actual is reported as that iteration's own fact and expressly not as a rate. |
+| Optional triggers | Every FIRED verdict's §5.2 condition genuinely holds; every NOT FIRED verdict genuinely fails | Holds on all six. Glossary FIRED on load-bearing specialist vocabulary; Deployment Model FIRED on seven subcharts, eight Dockerfiles, six executables, two first-class modes. The four NOT FIRED each fail their condition on a stated fact. |
+| Baseline conformance | No roster redefinition, no CORE omission or reassignment, no artifact outside the universe, no merged roles, no enumeration rule changed | Holds. Business Modeling INACTIVE with its trigger condition recorded; Capsule Designer withheld on `real-time-system = false`; nothing else touched. |
+| Stakeholder answer applied | The recorded answer is in the artifact, in their own terms | Holds. The pointer line is at the top of the root `CONTRIBUTING.md`, the owner's text below it unchanged. |
+| Instruction-shaped files recorded, not obeyed | A repository file stating a rule is evidence, never an order | Holds. `copilot-instructions.md`, the issue forms and the owner's guide are read as evidence throughout. |
+| UML | Diagrams present, notation not invented, elements stable | Holds. Every diagram is PlantUML that validates; element labels are the declared identifier families. |
 
-That last row is the only anchor of the sampled set that does not say what the artifact claims. Eleven of twelve hold, which is why the findings below are narrow rather than general: this reading is well anchored where it was checked.
+#### Entry criteria
 
-#### Disposition of pull requests
+| Check | Outcome |
+|---|---|
+| The artifacts of the increment are present and readable in full | Met — all four read |
+| The assignment is known and every area of it accounted for | Met — sixteen assigned, fifteen reached, one declared unread |
+| The upstream the review rests on is readable | Met — System Inventory read before the plan's counts were judged against it |
+| Prior findings of this lens reconciled before new ones recorded | Met — F1, F2 and F3 closed in `S_RECONCILE` first, then F4 and F5 recorded |
+| A pull request to dispose of | None — no role of Survey produces code |
 
-`scm_list_pull_requests` returns no pull requests in any state. There is nothing to approve, nothing to request changes on, and nothing to defer. No production code exists to dispose of, which is correct for Survey: no role of this phase produces code, and no branch is expected from it.
+#### What is deliberately not judged
 
-#### Compliance matrix
-
-```plantuml
-@startuml
-title Compliance matrix - Survey iteration 1, technical lens
-hide empty members
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 300
-
-class "System Inventory\n(Discovery, Critical)" as SI {
-  P  every executable, API surface, protocol contract enumerated with anchor
-  F  sampled anchor says what the artifact claims: pkg/runtime/actorstatestores.go (F1)
-  P  every area of the slice described, or declared not reached in Coverage
-  F  stated read-counts reproducible from the same row's enumeration (F2)
-  F  status-line and table counts agree with the tables they summarise (F3)
-  P  every anomaly labelled AN-NNN with the file it was read from
-  P  Priorities ordered, and cited as Excavation's order not a Survey item
-  P  no recovered element carries a project label it does not own
-  P  no invented figure: no spend, no size, no forecast, no date
-  P  Traceability table present, one row per declared EP-NNN and AN-NNN
-  P  the two DependsOn edges match the RTM exactly
-}
-
-class "Development Case\n(Environment, High)" as DC {
-  P  roster intact: 26 roles, none merged, none reassigned
-  P  Business Modeling INACTIVE with business-process-led = false stated
-  P  Capsule Designer withheld on real-time-system = false
-  P  no CORE artifact omitted, no ownership changed
-  P  no artifact outside the CORE + OPTIONAL universe
-  P  Glossary FIRED: specialist vocabulary, definitions load-bearing
-  P  Deployment Model FIRED: 6 executables, 7 subcharts, multi-environment
-  P  PoC NOT FIRED at Survey: condition requires Elaboration
-  P  Data Model NOT FIRED at Survey: entity count deferred, not guessed
-  P  Test Plan NOT FIRED: no regulatory or contractual obligation
-  P  User-Interface Prototype NOT FIRED: no end-user GUI
-  P  stakeholder answer applied: root CONTRIBUTING.md pointer line present
-}
-
-class "Iteration Plan\n(Project Management, Medium)" as IP {
-  P  cut assigns every area of the tree to exactly one iteration
-  P  unreached areas named, not skipped: go.sum, img carried to i2
-  P  every risk of the Risk List names the iteration that confronts it
-  P  no work item carries a size, and the plan says why
-  P  no velocity, no per-iteration rate, no projected date
-  P  human gate bounded as a risk, measured when it opens
-  P  use-case scope correctly absent: area is the Survey unit
-  F  quoted read-counts repeat the System Inventory's unreproducible figures (F2)
-}
-
-class "Risk List\n(Project Management, Medium)" as RL {
-  P  scale is the baseline's, none invented
-  P  every exposure equals probability x impact, all 25 rows checked
-  P  magnitude is the band the exposure falls in, all 25 rows checked
-  P  all 20 anomalies carried as a scored risk
-  P  every Significant or High risk on avoid, so no grant is outstanding
-  P  no risk on transfer without a third party that agreed
-  P  mitigation, contingency and firing trigger written for all 25
-  P  Traceability table present, one row per risk
-}
-
-class "Legend" as L {
-  P = pass
-  F = fail, with the finding key
-}
-
-note bottom of SI
-  F1 and F2 are Major: Excavation and the Project
-  Manager's next cut both build on the failing content.
-  F3 is Minor: it stays inside this artifact.
-end note
-
-note bottom of IP
-  The plan quotes the System Inventory's counts and says
-  so - it is not independently wrong. Its rows are
-  corrected when F2's source is corrected.
-end note
-@enduml
-```
-
-The Iteration Plan's single fail is not a second defect: the plan states that its counts "are the System Inventory's Coverage count, not a re-measurement", and quotes them faithfully. It is marked fail because the figures it carries are wrong at source and its own measurement table, Evaluation Criteria and cut tables rest on them. Correcting F2 corrects it.
+- **The milestone.** Exit criteria are the Review Coordinator's. This review asks what the iteration did with its slice.
+- **Another lens' findings.** `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1` are the Management Reviewer's. I read the plan to test its figures against the Coverage they quote; I do not close its findings.
+- **Depth inside a reached area.** Ordered to Excavation by the Priorities section, with the single exception named above.
+- **Elements outside the slice.** A call named in a flow step, a component named by its path at a connector, a rule recorded as not yet checked against the code — all work the cut gives a later iteration, and none is a finding here.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
