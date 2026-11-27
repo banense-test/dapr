@@ -248,15 +248,80 @@ end note
 | `pkg/proto` | Go, generated | `protoc-gen-go`, `protoc-gen-go-grpc` and `protoc-gen-connect-go` output, committed rather than built at release time; 66 files including 9 Connect handlers | 66 | `pkg/proto/` |
 
 ## Persistent Data
+Which stores this system keeps, and which it only reaches. The distinction the code draws: a store whose
+lifecycle DAPR Core owns is listed; a store it merely writes through a configured component is listed at the
+boundary, with the component named as the data manager.
+
+```plantuml
+@startuml
+title Persistent state - owned by the system, or reached through it
+skinparam componentStyle rectangle
+skinparam wrapWidth 230
+
+package "DAPR Core owns" {
+  [Scheduler etcd\ndata dir, WAL, snapshots] as S1
+  [In-memory component state\nstate_in-memory, pubsub_in-memory,\nsearch_in-memory, vector_in-memory] as S2
+  [Local file stores\nsecretstores_local_file,\nbindings_localstorage,\ncrypto_localstorage] as S3
+  [Actor timers held in process\npkg/actors/internal/timers] as S4
+}
+
+package "Declared in the repository, stored in the cluster" {
+  [Component] as C1
+  [Configuration] as C2
+  [Resiliency] as C3
+  [Subscription] as C4
+  [HTTPEndpoint] as C5
+  [MCPServer] as C6
+  [WorkflowAccessPolicy] as C7
+}
+
+package "Reached through a configured component" {
+  [Actor and workflow state\nvia the actorStateStore component] as A1
+  [Scheduler job and reminder\nrecords inside etcd] as A2
+  [SQLite state store\nmodernc.org/sqlite in-process] as A3
+}
+
+[Kubernetes API server\nthe store for the seven CRDs] as K8S
+[Embedded etcd server] as ETCD
+[Configured external store] as EXT
+
+C1 --> K8S
+C2 --> K8S
+C3 --> K8S
+C4 --> K8S
+C5 --> K8S
+C6 --> K8S
+C7 --> K8S
+S1 --> ETCD
+A2 --> ETCD
+A1 --> EXT
+A3 --> EXT
+
+note bottom of A1
+  The actor state store is not chosen by the runtime: it is
+  whichever configured state store is marked actorStateStore.
+  pkg/runtime/actorstatestores.go resolves it at start-up and
+  fails the runtime if none is declared.
+end note
+note bottom of C4
+  Subscription exists in two versions, v1alpha1 and v2alpha1,
+  with a conversion between them. It is the only CRD carrying
+  two served versions.
+end note
+@enduml
+```
 
 | Store | Kind | Data manager | Anchor |
 |---|---|---|---|
-| Seven Dapr custom resources — `Component`, `Configuration`, `Resiliency`, `Subscription`, `HTTPEndpoint`, `MCPServer`, `WorkflowAccessPolicy` | Structured document | Kubernetes API server, through `k8s.io/client-go v0.32.3` informers | `apes/*/v1alpha1/types.go` — `apis/{components,configuration,resiliency,subscriptions,httpEndpoint,mcpserver,workflowaccesspolicy}/v1alpha1/types.go`; `charts/dapr/crds/` (7 files) |
-| Scheduler job store | Structured document | Embedded etcd server, `go.etcd.io/etcd/server/v3 v3.5.33` | `pkg/scheduler/server/internal/etcd/etcd.go`; `go.mod` |
-| SQLite state store | Relational schema | `modernc.org/sqlite v1.42.2` through the state-store component | `cmd/daprd/components/state_sqlite.go`; `go.mod` |
+| Scheduler etcd — the durable job and actor-reminder store | Structured document | Embedded etcd server started by the scheduler, `go.etcd.io/etcd/server/v3 v3.5.33`; or an external etcd cluster when `--etcd-embed=false` | `cmd/scheduler/options/options.go` (`--etcd-embed`, `--etcd-data-dir`, `--etcd-initial-cluster`, `--etcd-client-endpoints`); `pkg/scheduler/server/internal/etcd/etcd.go`; `go.mod` |
+| The seven Dapr custom resources — `Component`, `Configuration`, `Resiliency`, `Subscription`, `HTTPEndpoint`, `MCPServer`, `WorkflowAccessPolicy` | Structured document | Kubernetes API server, through `k8s.io/client-go v0.32.3` informers; `Subscription` is served as both `v1alpha1` and `v2alpha1` with a conversion | `apis/{components,configuration,resiliency,subscriptions,httpEndpoint,mcpserver,workflowaccesspolicy}/v1alpha1/types.go`; `apis/subscriptions/v2alpha1/conversion.go`; `charts/dapr/crds/` (7 files) |
+| Actor and workflow state | Relational schema where the configured `actorStateStore` component is a SQL store; the store itself is outside the boundary | The state-store component resolved at start-up by `actorStateStores`, which the runtime requires | `pkg/runtime/actorstatestores.go`; `pkg/actors/state/resolver.go`; `pkg/runtime/wfengine/state/` (9 files) |
+| SQLite state store | Relational schema | `modernc.org/sqlite v1.42.2` through the state-store shim, in-process | `cmd/daprd/components/state_sqlite.go`; `go.mod` |
 | Local file secret store | Record file | Files read from a configured directory | `cmd/daprd/components/secretstores_local_file.go` |
+| Local file crypto store | Record file | Keys read from a configured directory | `cmd/daprd/components/crypto_localstorage.go` |
 | Local storage binding | Record file | Files written to a configured directory | `cmd/daprd/components/bindings_localstorage.go` |
-| Actor and workflow state (the `actorStateStore` component) | Relational schema where the configured component is a SQL store; the store itself is outside the boundary | The configured state-store component, resolved at start-up | `pkg/runtime/actorstatestores.go`, `pkg/actors/state/resolver.go`, `pkg/runtime/wfengine/state/` |
+| In-memory component stores — state, pub/sub, search and vector | Structured document | Process memory; lost when the sidecar exits | `cmd/daprd/components/state_in-memory.go`, `pubsub_in-memory.go`, `search_in-memory.go`, `vector_in-memory.go` |
+| Actor timers held by the host | Structured document | In-process timer table, not durable; actor reminders are durable through the scheduler instead | `pkg/actors/internal/timers/inmemory/` (4 files); `pkg/actors/timers/timers.go` |
 
 ## Documentation
 What the delivery says about itself, graded against the tree. The owner's `.iari/README.md` names the stakeholder
