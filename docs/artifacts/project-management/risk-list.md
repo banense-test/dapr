@@ -1,8 +1,7 @@
 ## Document Control
 Phase: Survey
-Status: Draft — iteration 1. Twenty-five risks: every one of the System Inventory's twenty anomalies carried as a scored risk, beside five risks of the phase's own shape. Three High, thirteen Significant, nine Moderate — all sixteen Significant and High on avoid, the three Moderate accepted with mitigation and contingency. Every row names the custodian of the register and, separately, the role whose act retires it. No stakeholder grant is outstanding
+Status: Draft — iteration 2. Twenty-eight risks: every one of the System Inventory's twenty-three anomalies carried as a scored risk, beside five risks of the phase's own shape. Three High, fourteen Significant, eleven Moderate — all sixteen Significant and High on avoid, the three Moderate accepted with mitigation and contingency, and one Moderate carried only at Moderate because its likelihood is possible rather than likely. Every row names the custodian of the register and, separately, the role whose act retires it. No stakeholder grant is outstanding
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
-
 ## Risk Classification
 Every risk is scored on the IARI risk scale carried by the IARI Development Process baseline. This Risk List defines no scale of its own: probability is 1–5, impact is 1–5, exposure is their product, and the magnitude is the band that exposure falls in — never a band chosen for it. The project Development Case tailors the process by deltas and adds nothing to this scale; what it adds is the 14-day bound on the human gate, carried under R002.
 
