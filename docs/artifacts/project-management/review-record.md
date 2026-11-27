@@ -1080,215 +1080,92 @@ end note
 ```
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1, management lens -->
+<!-- review: Survey I2 -->
 
-**Approved with Changes.** The iteration is accepted: thirteen of thirteen assigned areas reached, four of four objectives met, twenty anomalies recorded and twenty-five risks scored against a scale the register did not invent. The changes are `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1`; under the severity contract the two Major findings keep the SBC gate unsanctioned until they are reworked. No Critical finding is issued and no `REQUIRES_USER_INPUT` is raised: nothing in this iteration needs a decision only the stakeholder can make, and at an Iteration Acceptance there is no phase sanction for them to grant.
+**Conditional Go on the iteration, from the management lens.** Iteration 2 read the sixteen areas the cut assigned it in the order taken, declared the one it did not reach, met five of its six objectives on the artifact's own evidence, and returned a perimeter and a component plane a recovery phase can build on. One Major finding and one Minor stand.
 
-This is the management lens' acceptance of the iteration's work. It is not the SBC verdict, which the Review Coordinator takes after this review and which judges the milestone's exit criteria — a question this review does not reach.
+The condition is narrow and is not a re-read:
 
-```plantuml
-@startuml
-title Survey iteration 1 - the acceptance question and the management question, side by side
-hide empty members
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 330
-skinparam nodesep 35
-skinparam ranksep 45
+| Condition | Owner | Why it does not need a new area read |
+|---|---|---|
+| The risk-driven sequencing places R017 and R019 on iterations that open the area each retirement needs, or states that the risk is carried to Excavation; the "28 risks, all placed" count is restated truthfully | Project Manager | Both the allowlist map and `pkg/scheduler/` are already in the cut. The defect is which row claims them |
+| The never-assigned count in Coverage is stated at twenty-three or derived from its rows | Software Archaeologist | A figure in a sentence; no row, no objective and no quoted total changes |
 
-package "Iteration objectives - were the iteration's own objectives met" {
-  class "O1  Perimeter of the existing system fixed" as O1 <<objective>> {
-    Status : Met
-    Evidence : 16 entry points EP-001 .. EP-016, each anchored to a path
-    Evidence : 26 components and 15 external systems named and anchored
-    Open : one anchor does not say what the artifact claims
-  }
+Nothing is asked of the stakeholder by this review. No Critical finding is open — the register holds no Significant or High risk on `accept`, so it carries no grant to seek — and a decision only the stakeholder can take has not arisen in this iteration.
 
-  class "O2  Self-declaration recorded" as O2 <<objective>> {
-    Status : Met
-    Evidence : 23 decision records graded against the tree
-    Evidence : 147 release notes, the template and the newest note
-    Evidence : go.mod - Go 1.26.11, dapr/* pinned to pseudo-versions
-    Open : nothing from this lens
-  }
+What this verdict does not decide, and must not be read as deciding:
 
-  class "O3  Anomalies recorded and ordered" as O3 <<objective>> {
-    Status : Met
-    Evidence : 20 anomalies AN-001 .. AN-020, each with an anchor
-    Evidence : 13 ranked priorities, cited as Excavation's reading order
-    Open : the read-counts beside them are not reproducible
-  }
-
-  class "O4  Phase cut into iterations" as O4 <<objective>> {
-    Status : Met, one correction owed
-    Evidence : 70 areas, each in exactly one iteration, nothing read twice
-    Evidence : all 25 risks name the iteration that confronts them
-    Open : the plan sizes its own slice at 15, the assignment named 13
-  }
-}
-
-package "Four-axis health - is the investment the phase implies still sound" {
-  class "Scope" as S <<axis>> {
-    Rating : Green
-    Basis : 13 of 13 assigned areas reached, 4 of 4 objectives met
-  }
-
-  class "Schedule" as T <<axis>> {
-    Rating : Not measurable
-    Basis : no elapsed agent time recorded, no phase has closed
-    Basis : the SBC gate has not opened, so no queue time is measured
-  }
-
-  class "Cost" as C <<axis>> {
-    Rating : Not measurable
-    Basis : the project declared no token budget, so there is no box to fit
-    Basis : area and file counts are counts, never a velocity
-  }
-
-  class "Quality" as Q <<axis>> {
-    Rating : Amber
-    Basis : 2 Major and 1 Minor open on the System Inventory
-    Basis : 2 Major and 1 Minor open on the Project Manager's artifacts
-  }
-}
-
-class "Verdict on the iteration" as V <<disposition>> {
-  O1 to O4 : met
-  Conditions : the two Major findings closed before the SBC gate is asked
-  Not judged here : the SBC exit criteria - the Review Coordinator's
-}
-
-O1 ..> V
-O2 ..> V
-O3 ..> V
-O4 ..> V
-S ..> V
-T ..> V
-C ..> V
-Q ..> V
-
-note bottom of Q
-  Amber, not Red: the defects are in the account of the
-  reading, not in what the reading found. The perimeter,
-  the anomalies and the register stand as content.
-end note
-
-note bottom of C
-  A rating of "not measurable" is the correct rating,
-  not a missing one. No phase of this project has closed,
-  so neither clock has a reading to report.
-end note
-@enduml
-```
+| Not decided here | Where it is decided |
+|---|---|
+| Whether the phase may advance | The SBC milestone review, which opens when the cut holds no unread area and every Major finding of the phase has its rework in the baseline. This iteration leaves 41 areas for three further iterations |
+| Whether the component plane is complete | `System Inventory#F4`, under the Reviewer's lens. That finding is Major and holds the milestone; it does not hold this iteration's acceptance, and the plan carries the two unlocated categories as a risk |
+| How long the phase will take | Nothing. No phase has closed; one iteration's measured spend is that iteration's fact, quoted with both clocks apart and projected onto nothing |
+| Who retires each High risk | The Risk List's accountable-role column, which the AR gate reads |
 
 ```plantuml
 @startuml
-title Risk posture at the end of Survey iteration 1 - the management lens
+title Iteration Acceptance - Survey iteration 2, management lens, at a glance
 hide empty members
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 300
-skinparam nodesep 25
-skinparam ranksep 35
+skinparam wrapWidth 340
+skinparam nodesep 26
+skinparam ranksep 36
 
-package "High - 3 risks, exposure 16, all on avoid" {
-  class "R011" as R011 <<AN-005>> {
-    what : architecture statement stops at 2023-09-11
-    avoid : Excavation reads the code the records do not cover
-    retires in : Excavation
-    trend : no second measurement
-  }
-  class "R016" as R016 <<AN-011>> {
-    what : no in-tree account of any executable's behaviour
-    avoid : behaviour recovered from cmd/*/app and each options.go
-    retires in : Excavation
-    trend : no second measurement
-  }
-  class "R023" as R023 <<AN-018>> {
-    what : one scheduler process, two authorities, negotiated per peer
-    avoid : recovered from pkg/scheduler/server and the two protos
-    retires in : Excavation
-    trend : no second measurement
-  }
+class "Slice reached" as S {
+  assigned : 16
+  reached : 15
+  declared not reached : pkg/diagnostics, 0 of 35, reason stated
+  files opened : 28 distinct this iteration; 88 across the phase
 }
 
-package "Significant - 13 risks, exposure 9 to 12" {
-  class "contract and generation cluster" as SIG1 <<6 risks>> {
-    R009 four protoc versions
-    R010 generator reads absent inputs
-    R019 failure-policy family with no proto
-    R020 committed headers name two versions
-    R022 hand-written Go in the generated tree
-    R017 allowlist duplicated by hand
-  }
-  class "self-declaration cluster" as SIG2 <<3 risks>> {
-    R012 release and security procedure outside the tree
-    R013 seventy version-skew patches must keep applying
-    R014 two workflow suites disabled by renaming
-  }
-  class "phase-shape cluster" as SIG3 <<3 risks>> {
-    R001 iteration 4 slice holds 3 335 test files
-    R005 repository files read as orders
-    R006 an empty size filled with a unit nothing measures
-  }
+class "Objectives" as O {
+  O1 request path fixed : met, EP-003 and EP-013 added
+  O2 component plane recorded : met, 15 kinds anchored
+  O3 cross-cutting surfaces : met, 6 anchored, diagnostics declared
+  O4 figures reconcile : met on the checks it enumerates
+  O5 remainder cut : met, recorded with the process service
 }
 
-package "Moderate - 9 risks, exposure 5 to 8" {
-  class "3 on accept" as MOD1 <<this role's decision>> {
-    R002 SBC gate at the 14-day ceiling
-    R003 versions read as policy rather than evidence
-    R025 harness parses an error message for CIDRs
-  }
-  class "6 on avoid" as MOD2 <<this role's decision>> {
-    R004 records renumbered into project families
-    R007 index links an absent record
-    R008 proto overview omits two packages
-    R015 one shim disabled by renaming
-    R018 two proto packages carry no README
-    R024 one test file for 156 registrations
-  }
+class "Findings of this lens" as F {
+  Major : Iteration Plan#F3 - risk placement against unread areas
+  Minor : System Inventory#F1 - a count one above its rows
+  Critical : none
 }
 
-class "Retirement evidence at this review" as EV <<assessment>> {
-  retired : none
-  measured twice : none
-  reason : iteration 1 is the register's first measurement
-  carried into Excavation : all 16 Significant and High
-  whose grant is needed : nobody's - all 16 are on avoid
-  accountable role named : Project Manager on all 25 rows - Risk List#F1
+class "Verdict" as V {
+  iteration : Conditional Go, management lens
+  condition : the two rows restated, one figure corrected
+  phase : iterates; SBC not judged
+  stakeholder : nothing asked, nothing to grant
 }
 
-R011 --> EV
-R016 --> EV
-R023 --> EV
-SIG1 --> EV
-SIG2 --> EV
-SIG3 --> EV
-MOD1 --> EV
-MOD2 --> EV
+class "Carried to the milestone" as M {
+  System Inventory#F4 : Major, Reviewer, the registry set
+  Development Case#F5 : Minor, Reviewer, a cited path
+  Iteration Plan#F3 : Major, this lens
+  System Inventory#F1 : Minor, this lens
+  gate : opens when 41 remaining areas are read
+}
 
-note bottom of EV
-  No trend line can be drawn: a trend needs two readings and
-  this is the first. That is not a failure of the register, and
-  it is not evidence of retirement either. The AR gate is the
-  first point at which the three High risks must show they
-  moved - and their avoidance is the phase it will judge.
+S --> O
+O --> F
+F --> V
+F --> M
+
+note bottom of V
+  Conditional Go is an affirmative grant on this iteration's
+  work, not on the phase. The cut's sufficiency is asked at
+  each iteration close from what that iteration read.
 end note
-
-note right of SIG3
-  R006 is the risk this review itself is held to:
-  no figure enters a sprint-zero artifact that no
-  measurement produced. Iteration Plan#F1 is where
-  that avoidance was breached.
+note bottom of M
+  A Major holds the milestone, not the iteration. The phase
+  iterates either way, and the finding's owner fixes it in
+  the next turn.
 end note
 @enduml
 ```
-
-**Health, as four ratings and not one.** Scope is Green: the assignment was reached in full. Quality is Amber: six findings are open across two lenses, and the reading also returned twenty anomalies and twenty-five scored risks, which is a reading doing its work. Schedule and cost are not measurable, and that is the correct rating — no phase of this project has closed, no token budget was declared, and the SBC gate has not opened. Neither clock has a number to report, and inventing one for either is the failure `Iteration Plan#F1` records.
-
-**What the next iteration inherits.** The cut's own assignment: the request path and the component plane, `pkg/api/` read whole, plus `go.sum` and `img`. It inherits no finding of this lens that changes that slice; the two Major findings are corrections to how the plan states what iteration 1 did, not a reason to re-read an area. It does inherit all sixteen Significant and High risks, unchanged and unretired, which is what a first measurement looks like.
-
-**For the Review Coordinator.** The SBC gate is not sanctioned while `Iteration Plan#F1` and `Iteration Plan#F2` stand open, and `System Inventory#F1` and `#F2` stand open under the Reviewer's lens. `Risk List#F1`, `System Inventory#F3` and nothing else of this review's is Minor and does not hold the gate. No Critical finding is open, so no stakeholder decision blocks the gate; if the Coordinator finds one, it escalates as `stakeholder-decision` in its own round, not from this review.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
