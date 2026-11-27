@@ -504,61 +504,57 @@ Nothing is recorded from this lens. The measurement policy the plan and the regi
 Not assessed as evidence of this iteration, and its state is not a finding. It records iteration 01 and says so in its own Document Control; the Project Manager authors it after this verdict, so at review time it cannot describe the iteration being reviewed. Its iteration-1 measurement table is the source of the one measured actual this phase holds — 19 480 197 tokens and 0:36:59.0766494 of agent time, with gate queue time measured separately — and that actual is quoted nowhere here as a rate.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-The consolidated ledger below is the authoritative record of this review. Each finding is copied from `read_artifact_findings` with its artifact, key, severity and criterion; no finding is added, merged away or re-worded, and no finding is closed here. Closure is the recording lens' own act via `resolve_artifact_finding` and belongs to the lens that emitted it.
+The consolidated ledger is the authoritative finding list of this review. Each entry is copied from `read_artifact_findings` with its artifact, key, recording lens, severity and criterion; none is added, merged away or re-worded, and none is closed here — closure is the recording lens' own act.
 
 #### Consolidated finding ledger
 
 ```plantuml
 @startuml
-title Consolidated finding ledger - Survey iteration 1, two lenses executing, six findings open
+title Consolidated finding ledger - Survey iteration 2, two lenses executed, four findings open
 hide empty members
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 330
-skinparam nodesep 22
-skinparam ranksep 40
+skinparam wrapWidth 340
+skinparam nodesep 20
+skinparam ranksep 44
 
 package "Technical lens - Reviewer (EXECUTED)" {
-  class "System Inventory#F1" as SI1 <<Major, consumed-defect>> {
-    where : Persistent Data - actor-state note and table row
-    defect : anchor names a symbol the file does not declare
-    built on by : Excavation persistent-data recovery, Database Designer
+  class "System Inventory#F4" as SIF4 <<Major, consumed-defect>> {
+    where : Technology and Size pkg/components row;
+            Components table; Coverage row
+    defect : 15 Category constants, 13 anchored registry.go paths
+    absent : pkg/components/workflow/registry.go
+    absent : pkg/components/workflowbackend/registry.go
+    also : 13 paths cited for files the row declares unread
+    built on by : Excavation component recovery;
+                  the Software Architect's component view
     rework : yes
   }
-  class "System Inventory#F2" as SI2 <<Major, consumed-defect>> {
-    where : Coverage - dapr row, outside-slice total, docs categories
-    defect : stated read-counts not reproducible from their enumeration
-    built on by : the Project Manager's next cut
-    rework : yes
-  }
-  class "System Inventory#F3" as SI3 <<Minor, contained-defect>> {
-    where : Document Control status line, Proto contracts row
-    defect : stated counts disagree with the artifact's own tables
-    built on by : nothing
+  class "Development Case#F1" as DCF1 <<Minor, contained-defect>> {
+    where : Optional Artifact Triggers, Deployment Model row
+    defect : cites pkg/config/modes/, a path the tree does not hold
+    actual : pkg/modes/modes.go
+    verdict : FIRED stands on the other evidence cited
     rework : owner's next turn
   }
 }
 
 package "Management lens - Management Reviewer (EXECUTED)" {
-  class "Iteration Plan#F1" as IP1 <<Major, plan-sizing>> {
-    where : the remainder, counted; Evaluation Criteria
-    defect : phase length forecast from one iteration's area count
-    built on by : the SBC gate's judgment that the cut suffices
+  class "Iteration Plan#F3" as IPF3 <<Major, consumed-defect>> {
+    where : Risk-driven sequencing i2 row;
+            Evaluation Criteria; measurement table
+    defect : R017 and R019 placed on areas the same plan declares unread
+    defect : R019's mitigation names pkg/scheduler/, carried by i3, which omits it
+    built on by : the SBC verdict; Excavation's plan
     rework : yes
   }
-  class "Iteration Plan#F2" as IP2 <<Major, consumed-defect>> {
-    where : cut table i1 row; Unread areas declared criterion
-    defect : slice booked 13 of 15 against an assignment of 13
-    built on by : the SBC verdict and the phase audit
-    rework : yes
-  }
-  class "Risk List#F1" as RL1 <<Minor, contained-defect>> {
-    where : Risk Register, Owner column, all 25 rows
-    defect : one role named as owner of every risk
-    built on by : the AR gate's question who retired a High risk
+  class "System Inventory#F1" as SIF1M <<Minor, contained-defect>> {
+    where : Coverage, the sentence closing its introduction
+    defect : twenty-four never-assigned areas against twenty-three rows
+    built on by : nothing
     rework : owner's next turn
   }
 }
@@ -571,105 +567,95 @@ package "Business lens - Business Reviewer (DID NOT EXECUTE)" {
   }
 }
 
-class "Cross-lens conflict C1" as C1 <<resolved, no further action>> {
-  subject : are go.sum and img iteration 1 areas
-  technical lens : declaration correct, not a finding
-  management lens : Iteration Plan#F2, Major
-  resolved : the Work Order slice governs
-  outcome : Iteration Plan#F2 stands
+package "Closed this review - six, each by its recording lens" {
+  class "System Inventory#F1, F2, F3" as SICL <<Reviewer>> {
+    F1 : actor-state claim re-anchored on Configuration.validate
+    F2 : every Coverage row reproduces from its enumeration
+    F3 : 42 / 19 / 16 and the proto breakdown derived from the tables
+  }
+  class "Iteration Plan#F1, F2" as IPCL <<Management Reviewer>> {
+    F1 : the phase-length quotient deleted, the remainder stated as counts
+    F2 : i1 reads 13 assigned and 13 reached; go.sum and img in i2's row only
+  }
+  class "Risk List#F1" as RLCL <<Management Reviewer>> {
+    now : custody and accountability separate on all 28 rows
+  }
 }
 
-class "Cross-lens agreement" as AGG <<no conflict>> {
-  open Critical : 0, from both lenses
-  stakeholder : nothing asked, nothing to grant
-  System Inventory content : stands, its defects are its account of itself
-  counts : one defect, two carriers - fix at source, then re-quote
+class "Cross-lens conflict C1" as C1 <<resolved>> {
+  subject : is O2 met - the component plane recorded
+  management lens : O2 met, fifteen kinds anchored
+  technical lens : the count does not hold, F4 Major
+  resolved : the technical lens governs the evidentiary question
+  outcome : O2 is met with rework - F4 stands, no finding created or closed
 }
 
-SI1 ..> IP1 : not linked
-SI2 --> AGG
-SI3 --> AGG
-IP1 --> AGG
-IP2 --> C1
-RL1 --> AGG
-BIZ --> AGG
+class "Key collision C2" as C2 <<resolved, no defect>> {
+  subject : System Inventory#F1 names two findings
+  Reviewer F1 : actor-state anchor, resolved this review
+  Management F1 : the never-assigned count, open, Minor
+  resolved : keys are scoped per artifact and per lens
+  outcome : this ledger always cites the lens beside the key
+}
+
+SIF4 ..> C1 : the substance of it
+IPF3 ..> C1 : the management lens' own pass
+SIF1M ..> C2 : the second F1 on this artifact
+SICL ..> C2 : the first F1 on this artifact
+SIF4 --> BIZ
+DCF1 --> BIZ
+IPF3 --> BIZ
+SIF1M --> BIZ
 
 note bottom of C1
-  The Reviewer's sentence was a criterion note, not a
-  finding, so nothing is closed there. The Management
-  Reviewer's finding is the one the gate reads, and the
-  assignment in the Work Order is what it is judged against.
+  The management lens passed O2 on the artifact's own statement; the
+  technical lens opened the tree. Where they differ on what an anchor
+  holds, the opened file decides. No lens withdraws a finding here.
 end note
-note bottom of IP1
-  Iteration Plan#F1 and System Inventory#F2 both concern
-  the plan's figures, but are distinct defects: F2 is a
-  source count that cannot be reproduced, F1 is a quotient
-  no measurement produced. Closing one does not close the other.
+note bottom of C2
+  The finding key is scoped per artifact and per reviewer lens. A ledger
+  that cites "System Inventory#F1" without the lens would record a closed
+  Major and an open Minor as the same entry.
 end note
 @enduml
 ```
 
 | Finding | Severity | Criterion | Artifact | Recording lens | Built on by | Rework |
 |---|---|---|---|---|---|---|
-| `System Inventory#F1` | Major | `consumed-defect` | System Inventory | Reviewer | Excavation persistent-data recovery; the Database Designer's persistent-data sections | Yes |
-| `System Inventory#F2` | Major | `consumed-defect` | System Inventory | Reviewer | The Project Manager's next cut, which sizes itself from these counts | Yes |
-| `System Inventory#F3` | Minor | `contained-defect` | System Inventory | Reviewer | Nothing | Owner's next turn |
-| `Iteration Plan#F1` | Major | `plan-sizing` | Iteration Plan | Management Reviewer | The SBC gate's judgment that five iterations suffice | Yes |
-| `Iteration Plan#F2` | Major | `consumed-defect` | Iteration Plan | Management Reviewer | The SBC verdict and the phase audit | Yes |
-| `Risk List#F1` | Minor | `contained-defect` | Risk List | Management Reviewer | The AR gate's question of who retired a High risk | Owner's next turn |
+| `System Inventory#F4` | Major | `consumed-defect` | System Inventory | Reviewer | Excavation's component recovery; the Software Architect's component view; O2's exit criterion | Yes |
+| `Iteration Plan#F3` | Major | `consumed-defect` | Iteration Plan | Management Reviewer | The SBC verdict; Excavation's plan, which reads the placement count | Yes |
+| `System Inventory#F1` | Minor | `contained-defect` | System Inventory | Management Reviewer | Nothing | Owner's next turn |
+| `Development Case#F1` | Minor | `contained-defect` | Development Case | Reviewer | Nothing | Owner's next turn |
 
-Four Major, two Minor, zero Critical. No Info finding was recorded by either lens.
+Two Major, two Minor, zero Critical, zero Info. No finding is open against the Risk List: its one finding from iteration 1 is closed this review, and the register's scale, arithmetic, anomaly coverage and accountability were re-checked by both lenses and hold.
 
-#### Software Architect document — not in this review's increment
+#### The two Major findings, and why they hold the milestone
 
-The Software Architecture Document is named in the milestone's review targets at LCA, not here. No SAD exists and none is due: its first phase is Excavation (Development Case, "Roles active by phase"). Nothing is recorded against it.
+`System Inventory#F4` is the only finding of this review that changes what another role may build on. `pkg/components/category.go` declares fifteen `Category` constants and the artifact derives "one registry per category" from that file, anchoring thirteen `registry.go` paths — two of the fifteen, `workflow` and `workflowbackend`, resolve to nothing in the tree. The thirteen that do exist were opened for this review and all follow the pattern the row describes, so the row is true for thirteen and silent about the two the workflow engine and its actor backend depend on. The same row declares fifty-two of the area's fifty-three files unread, so every one of the thirteen cited paths is an anchor for a file the artifact states it never opened. Excavation's component recovery and the Software Architect's component view both build on the registry set being complete; O2 of this iteration's plan asks for that set by name.
 
-#### System Inventory
+`Iteration Plan#F3` places two of the twenty-eight risks on iterations whose reading the same plan excludes. R017 is placed on this iteration because the allowlist's operations are "implemented in `pkg/api/universal/`", which W4 of the same plan states is not part of the read; R019 is placed on this iteration against `pkg/components/`, which holds nothing about the scheduler's failure-policy families, while its own mitigation names `pkg/scheduler/` — an area iteration 3 reads and whose row omits it. The Evaluation Criteria and the measurement table then read "28 risks, all placed" as evidence that the cut confronts every risk of the register. The count is true as arithmetic and false as evidence, and the SBC verdict and Excavation's plan both read it.
 
-Three findings from the technical lens, none from the management lens.
-
-The technical lens re-opened twelve anchors independently rather than accepting them on the artifact's word; eleven held and one failed. That proportion is why the findings are narrow rather than general — this reading is well anchored where it was checked. The three defects are defects of the artifact's account of itself, not of what the reading found: the perimeter, the sixteen entry points, the twenty anomalies and the thirteen ordered priorities stand, and the management lens accepted them as content on its own question.
-
-`System Inventory#F1` is the serious one for downstream. A Persistent Data claim cites `pkg/runtime/actorstatestores.go` for a symbol the file does not declare, and the file is one of the 1,322 under `pkg/` the artifact's own Coverage table declares unread — so the citation rests on an anchor the artifact states it never opened. Excavation's persistent-data recovery and the Database Designer build on that statement.
-
-`System Inventory#F2` matters to the *process* rather than to the reading: the phase's evidence that the reading happened cannot be reproduced from its own enumeration, and the Iteration Plan quotes those figures as the iteration's measurement.
-
-#### Iteration Plan
-
-Two findings from the management lens, none from the technical lens. The technical lens recorded the plan's fail only as a consequence of `System Inventory#F2` — the plan quotes the counts faithfully and says so — and did not raise an independent finding against it.
-
-`Iteration Plan#F1` and `System Inventory#F2` both touch the plan's figures and are not the same defect. F2 is a source count that cannot be reproduced from its enumeration; F1 is a quotient no measurement produced, sitting in a document whose own measurement policy forbids it. Fixing the counts does not delete the quotient, and deleting the quotient does not reconcile the counts. The two are worked together but closed separately, each by its own lens.
-
-`Iteration Plan#F2` is the finding closest to the verdict this record issues. The plan books iteration 1 as a fifteen-area slice of which two went unread, whereas the Work Order assigned thirteen and every one was reached. The plan's own Document Control states the fact correctly, so the artifact contradicts itself, with the wrong version in the table the gate reads. Left standing, an auditor reads an iteration that under-ran its slice by two areas.
-
-#### Risk List
-
-One Minor finding from the management lens. All twenty-five rows name the Project Manager as Owner, including the sixteen Significant and High risks whose retirement is another role's reading and which the AR gate will ask about. Custody of the register and accountability for the act that retires an entry are different things.
-
-This is Minor because nothing is blocked on it: no role builds on the Owner column as it stands and no exit criterion depends on it. It does not hold the SBC gate.
-
-#### Development Case
-
-No finding from either lens. The measurement policy the plan is judged against is this document's, and it is stated clearly enough to judge by: two quantities measured, both clocks read apart, a human gate bounded as a risk and never forecast. The optional-trigger record — Glossary and Deployment Model fired, four not fired — and the discipline deltas were checked against the baseline's conditions by both lenses and hold. The stakeholder's answer on the root `CONTRIBUTING.md` pointer line is applied, with the owner's text below it unchanged.
+Neither Major stops this iteration's acceptance. A Major is reworked before any role consumes the failing content again, and the milestone is not sanctioned while it stands; the phase iterates either way.
 
 #### Cross-lens conflicts, resolved
 
 | # | Conflict | Resolution | Where it lands |
 |---|---|---|---|
-| C1 | The technical lens treated `go.sum` and `img` as correctly declared and not a finding; the management lens recorded them as a Major mis-accounting of the slice. | The Work Order's slice governs. Those two areas are outside the thirteen assigned, and the iteration reached all thirteen. The management lens' reading of the assignment is upheld — not because a lens outranks another, but because the assignment is the scope of record. | `Iteration Plan#F2` stands as Major; no finding is created or closed by the resolution |
-| C2 | Both lenses observed the plan's figures failing, at different ends — the source counts (technical) and the quotient drawn from them (management). | Not a conflict but a shared observation with two distinct defects. Neither lens' finding absorbs the other, and closure of one does not close the other. | `System Inventory#F2` and `Iteration Plan#F1`, both open |
+| C1 | The management lens passed O2 — "the component plane recorded, fifteen kinds anchored" — while the technical lens recorded the registry count failing as a Major. | Not a disagreement to arbitrate between lenses: it is a question of fact, and an anchor opened against the tree settles it. The opened file governs, so the technical lens' F4 stands and O2 is read as met with rework. Neither lens withdraws a finding; no finding is created or closed by this resolution. | `System Inventory#F4` open; the plan's O2 outcome restated in the Disposition |
+| C2 | Two open-and-closed findings carry the key `System Inventory#F1` — the Reviewer's actor-state Major, resolved this review, and the Management Reviewer's never-assigned-count Minor, open. | Not a conflict but a key collision, and it is correct behaviour: a finding key is scoped per artifact and per reviewer lens. The resolution is in this ledger's form — every citation names the recording lens beside the key, so a closed Major and an open Minor never merge into one row. | No artifact changes; the ledger cites the lens throughout |
 
-No conflict required a lens to withdraw a finding. Neither lens claimed a finding the other had recorded, which is the failure this consolidation looks for first.
+No conflict required a lens to withdraw a finding. Neither lens claimed a finding the other had recorded, which is the failure mode a consolidation looks for first: the management lens explicitly declined to re-record F4 under its own key and the technical lens explicitly declined to close the management lens' findings.
 
 #### What no lens recorded
 
-| Check | Both lenses |
+| Check | Both executing lenses |
 |---|---|
-| Critical finding | None recorded. Nothing in this iteration needs a decision only the stakeholder can make |
-| Finding against an artifact outside the four reviewed | None — no artifact beyond the Development Case, System Inventory, Iteration Plan and Risk List was reviewed, and none exists to review at this phase |
-| Pull request to dispose of | None. No role of Survey produces code; the SCM holds no PR in any state. Nothing is approved, changes-requested or deferred |
-| Invented figure | None found in any of the four artifacts — no token spend, elapsed time, work-item size, velocity or projected date. `Iteration Plan#F1` records a forecast, which is not a fabricated observation but a forbidden derivation, and it is scored as Major on that criterion, not as fabrication |
-| Recovered element carrying a project identifier family it does not own | None. The decision records are cited as evidence and not renumbered; the two `DependsOn` edges match the trace graph exactly |
+| Critical finding | None. Both recorded zero, so nothing escalates to the stakeholder and no decision is asked of them |
+| Finding against an artifact outside the four reviewed | None. Four artifacts exist for this phase iteration and all four were read; the Iteration Assessment was read and not assessed as evidence, which is not a defect in it |
+| Pull request to dispose of | None in any state. Survey produces no code and the Implementation Model does not exist yet |
+| Invented figure | None found in any of the four artifacts — no token spend, elapsed time, work-item size, velocity, density or projected date. The one measured actual the phase holds is iteration 1's, quoted as that iteration's own fact with both clocks apart |
+| Finding carried as a new key that belongs to an earlier one | None. All four open findings are new defects; the six earlier ones were closed under their existing keys and the technical lens states why F4 is not a re-record of F2 and F3 — those closed their own rows and did not reach this one |
+| Recovered element carrying an identifier family it does not own | None. Decision records are cited as evidence and not renumbered; the three `DependsOn` edges match the trace graph exactly |
 
 ## Resolutions and Actions
 ### Reviewer lens
