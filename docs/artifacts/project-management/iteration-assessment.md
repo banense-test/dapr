@@ -122,15 +122,19 @@ It inherits three adjustments from this close:
 The phase iterates because the cut holds two unread iterations and because two Major findings stand open. It does not iterate because a calendar says so, and no iteration is added on account of this review: nothing here displaces an area or cuts declared scope.
 
 ## Use Cases and Scenarios Implemented
-None, and this is the phase working as designed rather than an omission. No use case enters a Survey plan: the scope unit of the sprint zero is the area of the repository, and this iteration's unit was the sixteen areas the cut assigned it. No Test discipline runs in Survey, so no scenario was executed and no executable was produced.
+None, and this is the phase working as designed rather than an omission. No use case enters a Survey plan: the scope unit of the sprint zero is the area of the repository, and this iteration's unit was the twelve areas the cut assigned it. No Test discipline runs in Survey, so no scenario was executed and no executable was produced.
 
-What the iteration returned instead is the raw material a use case will be recovered from in Excavation. This slice fixed the request-path entry points — `EP-003` and `EP-013` on `pkg/api/http/server.go` across its two listeners, `EP-011` on `pkg/healthz/healthz.go`, `EP-012` on `pkg/metrics/exporter.go` — and recorded the operations the app-channel boundary offers in `pkg/channel/channel.go`. `pkg/api/universal/`, where each operation is implemented, is deliberately outside this read: what an operation does is Excavation's, and it is ranked fourth in the System Inventory's Priorities.
+What the iteration returned instead is the raw material a use case will be recovered from in Excavation. The twelve areas of this slice are the processes and stores behind the entry points iteration 2 fixed: a use case is recovered from an entry point with `Source: EP-NNN`, and the System Inventory holds sixteen such rows after this reading. The slice adds no entry point of its own — a scheduler process, a placement service, a trust domain and a resource reconciler are what the entry points of the request path dispatch into, not further doors into the system.
+
+What the slice adds is four anomalies — `AN-024` to `AN-027` — and each became a scored risk rather than a note. The component plane's fifteen/thirteen/two split (`R029`), the eleven document-less areas (`R030`), the three-of-seven clientset (`R031`) and the Subscription conversion's rule loss (`R032`) are contracts Excavation recovers use cases from; none of them is a use case, and none is treated as one here.
 
 | Phase | Scope unit | This iteration |
 |---|---|---|
-| Survey | Repository area | 29 of 70 areas of the cut read over two iterations; 15 of this iteration's 16 areas reached |
-| Excavation | Entry point `EP-NNN`, recovered use case | Not started — the request-path entry points and the app-channel boundary are its input |
+| Survey | Repository area | 39 of the 69 areas the Survey cut holds, read over three iterations; 11 of this iteration's 12 areas reached, `pkg/diagnostics/` carried to Excavation |
+| Excavation | Entry point `EP-NNN`, recovered use case | Not started — the sixteen entry points the phase has anchored and the request path's operations are its input; `pkg/diagnostics/` is carried into its Priorities order at priority 4 |
 | Consolidation and later | Declared use case, risk-driven selection | Not started |
+
+`pkg/api/universal/`, where each operation of the request path is implemented, remains deliberately outside the Survey read: what an operation does is Excavation's, and it is ranked fourth in the System Inventory's Priorities. Until it is read, no recovered use case can state its main flow.
 
 ## Results Relative to Evaluation Criteria
 Each of the nine criteria the Iteration Plan carried, answered against the evidence that exists after the review. Five met, three met with the defect the review recorded against the artifact that evidences them, and one not met as committed and answered by its own second admissible outcome.
