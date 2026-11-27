@@ -1033,6 +1033,26 @@ none of them assigned to a slice, are declared unread there.
 | AN-025 | — | — | — |
 | AN-026 | — | — | — |
 | AN-027 | — | — | — |
+| AN-028 | — | — | — |
+| AN-029 | — | — | — |
+| AN-030 | — | — | — |
+| AN-031 | — | — | — |
+| AN-032 | — | — | — |
+| AN-033 | — | — | — |
+| AN-034 | — | — | — |
+| AN-035 | — | — | — |
 
-An entry point has no upstream: it is the first element the reading produces, and every use case recovered from it will cite it. An anomaly has no upstream either — its source is the evidence cited in its own row — except where it sits on an entry point, and the three that do carry `DependsOn` the entry point whose reading exposed them: AN-012 on EP-002, the gRPC surface whose allowlist the map duplicates; AN-018 on EP-006, the scheduler contract whose capability flags negotiate the two authorities; AN-023 on EP-003, the public listener whose middleware pipeline is the subset. AN-024, AN-025, AN-026 and AN-027 are anomalies of the component plane, of what the delivery documents and of the declared type surface, not of an entry point, so none carries a link; the same holds for AN-021 and AN-022, which are anomalies of documents.
+An entry point has no upstream: it is the first element the reading produces, and every use case recovered from it
+will cite it. An anomaly has no upstream either — its source is the evidence cited in its own row — except where it
+sits on an entry point, and the three that do carry `DependsOn` the entry point whose reading exposed them: AN-012
+on EP-002, the gRPC surface whose allowlist the map duplicates; AN-018 on EP-006, the scheduler contract whose
+capability flags negotiate the two authorities; AN-023 on EP-003, the public listener whose middleware pipeline is
+the subset.
+
+The eight anomalies this iteration records sit on the delivery's own apparatus rather than on an entry point, and
+none carries a link. AN-028 is the `Makefile`'s race target, AN-029 the Docker README, AN-030 the coverage gate,
+AN-031 the test substrate's index, AN-032 the dev-container config, AN-033 three test guides, AN-034 two perf-chart
+notes, and AN-035 the seven areas of the slice that hold no document. They are read against the tree the way the
+other 24 are read against a document or a generated file: the anchor in each row is the file that shows the
+defect, and no entry point is the thing that exposed it.
 
