@@ -226,10 +226,9 @@ end note
 | EP-016 | pprof debug port — `net/http/pprof` on the default mux, opened only when `EnableProfiling` is set | Service operation | A developer or operator debugging a sidecar, and anything else that can reach the port | `pkg/api/http/server.go` (the `_ "net/http/pprof"` import and the `EnableProfiling` block serving `http.DefaultServeMux`) |
 
 ## Technology and Size
-
 | Area | Language | Platform and frameworks, with version | Files | Anchor |
 |---|---|---|---|---|
-| `.github` | YAML, Python, JavaScript, Shell | GitHub Actions; `dependabot.yml`; 25 workflow definitions; 82 helper scripts | 120 | `.github/` |
+| `.github` | YAML, Python, JavaScript, Shell | GitHub Actions; `dependabot.yml`; 25 workflow definitions under `workflows/`; 82 helper scripts under `scripts/`, 70 of which are version-skew patch files | 120 | `.github/` |
 | `CODEOWNERS` | Text | — | 1 | `CODEOWNERS` |
 | `CONTRIBUTING.md` | Markdown | — | 1 | `CONTRIBUTING.md` |
 | `GOVERNANCE.md` | Markdown | — | 1 | `GOVERNANCE.md` |
@@ -237,16 +236,16 @@ end note
 | `README.md` | Markdown | — | 1 | `README.md` |
 | `RELEASE.md` | Markdown | — | 1 | `RELEASE.md` |
 | `SECURITY.md` | Markdown | — | 1 | `SECURITY.md` |
-| `cmd` | Go | Go 1.26.11; `dapr/components-contrib v1.19.1-0.20261126140908-2c9078d426b0`, `dapr/kit v0.19.1-0.20261030175054-be979ab98cc4`, `dapr/durabletask-go v0.16.1-0.20261109153237-98658f38d8cb` | 183 | `cmd/`; `go.mod` (go directive; first `require` block) |
-| `cmd/daprd/components` | Go | One file per component family: state, pub/sub, bindings, secret stores, configuration, locks, crypto, name resolution, middleware, conversation, search, vector, binary store | 156 | `cmd/daprd/components/` |
-| `dapr` | Protocol Buffers (proto3) | 37 `.proto` definitions in 8 packages; `protoc` (version disputed across three documents, see AN-003); `connectrpc.com/connect v1.19.1`, `google.golang.org/grpc v1.83.2` | 45 | `dapr/proto/`, `go.mod` |
-| `docs` | Markdown | — | 195 | `docs/` |
-| `docs/decision_records` | Markdown | 23 decision records in 5 categories plus an index | 24 | `docs/decision_records/` |
-| `docs/release_notes` | Markdown, PNG | One note per release from `v0.1.0` to `v1.19.3`, plus a template and an assets folder | 153 | `docs/release_notes/` |
-| `go.mod` | Go module manifest | `module github.com/dapr/dapr`; `go 1.26.11`; 10 direct SDK and 4 replacement rules | 1 | `go.mod` |
+| `cmd` | Go | Go 1.26.11; the six executables plus five build and test driver files; `dapr/components-contrib v1.19.1-0.20261126140908-2c9078d426b0`, `dapr/kit v0.19.1-0.20261030175054-be979ab98cc4`, `dapr/durabletask-go v0.16.1-0.20261109153237-98658f38d8cb` | 183 | `cmd/`; `go.mod` (the `go` directive and the first `require` block) |
+| `cmd/daprd/components` | Go | One registration file per component family, 156 files; builds only under the `allcomponents` or `stablecomponents` tag, and `zz_notag.go` panics at init otherwise | 156 | `cmd/daprd/components/`; `cmd/daprd/components/zz_notag.go` |
+| `dapr` | Protocol Buffers (proto3) | 37 `.proto` definitions in 9 packages — `common`, `components`, `internals`, `operator`, `placement`, `runtime`, `scheduler`, `sentry`, `workflows`; `protoc` version disputed across four files (AN-003); consumed by `connectrpc.com/connect v1.19.1` and `google.golang.org/grpc v1.83.2` | 45 | `dapr/proto/` (37 `.proto` and 8 package READMEs); `go.mod` |
+| `docs` | Markdown, PNG | 195 documentation files: three guides, 23 decision records with their index, 13 development files, 153 release-note files | 196 | `docs/` |
+| `docs/decision_records` | Markdown | 23 records in five categories (`api` 12, `architecture` 3, `cli` 2, `engineering` 4, `sdk` 2) plus `decision_records.md` | 24 | `docs/decision_records/` |
+| `docs/release_notes` | Markdown, PNG | One note per release from `v0.1.0` to `v1.19.3`, plus `template.md` and an `assets/` folder of 5 PNGs | 153 | `docs/release_notes/` |
+| `go.mod` | Go module manifest | `module github.com/dapr/dapr`; `go 1.26.11`; a large direct `require` block, a large indirect block, and four replacement rules plus a licence-motivated replace block | 1 | `go.mod` |
 | `go.sum` | Go checksums | — | 1 | `go.sum` |
-| `img` | PNG, SVG, JPEG | Banner, conceptual model, overview diagram | 3 | `img/` |
-| `pkg/proto` | Go, generated | `protoc-gen-go`, `protoc-gen-go-grpc`, `protoc-gen-connect-go` output, committed rather than built at release time | 66 | `pkg/proto/` |
+| `img` | PNG, SVG, JPEG | Banner, conceptual model and overview diagram, the last embedded by `README.md` | 3 | `img/` |
+| `pkg/proto` | Go, generated | `protoc-gen-go`, `protoc-gen-go-grpc` and `protoc-gen-connect-go` output, committed rather than built at release time; 66 files including 9 Connect handlers | 66 | `pkg/proto/` |
 
 ## Persistent Data
 
