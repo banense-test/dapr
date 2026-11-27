@@ -254,9 +254,18 @@ end note
 The first two rows are quoted from the system's own measurement of this iteration. The remaining rows are counts of files, areas, artifacts and interactions read from the increment itself. Neither group is a rate, and the gate's queue time is reported apart from both and never added to either.
 
 ## Test Results
-No test was designed, executed or reported in Survey iteration 2. No Test discipline runs in this phase: the Test Manager's first stage is the Inception Test Plan, and the Test Designer, Tester and Test Analyst first work in Elaboration.
+No test was designed, executed or reported in Survey iteration 3. No Test discipline runs in this phase: the Test Manager's first stage is the Inception Test Plan, and the Test Designer, Tester and Test Analyst first work in Elaboration.
 
-No test figure is available and none is asserted — no pass rate, no coverage percentage, no build status. The test substrate was named, not run: `tests/` holds 3 335 entries and is Survey iteration 4's slice, and the anomalies touching it — `AN-008` (two workflow suites disabled by renaming), `AN-019` (156 registration files against one test), `AN-020` (harness deriving CIDRs by parsing free text) — are recorded as what the tree shows, not as results of any execution. `R025` and `R024` rest on that distinction, and both state it.
+No test figure is available and none is asserted — no pass rate, no coverage percentage, no build status. Nothing was pushed to the repository this phase, so no build was triggered and no CI result exists to report.
+
+What this iteration did establish about the test substrate is a set of facts about the tree, not results of any execution:
+
+- `pkg/runtime/wfengine/backends/actors/actors_test.go-TODO` and `pkg/runtime/wfengine/wfengine_test.go-TODO` — two workflow suites disabled by renaming, removing them from the build silently and leaving no record of what they assert. Recorded as `AN-008` / `R014`, and read as packages this iteration because both sit in areas the slice opened.
+- `cmd/daprd/components/` — 156 registration files and exactly one test, so the `allcomponents` / `stablecomponents` build tags are exercised only when a whole binary is built. Recorded as `AN-019` / `R024`.
+- `tests/` — 3 335 entries, the integration and perf suites that are the only empirical statement of this system's behaviour, and Survey iteration 4's slice. `tests/setup_tailscale.sh` derives the cluster's CIDRs by parsing free-text `kubectl` output: recorded as `AN-020` / `R025`, a claim about the harness's fragility and not a test outcome.
+- `pkg/runtime/wfengine/README.md` states that no end-to-end test targets the engine, and the workflow suites under `tests/integration/suite/daprd/workflow/` contradict it. The README is the document contradicted; the suites are the fact. Recorded as `AN-021` / `R026`.
+
+`R024` and `R025` rest on the distinction between what the tree shows and what an execution would show, and both state it. No test conclusion in this document is drawn from a run that did not happen.
 
 ## External Changes
 No external change entered the project this iteration. The one decision in force remains the stakeholder's answer on the root `CONTRIBUTING.md` — one pointer line at its top to `docs/CONTRIBUTING.md` for how a change is requested, labelled and reviewed — applied by the Process Engineer in iteration 1 and verified by both lenses. Nothing this iteration reopened it or needed a further answer.
