@@ -659,37 +659,35 @@ No conflict required a lens to withdraw a finding. Neither lens claimed a findin
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
+
+Two findings of this lens from earlier iterations are closed this turn, each on evidence read from the corrected artifact and from the file it cites rather than on the owner's word.
 
 #### Findings closed this review
 
-Each was closed by `resolve_artifact_finding` from this lens, after I verified the corrected content against the file it cites — not against a note saying it was done.
-
 | Finding | Severity | How the defect was fixed | Evidence I verified |
 |---|---|---|---|
-| `System Inventory#F1` | Major | The actor-state claim is re-anchored on code that enforces the rule. The note and the table row now state that the runtime neither chooses nor requires an actor state store at start-up, name `actorStateStoreBindings` as the reporting function, and cite `Configuration.validate()` → `ActorsSpec.Validate()` for the five binding faults it rejects. Both files are in the read set. | I opened `pkg/config/configuration.go`: `validate()` ends `return c.Spec.ActorsSpec.Validate()`, and the function's `if a == nil { return nil }` makes it nil-safe exactly as the note now says. `pkg/runtime/actorstatestores.go` is 22 lines with one function and no error return. |
-| `System Inventory#F2` | Major | Every Coverage row's stated count now reconciles with the files enumerated on the same row, and the Iteration Plan re-quotes only the reconciled totals. | I re-added every enumeration. i1: 3+1+1+1+1+1+1+1+12+13+9+1+3 = 48; outside the slice 2+1+5+1+1+1+1 = 12; 48+12 = 60. i2: 1+3+1+2+1+1+1+1+1+0+1+1+1+1+1+1 = 18, plus the 2 extended areas = 20, plus 8 outside = 28. Phase 60+28 = 88. `docs` row in Technology and Size: 2+24+13+153+6 = 198. |
-| `System Inventory#F3` | Minor | The three row counts are derived from the tables and stated once, with the status line pointing at that single statement; the proto breakdown is restated consistently with AN-002 and AN-013. | I counted the tables: 42 components, 19 external actors and systems, 16 entry points — which is what the introducing paragraph states. Proto: 37 `.proto` + 7 package READMEs + `dapr/README.md` = 45. |
+| `Development Case#F1` | Minor | The Deployment Model row no longer cites `pkg/config/modes/` as the package where the two runtime modes are declared. It anchors the two first-class modes on `pkg/modes/modes.go` and cites `pkg/config/modes/` separately for what it does hold: two per-mode configuration files. The paragraph introducing the section now states that every path in the Evidence column resolves and every count beside one is a count of what that path holds. | I opened all three files. `pkg/config/modes/kubernetes_config.go` declares `KubernetesConfig{ControlPlaneAddress string}` and `standalone_config.go` declares `StandaloneConfig{ResourcesPath []string}`, both in package config — so the second half of the citation is true as well as the first. Spot-checked figures: Sentry 36, placement 26, scheduler 76, subcharts 7, Dockerfiles 8 — all hold. |
+| `System Inventory#F4` | Major | The component plane is stated from the files that hold it, in every place the finding named. Thirteen registry paths are no longer presented as anchors for unopened files; the plane anchors `category.go`, `registry.go` and the `pkg/components/` directory listing, all three open. The two categories reachable by neither a registry nor a shim are stated as such in AN-024 with the code path that reaches the actor plane without them. | I opened `pkg/runtime/registry/registry.go`: exactly thirteen registry fields plus `componentCb` and `reporter`, and no workflow field. I opened `pkg/runtime/processor/manager.go`: `category()` lists twelve `components.Category` values, which is the thirteen less `nameresolution`. The row's arithmetic now reproduces from the code. The consuming end is closed in turn — the Project Manager scored R029 on AN-024. |
 
-`System Inventory#F4` is the same class of defect as F2 and F3 — a stated count that does not reconcile with what the row itself prints — appearing in a row the earlier corrections did not reach. That is the reason the finding is recorded rather than folded into one of them: closing F2 and F3 did close those rows, and did not close this one.
+`System Inventory#F5`, recorded this iteration, is the same class of defect as `#F2` and `#F4` — a stated count that does not reconcile with what the row itself prints — appearing in two rows the earlier corrections did not reach. That is the reason it is recorded rather than folded into either: closing F2 and F4 closed those rows, and did not close these.
 
 #### Actions this review sets
 
 | # | Action | Owner | Closes | Holds the SBC gate |
 |---|---|---|---|---|
-| 1 | For each of the fifteen category constants, name the file that registers it; locate the registration of `workflow` and `workflowbackend`, or state that it is not located; take the unopened `registry.go` paths out of the anchor column, or open them; restate the Components table row to match | Software Archaeologist | `System Inventory#F4` | Yes — O2's exit criterion asks for the registry set by name, and Excavation's component recovery builds on it |
-| 2 | Carry the two unlocated categories as a risk, scored on the register's own scale | Project Manager | `System Inventory#F4` at its consuming end | Yes |
-| 3 | Correct the Deployment Model evidence path to `pkg/modes/modes.go`; check the other rows of the same table for paths that do not resolve | Process Engineer | `Development Case#F5` | No — owner's next turn |
+| 1 | Read the thirteen `pkg/diagnostics` modules against the operations W2–W4 recovered — the scheduler's eight operations, the placement leader gate, the Sentry validators, the actor table's suspension, the internal server's five handlers — stating each against the operation it instruments and declaring the ones that instrument nothing this phase read; or state in the cut that the area is carried to Excavation and drop it from this iteration's reached count | Software Archaeologist for the read; Project Manager for the cut | `Iteration Plan#F1` | Yes — the SBC condition "the cut holds no unread area" is answered by this count |
+| 2 | Name `docs/development/README.md` among the files of the `docs/development` row; reconcile the `docker` row's Dockerfile count and account for the remaining files of its 22; then re-check the rest of Technology and Size the same way | Software Archaeologist | `System Inventory#F5` | No — owner's next turn |
 
-Action 1 is one act of correction in one artifact and is worked as a whole: a row that names thirteen of fifteen categories and anchors thirteen paths must be fixed in the count and in the anchors together, or the reader is left with a corrected number over uncorrected evidence.
+Action 1 is one act worked as a whole: the Coverage row, the plan's cut tables and the reached count must move together, or a reader is left with an area declared reached by a count that no longer matches its reading.
 
 #### What this lens does not close
 
-`Iteration Plan#F1` and `Iteration Plan#F2` are open under the Management Reviewer's lens and are not mine to close. I read the plan to judge whether its figures reproduce, and they do: the quotient the earlier finding named is absent, "The remainder, counted" states 41 areas across three iterations with R001's remedy and no rate, and the i1 row reads 13 assigned and 13 reached. That observation is recorded; the closure is the recording lens' act.
+`System Inventory#F1` — the Management Reviewer's Minor on the never-assigned count in Coverage — is open under that lens and is not mine to close. I read the Coverage table it names and observe that the introduction now derives its statement from the rows at the foot of the table rather than asserting a number, which is what that finding's remediation asked for. That observation is recorded; the closure is the recording lens' act.
 
-`Risk List#F1`, also the Management Reviewer's, is outside this lens' judgment.
+The Risk List carries no open finding from any lens and nothing is recorded against it here.
 
 #### Pull requests
 
@@ -699,35 +697,34 @@ Action 1 is one act of correction in one artifact and is worked as a whole: a ro
 
 ```plantuml
 @startuml
-title Defect distribution - Survey iteration 2, technical lens
+title Defect distribution - Survey iteration 3, technical lens
 hide empty members
 skinparam classAttributeIconSize 0
 skinparam wrapWidth 300
 skinparam nodesep 30
 skinparam ranksep 40
 
-class "System Inventory" as SI {
+class "Iteration Plan" as IP {
   Critical : 0
-  Major : 1  (F4)
+  Major : 1  (F1)
   Minor : 0
   Info : 0
-  closed this review : F1, F2, F3 - all Resolved
+}
+
+class "System Inventory" as SI {
+  Critical : 0
+  Major : 0
+  Minor : 1  (F5)
+  Info : 0
+  closed this review : F4 - Resolved
 }
 
 class "Development Case" as DC {
   Critical : 0
   Major : 0
-  Minor : 1  (F5)
-  Info : 0
-}
-
-class "Iteration Plan" as IP {
-  Critical : 0
-  Major : 0
   Minor : 0
   Info : 0
-  note : approved from this lens - its two Major
-         findings are the Management Reviewer's
+  closed this review : F1 - Resolved
 }
 
 class "Risk List" as RL {
@@ -735,7 +732,7 @@ class "Risk List" as RL {
   Major : 0
   Minor : 0
   Info : 0
-  note : approved from this lens
+  note : approved from this lens - nothing recorded
 }
 
 class "This review, in totals" as TOT <<current, not a rate>> {
@@ -744,20 +741,20 @@ class "This review, in totals" as TOT <<current, not a rate>> {
   Minor : 1
   Critical : 0
   Info : 0
-  findings closed : 3
+  findings closed : 2
   net open against this lens : 2
 }
 
+IP --> TOT
 SI --> TOT
 DC --> TOT
-IP --> TOT
 RL --> TOT
 
 note bottom of TOT
-  Counts per artifact, never per KLOC: Survey holds no
-  size measure to normalise by. Three findings closed
-  and two opened is not a trend - a trend needs the same
-  measure twice, and these are different defects.
+  Counts per artifact, never per KLOC: Survey holds no size
+  measure to normalise by. Two closed and two opened is not a
+  trend - the same measure was not taken twice on the same
+  work, and the phase has no per-iteration rate.
 end note
 @enduml
 ```
