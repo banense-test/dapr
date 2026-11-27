@@ -106,10 +106,10 @@ note bottom of ANOM
   system refines an anomaly the reading recorded.
   A risk of the phase's own shape has no anomaly
   and cites a Development Case section instead.
-  Every anomaly of the System Inventory carries
-  exactly one risk: AN-021 to AN-025 were recorded
-  in iteration 3 and R026 and R029 to R032 carry
-  them.
+  Twenty-seven refine an anomaly and five do not.
+  Iteration 3 recorded four anomalies, AN-024 to
+  AN-027, and they are carried by R029, R030, R031
+  and R032.
 end note
 @enduml
 ```
@@ -164,17 +164,17 @@ title Risk List after Survey iteration 3 - 32 risks, by magnitude and strategy
 
 The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three, and for the seventeen Significant risks beside them. Iteration 3 sharpened the same point: the four Significant risks it adds or restates — R019, R029, R030, R032 — are each a place where a reader who trusts the declaration instead of the file describes something the code does not do.
 
-No risk in this register is Accepted at Significant or High magnitude, so no stakeholder grant is outstanding and none is requested. The three accepted entries — R002, R003, R025 — are Moderate, where acceptance with a written mitigation and contingency is this role's decision and no one else's to approve.
+No risk in this register is Accepted at Significant or High magnitude, so no stakeholder grant is outstanding and none is requested. The three accepted entries are R002, R003 and R025, all Moderate, where acceptance with a written mitigation and contingency is this role's decision and no one else's to approve.
 
 ### How a probability is fixed
 
 Probability is the chance the consequence happens **to the reading this project is doing**, not the chance the defect exists. A defect the tree shows plainly has already happened; what is uncertain is whether it misleads a later role. That is why R015 and R026 — a disabled shim, a stale README — sit at probability 3 even though the anomalies they rest on are certain: neither is likely to be reached before the code it misstates is read.
 
-R029 was scored on that rule at iteration 2 and is rescored now that the answer is in. The fifteen constants read as fifteen registries only misleads a reader who is deciding what the component plane is — a component view, a count, a registry list — and `AN-024` now states the split in the artifact's own words. Probability 4 is kept because the count is the first thing every later component artifact takes, and impact stays 3 because the retirement lies inside the phase the cut already plans.
+R029 is scored on that rule with the answer now in. The fifteen constants read as fifteen registries only mislead a reader deciding what the component plane is — a component view, a count, a registry list — and `AN-024` now states the split in the artifact's own words. Probability 4 is kept because the count is the first thing every later component artifact takes, and impact stays 3 because the retirement lies inside the phase the cut already plans.
 
 R030 is probability 4 on the same test: the absence is certain, and the inventory's own reading demonstrated that a role reaching for a document in these areas finds none and re-derives the contract from code. R031 is probability 4 with impact 2 — the clientset's three groups mislead only a role that takes the generated client for the resource set, and `pkg/apis/` sits beside it declaring seven. R032 is probability 3: the conversion loss is certain, but no Subscription in the tree or the charts routes by `Routes.Rules`, so whether the consequence reaches a declared behaviour is open.
 
-R028 keeps the probability band the certainty of its code would raise. The public listener's narrower middleware set is in the code and is not in doubt; whether it is a defect depends on a deployment decision this project has not seen made. A public port is opt-in, no Configuration in the tree sets one, and the repository holds no deployment that turns it on. So the probability that the consequence reaches a declared constraint is 3 — medium, 31 % to 50 % — and not 4. Its impact is 4, and that is the band that matters: if a deployment does set a public port, an access-control constraint the operator configured is no longer met as declared, and the failure is silent — the surface is served, so nothing announces that the body ceiling, the CORS policy, the API-token check and the component middleware are absent.
+R028 keeps the probability band lower than the certainty of its code would suggest. The public listener's narrower middleware set is in the code and is not in doubt; whether it is a defect depends on a deployment decision this project has not seen made. A public port is opt-in, no Configuration in the tree sets one, and the repository holds no deployment that turns it on. So the probability that the consequence reaches a declared constraint is 3 — medium, 31 % to 50 % — and not 4. Its impact is 4, and that is the band that matters: if a deployment does set a public port, an access-control constraint the operator configured is no longer met as declared, and the failure is silent — the surface is served, so nothing announces that the body ceiling, the CORS policy, the API-token check and the component middleware are absent.
 
 No risk in this register is scored on a scale of its own, and no magnitude is chosen: each is the band its exposure falls in.
 
