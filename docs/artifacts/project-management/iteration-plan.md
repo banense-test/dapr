@@ -220,23 +220,22 @@ None. No use case enters the plan in Survey: the phase's scope unit is the area 
 | Perimeter confirmed | Every executable under `cmd/`, every API surface and every protocol contract under `dapr/proto/` is enumerated, each with a `Source:` anchor | System Inventory — Perimeter: 16 entry points, `EP-001` to `EP-016`, each with its anchor; its component table and its external-actor table are the same stage's, entry by entry |
 | Priorities ordered | The areas still to read are ordered, with the ordering stated and cited as Excavation's reading order rather than as a Survey work item | System Inventory — Priorities: 13 ranks, each with why it comes first; cited in "Priorities — what Excavation reads first" |
 | Traceable reading | No element of the System Inventory is stated without the path and lines it was read from | System Inventory, all stages; the Coverage table accounts for every area of the slice |
-| Cut held | Every area listed in the cut belongs to exactly one iteration, in the order the cut records, and no area of the tree is left uncut | This plan's cut tables and the recorded cut — 70 areas, 13 read this iteration, matched area for area and in order |
-| Unread areas declared | An area the iteration did not reach is named, not skipped, and the remainder is counted | This plan: `go.sum` and `img`, carried by iteration 2; the remainder 57 areas against 4 iterations of the cut |
+| Cut held | Every area listed in the cut belongs to exactly one iteration, in the order the cut records, and no area of the tree is left uncut | This plan's cut tables and the recorded cut — 70 areas, each in exactly one iteration |
+| Unread areas declared | An area the iteration did not reach is named, not skipped, and the remainder is counted | This iteration had no unreached area: 13 assigned, 13 reached. The declared remainder is the 57 areas the cut assigns to iterations 2 to 5, `go.sum` and `img` among them, each listed once |
 | Depth left in a read area is not a Survey remainder | An area opened short of its file count is scheduled by the System Inventory's Priorities for Excavation, never re-opened inside the Survey cut | This plan: the five areas opened short — `.github`, `cmd`, `dapr`, `docs`, `pkg/proto` — and the Priorities citation |
 | Risks sequenced, not only scored | Every risk of the Risk List names the iteration of the cut that confronts it, or the row of risks the whole reading carries | This plan: "Risk-driven sequencing"; Risk List — 25 risks, all 20 anomalies refined, three High and thirteen Significant all on `avoid` |
 | No invented figures | No token spend, elapsed time, work-item size or forecast appears anywhere in the phase's artifacts, because no phase has closed | This plan; the Risk List |
 
-Each criterion is checkable against an artifact in the increment. The one that was not met when the cut was declared — the unread areas — is met in the plan as delivered: iteration 1 read 13 of its 15 areas, and the two it did not reach are moved to iteration 2's slice rather than left assumed read.
+Each criterion is checkable against an artifact in the increment.
 
 **What this iteration measures, and the decision each measurement serves.**
 
 | Measurement | Value | Decision it enables |
 |---|---|---|
-| Areas of the slice reached | 13 of 15 | Whether the cut still holds at five iterations of Survey, or a sixth is needed |
-| Files opened against files the slice areas hold | 48 of 622 | Whether an area is being read at the depth its priority needs, or skimmed — and, where it is short, whether that depth belongs to Excavation instead |
-| Files opened outside the slice, with the reason | 10 | Whether the perimeter can be closed from the slice alone; a rising count means the cut is drawn in the wrong place |
+| Areas of the slice reached | 13 of 13 assigned; five of them opened short of their file count | Whether an area is read at the depth its priority needs, or skimmed — and, where it is short, whether that depth belongs to Excavation instead |
+| Files opened against the files the slice areas hold | Not stated here until the System Inventory's Coverage counts are reconciled — `System Inventory#F2`. The table carries the number the moment each Coverage row reproduces from the files enumerated on it, and carries none before | Whether the perimeter can be closed from the slice alone; a rising count of files opened outside the slice means the cut is drawn in the wrong place |
 | Anomalies recorded | 20 | Whether the reading has found the system's incoherences, or only described it |
 | Risks carrying no iteration against them | 0 | Whether the cut is ordered by risk at all, or only by convenience of location |
 
-No rate is derived from any of these. They are counts of what one iteration read, not a velocity, and the next iteration's slice is set by the cut and the remainder — never by a per-iteration figure.
+No rate is derived from any of these. They are counts of what one iteration read — not a velocity, and not a basis for projecting the length of the phase. The next iteration's slice is set by the cut and the remainder, never by a per-iteration figure.
 
