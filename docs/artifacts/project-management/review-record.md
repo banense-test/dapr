@@ -1002,74 +1002,100 @@ Two optional artifacts are FIRED by the Development Case and produced in later p
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
+
+<!-- review: Survey I2 -->
 
 **Approved with Changes.** No Critical finding: nothing in this iteration needs a decision only the stakeholder can make, and no `REQUIRES_USER_INPUT` is raised.
 
-Two Major findings (F1, F2) and one Minor (F3), all on the System Inventory. Under the severity contract the artifact is reworked before any role consumes the failing content again, and the SBC milestone is not sanctioned while a Major stands. The Project Manager's cut for iteration 2 does not depend on F1, which concerns a file iteration 3 reads; it does depend on F2, whose corrected counts set the next slice's size.
+One Major finding (`System Inventory#F4`) and one Minor (`Development Case#F5`). Under the severity contract the artifact is reworked before any role consumes the failing content again, and the SBC milestone is not sanctioned while a Major stands. Three prior findings of this lens — `System Inventory#F1`, `#F2`, `#F3` — are closed, each verified against the file its correction cites.
 
-This disposition is the technical lens' judgment of the iteration's completion. It is not the SBC verdict — that is the Review Coordinator's, taken after the Management Reviewer, and it is not issued here.
+The iteration met its slice. Fifteen of sixteen assigned areas were reached and `pkg/diagnostics` was declared unread with its reason, which is a declaration and not a skip. Ten of the thirteen anchors I opened independently say what the artifact claims; the three that do not produced F4 and F5. That proportion is why the findings are narrow: this reading is well anchored where it was checked, and what fails is a count in one row and a path in another.
+
+This disposition is the technical lens' judgment of the iteration's completion. It is not the SBC verdict — that is the Review Coordinator's, taken after the Management Reviewer.
+
+#### What this lens hands to the next two
+
+| Recipient | What it inherits | What it must not do |
+|---|---|---|
+| Management Reviewer | `System Inventory#F4` open from this lens; its own `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1` still open. I read the plan and observed that the quotient is gone and that its figures reproduce from the Coverage rows they name — recorded, not closed, because closure is that lens' act | Re-record F4 under its own key. It is a technical defect and this lens owns it |
+| Review Coordinator | Zero open Critical from this lens; one open Major from this lens, two from the management lens; two Minor. The SBC gate is not sanctioned while a Major stands | Issue the SBC verdict on this review. This is an Iteration Acceptance and the milestone's exit criteria are not judged here |
+
+The two Minor findings — `Development Case#F5` and `Risk List#F1` — do not hold the gate. Under the severity contract their owners fix them in their next turn, after the Critical and Major work.
 
 ```plantuml
 @startuml
-title Defect distribution - Survey iteration 1 technical lens, by artifact and severity
+title Survey iteration 2, technical lens - the disposition and what it hands on
 hide empty members
-skinparam wrapWidth 240
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 320
+skinparam nodesep 30
+skinparam ranksep 42
 
-class "System Inventory" as SI {
-  Critical : 0
-  Major : 2  (F1, F2)
-  Minor : 1  (F3)
-  Info : 0
+package "What this lens found" {
+  class "Reconciled" as REC <<3 of 3 closed>> {
+    System Inventory#F1 : actor-state anchor
+    System Inventory#F2 : read-counts
+    System Inventory#F3 : stated counts
+    verified : each against the file it cites
+  }
+  class "New - Major, 1" as NEWM <<holds the gate>> {
+    System Inventory#F4 : 15 categories, 13 anchored registries
+    built on by : Excavation component recovery
+    built on by : O2's exit criterion
+  }
+  class "New - Minor, 1" as NEWN <<owner's next turn>> {
+    Development Case#F5 : pkg/config/modes/ does not resolve
+  }
+  class "Critical, 0" as CRIT <<nothing escalates>> {
+    stakeholder : asked nothing at an Iteration Acceptance
+    REQUIRES_USER_INPUT : not raised
+  }
 }
 
-class "Development Case" as DC {
-  Critical : 0
-  Major : 0
-  Minor : 0
-  Info : 0
+package "Disposition" {
+  class "Approved with Changes" as VERD <<technical lens>> {
+    basis : 15 of 16 areas reached, 1 declared unread with reason
+    basis : 13 sampled anchors opened, 10 hold
+    condition : F4 reworked before a role consumes the registry set
+    condition : F5 fixed in the owner's next turn
+    not the SBC verdict : the Review Coordinator's
+  }
 }
 
-class "Iteration Plan" as IP {
-  Critical : 0
-  Major : 0
-  Minor : 0
-  Info : 0
+package "What this lens hands on" {
+  class "To the Management Reviewer" as NEXT <<next lens>> {
+    open : Iteration Plan#F1, Iteration Plan#F2
+    open : Risk List#F1
+    observed : the quotient is gone; i1 reads 13 and 13
+    observed : its figures reproduce from the Coverage they quote
+  }
+  class "To the Review Coordinator" as COORD <<the verdict>> {
+    open Critical : 0 - nothing escalates
+    open Major : System Inventory#F4 from this lens
+    open Major : Iteration Plan#F1, #F2 from the management lens
+    open Minor : Development Case#F5, Risk List#F1
+    gate : not sanctioned while a Major stands
+  }
 }
 
-class "Risk List" as RL {
-  Critical : 0
-  Major : 0
-  Minor : 0
-  Info : 0
-}
+REC --> VERD
+NEWM --> VERD
+NEWN --> VERD
+CRIT --> VERD
+VERD --> NEXT
+VERD --> COORD
 
-class "F1 - anchor does not say what the artifact claims" as F1 <<Major, consumed-defect>> {
-  location : Persistent Data, actor-state note + table row
-  consumed by : Excavation, Database Designer
-  rework : yes, before the claim is built on
-}
-
-class "F2 - read-counts not reproducible" as F2 <<Major, consumed-defect>> {
-  location : Coverage, dapr row + closing count
-  consumed by : Project Manager's cut, Iteration Plan tables
-  rework : yes, before the next cut uses it
-}
-
-class "F3 - stated counts disagree with own tables" as F3 <<Minor, contained-defect>> {
-  location : Document Control status line, Proto contracts row
-  consumed by : nothing
-  rework : owner's next turn, does not hold the milestone
-}
-
-SI --> F1
-SI --> F2
-SI --> F3
-
-note bottom of SI
-  3 findings across 4 artifacts reviewed.
-  Nothing was recorded against an artifact that passed:
-  silence is the approval from this lens.
+note bottom of NEWM
+  F4 is the one finding of this review that changes what
+  another role may build on. The other fourteen categories'
+  registries exist; it is the count and the anchor column
+  that must be corrected before the set is relied upon.
+end note
+note bottom of CRIT
+  An Iteration Acceptance asks the stakeholder nothing.
+  Only an unresolved Critical finding goes to them, and
+  this lens recorded none this iteration or the last.
 end note
 @enduml
 ```
