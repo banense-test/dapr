@@ -522,6 +522,6 @@ definition; the message bodies and the component shims are not.
 | AN-009 | — | — | — |
 | AN-010 | — | — | — |
 | AN-011 | — | — | — |
-| AN-012 | — | — | — |
+| AN-012 | — | DependsOn | EP-002 |
 | AN-013 | — | — | — |
 
