@@ -1,7 +1,6 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — iteration 1 of the phase, cut declared
+Status: Draft — iteration 1 of the phase. The cut is recorded: 13 areas read this iteration of the 70 the cut holds; `go.sum` and `img` not reached and carried by iteration 2. Risks scored against the reading's 20 anomalies; no spend figure and no work-item size anywhere, because no phase has closed
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Iteration Objectives
