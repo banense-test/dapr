@@ -121,9 +121,9 @@ The iteration count of the sprint zero is set by the cut of the existing system,
 
 No work item is given a size. Nothing in this project has been measured — no phase has closed — so there is no actual to size against, and no unit of person-duration exists in this system to express one in. What iteration 1 read is counted above in files and areas: that is what this phase measures, it is not a rate to project, and no iteration forecast is derived from it.
 
-All eight work items ran. W6 issued the verdict — **SBC: iteration REQUIRED** — and W7 recorded the Iteration Assessment against it. W6 is a human gate and queue time: bounded at 14 days in the Risk List under R002, measured when it opens, never forecast here. W0 ran before the iteration opened and is carried as a work item from iteration 2 on, so that an artifact of the increment is never absent from the plan that reports on it.
+All eight work items ran, W0 to W7. W6 issued the verdict — **SBC: iteration REQUIRED** — and W7 recorded the Iteration Assessment against it. W6 is a human gate and queue time: bounded at 14 days in the Risk List under R002, measured when it opens, never forecast here. W0 ran before the iteration opened and is carried as a work item from iteration 2 on, so that an artifact of the increment is never absent from the plan that reports on it.
 
-For Survey iteration 2 the plan is the cut's next slice, these same seven stages over it, and the rework the Review Record leaves open on this role's artifacts — with W0 first, as the Environment stage is in every iteration of the inherited process.
+For Survey iteration 2 the plan is these same eight work items over the cut's next slice, plus the rework the Review Record leaves open — the Environment stage first, as it is in every iteration of the inherited process.
 
 ```plantuml
 @startuml
