@@ -1,7 +1,6 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — iteration 1, risks grounded in the repository tree and the Development Case; the reading's own anomalies are added when the System Inventory exists
+Status: Draft — iteration 1. Twenty-five risks scored: the twenty anomalies of the System Inventory are each carried as a risk, beside five risks of the phase's shape. Three are High, thirteen Significant, nine Moderate; all sixteen Significant and High are on avoid or transfer, so no stakeholder grant is outstanding
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Risk Classification
