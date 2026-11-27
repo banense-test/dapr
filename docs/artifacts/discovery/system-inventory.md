@@ -668,11 +668,7 @@ The totals these rows produce: iteration 1 was assigned 13 areas holding 618 fil
 | `charts` — outside a slice, i2 | 67 | 1 — `dapr/README.md` | The reason: it is the document for the area priority 11 carries, and the only in-tree statement of what the chart deploys. 66 unread: the 7 subcharts, the 7 CRDs and the templates. |
 
 ## Counts
-
-- **Iteration 1** was assigned 13 areas holding 618 files and opened 48 of them, and 12 further files outside its slice in 7 areas: `tools` 2, `.build-tools` 1, `pkg/api` 5, `pkg/channel` 1, `pkg/healthz` 1, `pkg/injector` 1, `tests` 1.
-- **Iteration 2** was assigned 16 areas holding 317 files and opened 19 of them, and 9 further openings outside its slice: `pkg/runtime` 2, `pkg/responsewriter` 1, `charts` 1, `.build-tools/README.md` 1, `tests/README.md` 1, and three `docs/development/` guides re-opened.
-- Across the Survey reading so far: **84 distinct files opened of the 6 629 the tree holds, in 35 of its areas.** Every gRPC service the delivery declares is read from its definition; the message bodies, the component shims, the test substrate and the request-path implementations are not.
-
+ 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
