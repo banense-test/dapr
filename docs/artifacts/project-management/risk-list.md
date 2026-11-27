@@ -227,14 +227,6 @@ Two roles are named per row, and they are different roles. The **custodian** is 
 
 Three risks are High (R011, R016, R023) and fifteen Significant, making eighteen Significant or High. All eighteen are on `avoid`: the consequence is designed out of the work, so nothing is handed to the stakeholder. The three accepted risks — R002, R003, R025 — are Moderate, where acceptance with a written mitigation and contingency is this role's decision. **No risk is on `transfer`** — no third party has agreed to carry a consequence of this project — and **no stakeholder grant is outstanding.** This register records none, and asks for none.
 
-### The three risks iteration 2 added
-
-Each names the act that retires it, and each is scored on the IARI scale of `## Risk Classification`.
-
-R026 and R027 are Moderate because a reader who takes a stale document over the code loses one statement and re-reads it; the impact is extra work inside the iteration, not a slipped objective. They are avoided by a rule the reading already follows — read the directory, not the index that lists it.
-
-R028 is Significant and is the only new entry whose consequence reaches a deployment. Its probability is 3 because no Configuration in the tree sets a public port and the repository holds no deployment that turns one on; its impact is 4 because if one does, an access-control constraint the operator configured is no longer met as declared, and the failure is silent — the surface is served, so nothing announces that the body ceiling, the CORS policy, the API-token check and the component middleware are absent. It is avoided in this phase by recording the middleware set each listener receives, so that no artifact written later states the public port as carrying the primary pipeline's controls.
-
 ### Retirement
 
 No risk is retired yet, and none is due to be: Survey has no closed phase behind it, so there is no second reading and no trend exists. The three High risks are confronted at the AR gate by the Software Archaeologist's reading — R011 by reading the code the records do not cover, R016 by recovering each executable's behaviour from `cmd/*/app` and its `options.go`, R023 by reading `pkg/scheduler/server` and the two scheduler protos. R029 is confronted in Survey i3, where `pkg/runtime/wfengine/` and `pkg/actors/` are read and the two categories are either located or stated as unlocated.
