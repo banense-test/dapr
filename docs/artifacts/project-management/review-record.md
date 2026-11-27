@@ -542,9 +542,9 @@ end note
 
 <!-- review: Survey I1, management lens -->
 
-**Approved with Changes.** The iteration is accepted: thirteen of thirteen assigned areas reached, four of four objectives met, twenty anomalies recorded and twenty-five risks scored against a scale the register did not invent. The changes are two on the Iteration Plan and one on the Risk List, and under the severity contract the two Major findings keep the SBC gate unsanctioned until they are reworked. No Critical finding is issued and no `REQUIRES_USER_INPUT` is raised: nothing in this iteration needs a decision only the stakeholder can make, and at an Iteration Acceptance there is no phase sanction for them to grant.
+**Approved with Changes.** The iteration is accepted: thirteen of thirteen assigned areas reached, four of four objectives met, twenty anomalies recorded and twenty-five risks scored against a scale the register did not invent. The changes are `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1`; under the severity contract the two Major findings keep the SBC gate unsanctioned until they are reworked. No Critical finding is issued and no `REQUIRES_USER_INPUT` is raised: nothing in this iteration needs a decision only the stakeholder can make, and at an Iteration Acceptance there is no phase sanction for them to grant.
 
-This is the technical acceptance of the iteration's work by the management lens. It is not the SBC verdict, which the Review Coordinator takes after this review and which judges the milestone's exit criteria — a question this review does not reach.
+This is the management lens' acceptance of the iteration's work. It is not the SBC verdict, which the Review Coordinator takes after this review and which judges the milestone's exit criteria — a question this review does not reach.
 
 ```plantuml
 @startuml
@@ -608,7 +608,6 @@ package "Four-axis health - is the investment the phase implies still sound" {
     Rating : Amber
     Basis : 2 Major and 1 Minor open on the System Inventory
     Basis : 2 Major and 1 Minor open on the Project Manager's artifacts
-    Basis : 20 anomalies and 25 scored risks - the reading found incoherence
   }
 }
 
@@ -714,7 +713,7 @@ class "Retirement evidence at this review" as EV <<assessment>> {
   reason : iteration 1 is the register's first measurement
   carried into Excavation : all 16 Significant and High
   whose grant is needed : nobody's - all 16 are on avoid
-  accountable role named : Project Manager on all 25 rows - M-F3
+  accountable role named : Project Manager on all 25 rows - Risk List#F1
 }
 
 R011 --> EV
@@ -737,11 +736,14 @@ end note
 note right of SIG3
   R006 is the risk this review itself is held to:
   no figure enters a sprint-zero artifact that no
-  measurement produced. M-F1 is where it was breached.
+  measurement produced. Iteration Plan#F1 is where
+  that avoidance was breached.
 end note
 @enduml
 ```
 
-**Health, as four ratings and not one.** Scope is Green: the assignment was reached in full. Quality is Amber: six findings are open across two lenses, and the reading also returned twenty anomalies and twenty-five scored risks, which is a reading doing its work. Schedule and cost are not measurable, and that is the correct rating — no phase of this project has closed, no token budget was declared, and the SBC gate has not opened. Neither clock has a number to report, and inventing one for either is the failure M-F1 records.
+**Health, as four ratings and not one.** Scope is Green: the assignment was reached in full. Quality is Amber: six findings are open across two lenses, and the reading also returned twenty anomalies and twenty-five scored risks, which is a reading doing its work. Schedule and cost are not measurable, and that is the correct rating — no phase of this project has closed, no token budget was declared, and the SBC gate has not opened. Neither clock has a number to report, and inventing one for either is the failure `Iteration Plan#F1` records.
 
 **What the next iteration inherits.** The cut's own assignment: the request path and the component plane, `pkg/api/` read whole, plus `go.sum` and `img`. It inherits no finding of this lens that changes that slice; the two Major findings are corrections to how the plan states what iteration 1 did, not a reason to re-read an area. It does inherit all sixteen Significant and High risks, unchanged and unretired, which is what a first measurement looks like.
+
+**For the Review Coordinator.** The SBC gate is not sanctioned while `Iteration Plan#F1` and `Iteration Plan#F2` stand open, and `System Inventory#F1` and `#F2` stand open under the Reviewer's lens. `Risk List#F1`, `System Inventory#F3` and nothing else of this review's is Minor and does not hold the gate. No Critical finding is open, so no stakeholder decision blocks the gate; if the Coordinator finds one, it escalates as `stakeholder-decision` in its own round, not from this review.
