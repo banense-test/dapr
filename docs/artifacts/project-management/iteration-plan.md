@@ -185,11 +185,26 @@ None. No use case enters the plan in Survey: the phase's scope unit is the area 
 | Consolidation and later | Declared use case, risk-driven selection | Each phase's Iteration Plan, chosen by risk and coverage |
 
 ## Evaluation Criteria
-
 | Criterion | Threshold | Evidence |
 |---|---|---|
-| Perimeter confirmed | Every executable under `cmd/`, every API surface and every protocol contract under `dapr/proto/` is enumerated, each with a `Source:` anchor | System Inventory — Perimeter |
-| Priorities ordered | The areas still to read are ordered, with the ordering stated | System Inventory — Anomalies and Priorities |
-| Traceable reading | No element of the System Inventory is stated without the path and lines it was read from | System Inventory, all three stages |
-| Cut held | Every area listed in the cut belongs to exactly one iteration; no area of the tree is left uncut | This plan's cut table; the recorded cut |
-| No invented figures | No token spend, elapsed time or forecast appears anywhere in the phase's artifacts, because no phase has closed | This plan; the Risk List |
+| Perimeter confirmed | Every executable under `cmd/`, every API surface and every protocol contract under `dapr/proto/` is enumerated, each with a `Source:` anchor | System Inventory — Perimeter: 16 entry points `EP-001` to `EP-016`, 28 components, 16 external systems |
+| Priorities ordered | The areas still to read are ordered, with the ordering stated | System Inventory — Priorities: 13 ranks, each with why it comes first |
+| Traceable reading | No element of the System Inventory is stated without the path and lines it was read from | System Inventory, all stages; the Coverage table accounts for every area of the slice |
+| Cut held | Every area listed in the cut belongs to exactly one iteration; no area of the tree is left uncut | This plan's cut table; the recorded cut — 70 areas, 13 read this iteration |
+| Unread areas declared | An area the iteration did not reach is named, not skipped | This plan: `go.sum` and `img`, carried by iteration 2 |
+| Risks scored against the reading | Every anomaly of the System Inventory is a classified risk, or retired with its reason | Risk List — 25 risks, all 20 anomalies refined, three High and thirteen Significant all on avoid |
+| No invented figures | No token spend, elapsed time, work-item size or forecast appears anywhere in the phase's artifacts, because no phase has closed | This plan; the Risk List |
+
+Each criterion above is checkable against an artifact in the increment. The two that are about the plan itself — the cut held, and the unread areas declared — were not met when the cut was declared and are met now: iteration 1 read 13 of its 15 areas, and the two it did not reach are moved to iteration 2's slice rather than left assumed read.
+
+**What this iteration measures, and the decision each measurement serves.**
+
+| Measurement | Value | Decision it enables |
+|---|---|---|
+| Areas of the slice reached | 13 of 15 | Whether the cut still holds at five iterations of Survey, or a sixth is needed |
+| Files opened against files the slice areas hold | 48 of 622 | Whether an area is being read at the depth its priority needs, or skimmed |
+| Files opened outside the slice, with the reason | 10 | Whether the perimeter can be closed from the slice alone; a rising count means the cut is drawn in the wrong place |
+| Anomalies recorded | 20 | Whether the reading has found the system's incoherences, or only described it |
+
+No rate is derived from any of these. They are counts of what one iteration read, not a velocity, and the next iteration's slice is set by the cut and the remainder — never by a per-iteration figure.
+
