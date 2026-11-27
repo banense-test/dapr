@@ -5,7 +5,6 @@ Status: Draft — iteration 1, risks grounded in the repository tree and the Dev
 Milestone Target: end-of-Survey milestone (SBC) — not yet achieved
 
 ## Risk Classification
-
 Every risk is scored on the IARI risk scale (Development Case §9.10 / baseline). This Risk List defines no scale of its own: probability is 1–5, impact is 1–5, exposure is their product, and the magnitude is the band that exposure falls in — never a band chosen for it.
 
 | Probability | Level | Means |
@@ -48,6 +47,7 @@ class "Risk" as RISK <<register entry>> {
   strategy : avoid | transfer | accept
   mitigation
   contingency
+  trigger
 }
 
 class "Magnitude" as MAG <<enumeration>> {
@@ -76,7 +76,7 @@ class "Anomaly" as ANOM <<System Inventory>> {
 
 RISK "1" --> "1" MAG : magnitude is the band\nits exposure falls in
 RISK "1" --> "1" STRAT : chosen per risk
-RISK "1" --> "0..1" GRANT : required only when the\nmagnitude is Significant or High
+RISK "1" --> "0..1" GRANT : required only when the\nmagnitude is Significant or High\nand the strategy is accept
 ANOM "0..*" --> "0..1" RISK : a scored risk refines\nthe anomaly that exposed it
 
 note right of MAG
@@ -89,16 +89,64 @@ note bottom of GRANT
   Acceptance hands the consequence to the
   stakeholder, so it is theirs to grant.
   No role records it on their behalf.
+  This register holds no Significant or
+  High risk on accept, so it holds no grant.
 end note
 
 note bottom of ANOM
-  In Survey every risk with an anchor comes
-  from an anomaly the reading recorded.
-  A risk stated before the reading has no
-  AN-NNN and says so in its row.
+  In Survey every risk about the system
+  comes from an anomaly the reading recorded.
+  A risk of the phase's own shape has no
+  AN-NNN and cites a Development Case
+  section or a repository path instead.
 end note
 @enduml
 ```
+
+### Distribution after this iteration
+
+```plantuml
+@startmindmap
+title Risk List after Survey iteration 1 - 25 risks, by magnitude and strategy
+* Risk List - 25 risks
+** High 15 to 25 - 3, every one avoided
+*** R011 architecture statement dormant since 2023 - 16 - avoid
+*** R016 no in-tree account of executable behaviour - 16 - avoid
+*** R023 one scheduler process, two authorities - 16 - avoid
+** Significant 9 to 12 - 13
+*** avoided - 12
+**** R001 unequal cut, tests holds 3335 entries - 12
+**** R005 repository files read as orders - 9
+**** R006 an empty size filled with a unit nothing measures - 9
+**** R009 four protoc versions, none the one that ran - 12
+**** R010 the documented generator reads absent inputs - 12
+**** R013 70 version-skew patches must keep applying - 12
+**** R014 two workflow suites disabled by renaming - 9
+**** R017 gRPC allowlist is a hand-maintained duplicate - 12
+**** R019 failure-policy family with no proto behind it - 12
+**** R020 committed bindings name two protoc versions - 12
+**** R021 licence scan reports and cannot fail - 12
+**** R022 hand-written Go inside the generated tree - 12
+*** transferred - 1
+**** R012 release and security procedure outside the delivery - 12
+** Moderate 5 to 8 - 9
+*** accepted, mitigation and contingency written - 3
+**** R002 SBC gate at the 14-day queue ceiling - 8
+**** R003 versions read as policy rather than evidence - 6
+**** R025 test setup parses an error message for CIDRs - 8
+*** avoided - 6
+**** R004 decision records renumbered into project families - 6
+**** R007 index links a record the tree does not hold - 8
+**** R008 proto overview omits two packages - 8
+**** R015 one shim disabled by renaming - 6
+**** R018 two proto packages carry no README - 8
+**** R024 one test file for 156 registrations - 8
+** Minor 3 to 4 - none
+** Low 1 to 2 - none
+@endmindmap
+```
+
+The three High risks are about one thing: the delivery states less about itself than its code does. R011 is its architecture statement stopping in 2023; R016 is its behaviour living on a site outside the tree; R023 is its newest control plane taking its authority from what its peers report. Excavation reads the code and cites the anchors — that is the avoidance for all three.
 
 ## Risk Register
 Twenty-five risks. Nineteen are refined from the anomalies the Software Archaeologist recorded; one anchors a process risk already on this list; five are risks of the phase's shape with no anomaly behind them. The `Source` cell cites the anomaly id and the anchor it was read from; the trace edge is in `## Traceability`.
