@@ -189,12 +189,11 @@ No test was designed, executed or reported in Survey iteration 2. No Test discip
 No test figure is available and none is asserted — no pass rate, no coverage percentage, no build status. The test substrate was named, not run: `tests/` holds 3 335 entries and is Survey iteration 4's slice, and the anomalies touching it — `AN-008` (two workflow suites disabled by renaming), `AN-019` (156 registration files against one test), `AN-020` (harness deriving CIDRs by parsing free text) — are recorded as what the tree shows, not as results of any execution. `R025` and `R024` rest on that distinction, and both state it.
 
 ## External Changes
+No external change entered the project this iteration. The one decision in force remains the stakeholder's answer on the root `CONTRIBUTING.md` — one pointer line at its top to `docs/CONTRIBUTING.md` for how a change is requested, labelled and reviewed — applied by the Process Engineer in iteration 1 and verified by both lenses. Nothing this iteration reopened it or needed a further answer.
 
-One external change is in force: the stakeholder answered the Process Engineer's question on the root `CONTRIBUTING.md`, granting one pointer line at its top to `docs/CONTRIBUTING.md` for how a change is requested, labelled and reviewed. The answer is applied and both review lenses verified it — the pointer line present, the owner's text below it unchanged.
+No change request was opened or decided: the Change Control Manager does not work in the sprint zero, so a stakeholder's order reaches its owner through the work order instead of a ledger entry. No pull request exists to dispose of — no role of Survey produces code, and the SCM holds no pull request in any state.
 
-No change request was opened or decided: the Change Control Manager does not work in the sprint zero, so the stakeholder's order reached its owner through the work order instead of a ledger entry. No pull request exists to dispose of — no role of Survey produces code, and the SCM holds no PR in any state.
-
-The stakeholder is asked nothing by this assessment. The verdict escalates only an unresolved Critical finding, and both executing lenses recorded zero.
+The stakeholder is asked nothing by this assessment. The verdict escalates only an unresolved Critical finding, and both executing lenses recorded zero. No risk of the register is on `accept` at Significant or High magnitude, so no grant is outstanding and none is requested.
 
 ## Rework Required
 Four Major findings and two Minor stand open at the close of the review. All findings against this role's own artifacts — `Iteration Plan#F1`, `Iteration Plan#F2` and `Risk List#F1` — have their rework applied this turn; the three against the System Inventory are the Software Archaeologist's and are owed.
